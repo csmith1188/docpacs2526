@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Calculator</title>
+
+        <style>* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            height: 100%;
+            width: 100%;
+        }
+        
+        body {
+            height: 100%;
+            width: 100%;
+            background: #222;
+        
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        #calculatorBody {
+            width: 45%;
+        
+            background-color: #666;
+        
+            border-radius: 20px;
+            box-shadow: 0px 0px 5px black, 3px 3px 5px #ffffffaa inset, -3px -3px 5px #000a inset;
+        
+            padding: 20px;
+        
+            display: flex;
+            flex-direction: column;
+        }
+        
+        #output {
+            width: 100%;
+            height: 80px;
+            margin-bottom: 40px;
+            background: black;
+            color: white;
+            border-radius: 10px;
+            text-align: right;
+            padding: 15px;
+            display: flex;
+            justify-content: end;
+            align-items: center;
+            font-size: 50px;
+            font-family: cursive;
+            white-space: nowrap;
+        }
+        
+        input {
+            width: 100%;
+            height: 40px;
+            margin-bottom: 40px;
+            background: rgb(76, 248, 168);
+            border: 2px solid #fff9;
+            border-radius: 10px;
+            font-size: 30px;
+            text-align: center;
+            box-shadow: 0px 0px 5px black, 3px 3px 5px #ffffffaa inset, -3px -3px 5px #000a inset;
+            font-family: cursive;
+            padding: 20px;
+        }
+        
+        select {
+            width: 100%;
+            height: 40px;
+            margin-bottom: 40px;
+            background: rgb(76, 248, 168);
+            border: 2px solid #fff9;
+            border-radius: 10px;
+            font-size: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0px 0px 5px black, 3px 3px 5px #ffffffaa inset, -3px -3px 5px #000a inset;
+            font-family: cursive;
+        }
+        
+        button {
+            width: 100%;
+            height: 40px;
+            margin-bottom: 40px;
+            background: rgb(76, 145, 248);
+            font-size: 20px;
+            font-weight: 500;
+            border: 2px solid #fff4;
+            box-shadow: 0px 0px 5px black, 3px 3px 5px #ffffffaa inset, -3px -3px 5px #000a inset;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        
+        button:last-of-type {
+            margin: 0;
+        }
+        
+        #sideBySide {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: row;
+            gap: 20px;
+        }
+        </style>
+    </head>
+    <body>
+        <div id="calculatorBody">
+            <div id="output"></div>
+
+            <div id="sideBySide">
+                <input type="text" id="firstNumber" placeholder="First Number" oninput="checkInput(this)" autocomplete="off">
+                <select name="functionDropdown" id="functionDropdown" autocomplete="off">
+                    <option value="+">+</option>
+                    <option value="-">-</option>
+                    <option value="*">*</option>
+                    <option value="/">/</option>
+                    <option value="%">%</option>
+                </select>
+                <input type="text" id="secondNumber" placeholder="Second Number" oninput="checkInput(this)" autocomplete="off">    
+            </div>
+
+            <button onclick="calculate()">Calculate!</button>
+        </div>
+    </body>
+
+    <script>
+        function calculate() {
+    const firstNumber = parseFloat(document.getElementById('firstNumber').value);
+    const secondNumber = parseFloat(document.getElementById('secondNumber').value);
+    const functionOperator = document.getElementById('functionDropdown').value;
+    const outputDiv = document.getElementById('output');
+
+    let returnedNumber;
+
+    if((!firstNumber && firstNumber !== 0) || (!secondNumber && secondNumber !== 0)) {
+        outputDiv.innerText = 'Please input two numbers.';
+        return;
+    }
+
+    switch(functionOperator) {
+        case '+':
+            returnedNumber = firstNumber + secondNumber;
+            break;
+        case '-':
+            returnedNumber = firstNumber - secondNumber;
+            break;
+        case '*':
+            returnedNumber = firstNumber * secondNumber;
+            break;
+        case '/':
+            if(secondNumber == 0) {
+                returnedNumber = 'Error!';
+                break;
+            }
+
+            returnedNumber = firstNumber / secondNumber;
+            
+            break;
+        case '%':
+            if(secondNumber == 0) {
+                returnedNumber = 'Error!';
+                break;
+            }
+            
+            returnedNumber = firstNumber % secondNumber;
+            break;
+        default:
+            break;
+    }
+
+    outputDiv.innerText = returnedNumber;
+}
+
+function checkInput(el) {
+    var allowed = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'];
+    let valArray = el.value.split('');
+
+    valArray = valArray.filter(function(val){
+        return (allowed.indexOf(val) == -1 ? false : true);
+    });
+
+    let periodIndex = valArray.findIndex((e) => e == '.');
+
+    if(periodIndex > -1) {
+        valArray.forEach((e, k) => {
+            if(e == '.' && k !== periodIndex) valArray.splice(k, 1);
+        });
+    }
+    el.value = valArray.join('');
+}
+    </script>
+</html>
