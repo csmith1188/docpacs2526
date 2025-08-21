@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Browser Calculator</title>
+    <script>
+        function calculate() {
+            const number1 = Number(document.getElementById("number1").value);
+            const number2 = Number(document.getElementById("number2").value);
+            const dropdownValue = document.getElementById("arithmetic").value;
+            const result = document.getElementById("result");
+
+            switch (dropdownValue) {
+                case "+": {
+                    result.innerHTML = number1 + number2;
+                    break;
+                }
+                case "-": {
+                    result.innerHTML = number1 - number2;
+                    break;
+                }
+                case "*": {
+                    result.innerHTML = number1 * number2;
+                    break;
+                }
+                case "/": {
+                    result.innerHTML = number2 == 0 ? result.innerHTML = "Error!" : number1 / number2;
+                    break;
+                }
+                case "%": {
+                    result.innerHTML = number2 == 0 ? result.innerHTML = "Error!" : number1 % number2;
+                    break;
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <label for="number1">First number:</label> 
+    <input id="number1" type="number">
+    <label for="number2">Second number:</label>
+    <input id="number2" type="number">
+    <select id="arithmetic">
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="*">*</option>
+        <option value="/">/</option>
+        <option value="%">%</option>
+    </select>
+    <button onclick="calculate()">Calculate</button>
+    <div id="result"></div>
+</body>
+</html>
