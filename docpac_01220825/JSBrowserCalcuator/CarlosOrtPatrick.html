@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caculator</title>
+</head>
+<body>
+    <input type="number" id="NumOne">
+    <input type="number" id="NumTwo">
+    <div id="answer"></div>
+    <select name="operatiors" id="operatiors">
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="*">*</option>
+        <option value="/">/</option>
+        <option value="%">%</option>
+    </select>
+    <button onclick="Miqlester()"> Answer</button>
+    <div id="answerDiv"></div>
+</body>
+<script>
+function Miqlester() {
+    let NumOne = Number(document.getElementById("NumOne").value);
+    let NumTwo = Number(document.getElementById("NumTwo").value);
+    let answer = 0;
+    let operation = document.getElementById("operatiors").value;
+    if (operation == "+") {
+        answer = NumOne + NumTwo;
+    }
+    else if (operation == "-") {
+        answer = NumOne - NumTwo;
+    }
+    else if (operation == "*") {
+        answer = NumOne * NumTwo;
+    } 
+    else  if (operation == "/") {
+        answer = NumOne / NumTwo;
+    } 
+    else if (operation == "%") {
+        answer = NumOne % NumTwo;
+    }
+    answerDiv.innerText = answer;
+}
+</script>
+</html>
