@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculations and stuff</title>
+</head>
+<body>
+    <input type="number" id="firstNumber">
+
+    <input type="number" id="secondNumber">
+
+    <select name=operation id="selectOperation">
+        <option value="Please choose an operation"></option>
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="*">*</option>
+        <option value="/">/</option>
+        <option value="%">%</option>
+    </select>
+    <button id="Button" onclick="Calculating()">Result</button>
+</body>
+<div id="answerBox"></div>
+
+<script>
+    
+    function Calculating() {
+        let num1 = Number(document.getElementById("firstNumber").value);
+        let num2 = Number(document.getElementById("secondNumber").value);
+        let answer = 0;
+        let operation = document.getElementById("selectOperation").value;
+        if (operation == "+") {
+            answer = num1 + num2;
+            console.log(answer);
+        }
+        else if (operation == "-") {
+            answer = num1 - num2;
+        }
+        else if (operation == "*") {
+            answer = num1 * num2;
+        }
+        else if (operation == "/") {
+            answer = num1 / num2;
+        }
+        else if (operation == "%") {
+            answer = num1 % num2;
+        }
+        
+        if (operation == "%" && num2 == 0){
+            answer = 'ERROR';
+        }else if (operation == "/" && num2 == 0){
+            answer = 'ERROR';
+        }
+        document.getElementById("answerBox").innerHTML = answer;
+    }
+    
+</script>
+</html>
