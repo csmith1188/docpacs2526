@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="number" id="N1"> 
+    <select name="operation" id="operation">
+        <option value="mult" id="mult">*</option>
+        <option value="divide" id="divide">/</option>
+        <option value="sub" id="sub">-</option>
+        <option value="add" id="add">+</option>
+        <option value="mod" id="mod">%</option>
+    </select>
+    <input type="number" id="N2">
+    <button onclick="calculate()">=</button>
+    <div id="answer"></div>
+    <script>
+        function calculate() {
+            let N1 = parseFloat(document.getElementById("N1").value)
+            let N2 = parseFloat(document.getElementById("N2").value)
+            let operation = document.getElementById("operation").value;
+            let result;
+
+            if (operation == "mult") {
+                result = N1 * N2;
+            } else if (operation == "divide") {
+                if (N1 || N2 == 0) {
+                    result = "ERROR!!!";
+                }else{result = N1 / N2;}
+            } else if (operation == "sub") {
+                result = N1 - N2;
+            } else if (operation == "add") {
+                result = N1 + N2;
+            } else if (operation == "mod") {
+                if (N1 || N2 == 0) {
+                    result = "ERROR!!!";
+                }else {result = N1 % N2;}
+            } else {
+                result = "Invalid operation";
+            }
+            document.getElementById("answer").innerHTML = result;
+        }
+
+        
+    </script>
+</body>
+</html> 
