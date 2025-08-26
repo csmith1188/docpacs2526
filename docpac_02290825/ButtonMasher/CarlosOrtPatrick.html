@@ -5,6 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+<style>
+ body {
+            background-color: #1e1e1e;
+            color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Box styles */
+        #ScoreBox, #TimerBox{
+            background-color: #2e2e2e;
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 10px;
+            width: 300px;
+            text-align: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.5);
+        }
+        #DirectionBox {
+            background-color: #2e2e2e;
+            border: 1px solid #0c0505;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 10px;
+            width: 300px;
+            text-align: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 6px rgba(150, 41, 41, 0.5);}
+</style>
 <body>
     <div id="ScoreBox"></div>
     <div id="TimerBox"></div>
@@ -15,18 +51,25 @@
    let score = 0;
    let direction = 0;
    let timer = 20;
-   function setInterval() {
+   let buttonPressed = true
+
+   let timerIntervalId = setInterval(updateTimer, 1000);
+   let dirIntervalId = setInterval(setDirection, 2000);
+
+   function updateTimer() {
     if (timer > 0) {
         timer -= 1;
         document.getElementById("TimerBox").innerHTML = timer;
     }
     else {
         document.getElementById("TimerBox").innerHTML = "Time's Up! Final Score: " + score;
-        clearInterval(intervalId);
+        clearInterval(timerIntervalId);
+        clearInterval(dirIntervalId);
     }
    }
    function setDirection() {
-    direction = Math.floor(Math.random() * 4);
+    direction = Math.floor(Math.random() * 4)
+    ;
     if (direction == 0) {
         document.getElementById("DirectionBox").innerHTML = "Up";
     }
@@ -40,16 +83,35 @@
         document.getElementById("DirectionBox").innerHTML = "Right";
     }
    }
+
    window.addEventListener("gamepadconnected", (event) => {
     const gamepad = navigator.getGamepads()[event.gamepad.index];
     console.log(`Gamepad connected at index ${gamepad.index}: ${gamepad.id}`);
-    }
-    )
-    function gameLoop() {
-    const gamepads = navigator.getGamepads();
-    for (let gamepad of gamepads) {
-        if (gamepad) {
-            // Check buttons
+});
+
+function gameLoop() {
+       const gamepads = navigator.getGamepads();
+       for (let gamepad of gamepads) {
+           if (gamepad) {
+               if (gamepad.buttons[0].pressed && timer > 0 && buttonPressed) {
+                   if (gamepad.axes[1] <= -1 && direction == 0) {
+                       score++;
+                       document.getElementById("ScoreBox").innerHTML = score;
+                   } else if (gamepad.axes[1] >= 1 && direction == 1) {
+                       score++;
+                       document.getElementById("ScoreBox").innerHTML = score;
+                   } else if (gamepad.axes[0] <= -1 && direction == 2) {
+                       score++;
+                       document.getElementById("ScoreBox").innerHTML = score;
+                   } else if (gamepad.axes[0] >= 1 && direction == 3) {
+                       score++;
+                       document.getElementById("ScoreBox").innerHTML = score;
+                   }
+                   buttonPressed = false;
+               }
+               if (!gamepad.buttons[0].pressed) {
+                   buttonPressed = true;
+               }
             gamepad.buttons.forEach((button, index) => {
                 if (button.pressed) {
                     console.log(`Button ${index} is pressed`);
@@ -60,12 +122,22 @@
             gamepad.axes.forEach((axis, index) => {
                 console.log(`Axis ${index}: ${axis.toFixed(2)}`);
             });
+                if (gamepad.buttons[9].pressed) {
+                location.reload();
+                }   
         }
+        
     }
 
     requestAnimationFrame(gameLoop);
 }
 
 requestAnimationFrame(gameLoop);
+
+function checkInput() {
+
+}
+
+
 </script>
 </html>
