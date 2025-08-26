@@ -9,33 +9,81 @@
 <body>
     <div id="score"></div>
     <div id="timer"></div>
-    <div id="direction"></div>
+    <div id="directionBox"></div>
 
     <script>
         let score = 0;
+        document.getElementById("score").innerHTML = score;
         let direction = 0;
         let timer = 20;
+        let directionBox = document.getElementById("directionBox");
+
+        // make timer decrease 🤣🤣🤣
         function timerDec () {
             if (timer > 0) {
                 timer--;
+                document.getElementById("timer").innerHTML = timer;
+            } else {
+                document.getElementById("timer").innerHTML = "TIME'S UP!";
             }
         }
+
+        // timer display so it instantly shows up😎
+        function timerS () {
+            document.getElementById("timer").innerHTML = "Time: " + timer;
+        }
+
+        // directional change ig...😔😔😔
         function directionChange () {
-            direction = Math.random(0,3);
+            direction = Math.floor(Math.random()*4);
             if (direction === 0) {
-                document.getElementById("direction").innerHTML = "UP";
+                directionBox.innerHTML = "UP";
+                console.log("UP");
             } else if (direction === 1) {
-                document.getElementById("direction").innerHTML = "DOWN";
+                directionBox.innerHTML = "DOWN";
+                console.log("DOWN");
             } else if (direction === 2) {
-                document.getElementById("direction").innerHTML = "LEFT";
+                directionBox.innerHTML = "LEFT";
+                console.log("LEFT");
             } else if (direction === 3) {
-                document.getElementById("direction").innerHTML = "RIGHT";
+                directionBox.innerHTML = "RIGHT";
+                console.log("RIGHT");
             }
         }
-        const gamepad = navigator.getGamepads()[0];
-        function checkJoystickMovement(gamepad) {
-            const [leftStickX, leftStickY, rightStickX, rightStickY] = gamepad.axes;
+        
+        function gameLoop() {
+        const gamepads = navigator.getGamepads(); 
+        for (let i = 0; i < gamepads.length; i++) {
+            const gp = gamepads[i];
+            if (gp) {
+                const aButton = gp.buttons[0]; 
+                const [leftStickX, leftStickY] = gp.axes;
+                if (aButton.pressed) {
+                    if (direction === 0 && gp.axes[1] <= -1) { 
+                        score++;
+                        document.getElementById("score").innerHTML = score;
+                        console.log("Correct! Direction: UP");
+                    } else if (direction === 1 && gp.axes[1] >= 1) { 
+                        score++;
+                        document.getElementById("score").innerHTML = score;
+                        console.log("Correct! Direction: DOWN");
+                    } else if (direction === 2 && gp.axes[0] <= -1) { 
+                        score++;
+                        document.getElementById("score").innerHTML = score;
+                        console.log("Correct! Direction: LEFT");
+                    } else if (direction === 3 && gp.axes[0] >= 1) { 
+                        score++;
+                        document.getElementById("score").innerHTML = score;
+                        console.log("Correct! Direction: RIGHT");
+                    }
+            }
         }
+    }
+    requestAnimationFrame(gameLoop); // Continue the game loop
+}
+        gameLoop();
+        timerS();
+        directionChange();
         setInterval(timerDec, 1000);
         setInterval(directionChange, 2000);
     </script>
