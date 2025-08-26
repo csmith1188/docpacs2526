@@ -7,15 +7,16 @@
     <title>butotuotjn j masher</title>
 </head>
 <body>
-    <div id="scoreB"></div>
-    <div id="timerB"></div>
-    <div id="directionB"></div>
+    <div id="score"></div>
+    <div id="timer"></div>
+    <div id="direction"></div>
+
     <script>
-        var score = 0;
-        var direction = 0;
-        var timer = 20;
+        let score = 0;
+        let direction = 0;
+        let timer = 20;
         function timerDec () {
-            if (timer >0) {
+            if (timer > 0) {
                 timer--;
             }
         }
@@ -30,6 +31,10 @@
             } else if (direction === 3) {
                 document.getElementById("direction").innerHTML = "RIGHT";
             }
+        }
+        const gamepad = navigator.getGamepads()[0];
+        function checkJoystickMovement(gamepad) {
+            const [leftStickX, leftStickY, rightStickX, rightStickY] = gamepad.axes;
         }
         setInterval(timerDec, 1000);
         setInterval(directionChange, 2000);
