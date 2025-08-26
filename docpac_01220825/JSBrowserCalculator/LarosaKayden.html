@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Browser Calculator</title>
+
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <script>
+        function calculate() {
+            var number1 = parseFloat(document.getElementById('number1').value)
+            var number2 = parseFloat(document.getElementById('number2').value)
+            var dropdown = document.getElementById('dropdown').value
+            if (dropdown == "add") {
+                var result = number1 + number2
+                document.getElementById('div1').innerHTML = result
+            } else if (dropdown == "sub") {
+                var result = number1 - number2
+                document.getElementById('div1').innerHTML = result
+            } else if (dropdown == "multi") {
+                var result = number1 * number2
+                document.getElementById('div1').innerHTML = result
+            } else if (dropdown == "div") {
+                var result = number1 / number2
+                document.getElementById('div1').innerHTML = result
+            } else {
+                var result = number1 % number2
+                document.getElementById('div1').innerHTML = result
+            }
+        }
+    </script>
+
+    <input type="number1" id="number1">
+    <input type="number2" id="number2">
+
+    <div id="div1">
+    </div>
+    <select id="dropdown">
+        <option value="add">+</option>
+        <option value="sub">-</option>
+        <option value="multi">*</option>
+        <option value="div">/</option>
+        <option value="other">%</option>
+    </select>
+    <button onclick="calculate()">Calc</button>
+</body>
+
+</html>
