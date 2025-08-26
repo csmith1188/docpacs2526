@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Browser Calculator</title>
+</head>
+
+<body>
+    <div>
+        <input type="number" id="input1" placeholder="Input 1" />
+        <input type="number" id="input2" placeholder="Input 2" />
+        <select id="dropdown">
+            <option value="add">+</option>
+            <option value="subtract">-</option>
+            <option value="multiply">*</option>
+            <option value="divide">/</option>
+            <option value="modulus">%</option>
+        </select>
+        <button id="calculate" onclick="calculate()">Calculate</button>
+    </div>
+
+    <div id="result"></div>
+
+</body>
+
+<script>
+    function calculate() {
+        let input1 = document.getElementById("input1").value
+        let input2 = document.getElementById("input2").value
+        let operation = document.getElementById("dropdown").value
+
+        input1 = parseFloat(input1)
+        input2 = parseFloat(input2)
+
+        let result;
+        switch (operation) {
+            case "add":
+                result = input1 + input2
+                break
+            case "subtract":
+                result = input1 - input2
+                break
+            case "multiply":
+                result = input1 * input2
+                break
+            case "divide":
+                if (input1 == 0 || input2 == 0) {
+                    result = "Error"
+                    break
+                }
+                result = input1 / input2
+                break
+            case "modulus":
+                if (input1 == 0 || input2 == 0) {
+                    result = "Error"
+                    break
+                }
+                result = input1 % input2
+                break
+        }
+
+        document.getElementById("result").innerText = "Result: " + result
+    }
+</script>
+
+</html>
