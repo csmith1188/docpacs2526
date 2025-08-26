@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var score = 0;
+        var direction = 0;
+        var timer = 20;
+        setInterval(countdown, 1000);
+        setInterval(setDirection, 2000);
+        window.addEventListener('gamepadconnected', (event) => {
+            console.log("Gamepad connected");
+            gamepadListener();
+        });
+        function countdown() {
+            if (timer > 0) {
+                timer -= 1;
+                document.getElementById("timerBox").innerHTML = timer;
+                //console.log("Timer: " + timer);
+            }
+        }
+        function setDirection() {
+            direction = Math.floor(Math.random() * (4));
+            //console.log("Direction: " + direction);
+            if (direction == 0) {
+                document.getElementById("directionBox").innerHTML = "Up";
+            } else if (direction == 1){
+                document.getElementById("directionBox").innerHTML = "right";
+            } else if (direction == 2){
+                document.getElementById("directionBox").innerHTML = "Down";
+            } else {
+                document.getElementById("directionBox").innerHTML = "Left";
+            } 
+        }
+        function gamepadListener() {
+            const gamepad = navigator.getGamepads()[0];
+            if (gamepad.buttons[0].pressed) {
+                OnPress();
+            }
+            requestAnimationFrame(gamepadListener);
+        }
+        function OnPress() {
+            if (timer > 0) {
+                score += 1;
+                document.getElementById("scoreBox").innerHTML = "Score: " + score;
+            }
+            console.log("Button pressed");
+        }
+
+    </script>
+    <div id="scoreBox">Score: 0</div>
+    <div id="timerBox">20</div>
+    <div id="directionBox">Up</div>
+</body>
+</html>
