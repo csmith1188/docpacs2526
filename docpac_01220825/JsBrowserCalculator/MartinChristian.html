@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <input type="number" id="number1">
+    <input type="number" id="number2">
+    <div id="divlayer"></div>
+    <select id="dropdown">
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="*">*</option>
+        <option value="/">/</option>
+        <option value="%">%</option>
+    </select>
+    <button onclick="calc()" id="button">Run</button>
+
+    <script>
+        // Calculator Function
+        function calc() {
+            var firstNumber = parseInt(document.getElementById("number1").value)
+            var secondNumber =  parseInt(document.getElementById("number2").value)
+            var operator = document.getElementById("dropdown")
+            if (operator.value == "+") {
+                answer = firstNumber + secondNumber
+            } else if (operator.value == "-") {
+                answer = firstNumber - secondNumber
+            } else if (operator.value == "*") {
+                answer = firstNumber * secondNumber
+            } else if (operator.value == "/") {
+                if (secondNumber == 0) {
+                    answer = "Error"
+                } else {
+                    answer = firstNumber / secondNumber
+                }
+            } else if (operator.value == "%") {
+                if (secondNumber == 0) {
+                    answer = "Error"
+                } else {
+                    answer = firstNumber % secondNumber
+                }
+            } else {
+                answer = "Error"
+            }
+
+            const myDiv = document.getElementById("divlayer")
+            myDiv.innerHTML = answer
+        }
+    </script>
+</body>
+</html>

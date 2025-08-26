@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #scoreBox, #timerBox, #directionBox {
+            font-size: 24px;
+            margin: 10px;
+            padding: 10px;
+            border: 2px solid #007BFF;
+            border-radius: 5px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #007BFF;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+
+</head>
+<body>
+    <script>
+        var score;
+        var direction;
+        var timer;
+        var gameOver;
+        var buttonPressed;
+
+        function handleGamepadInput(gamepad) {
+            if (gamepad.buttons[9].pressed) {
+                location.reload(); // Reloads the page if Start button is pressed
+            }
+            if (gamepad.buttons[0].pressed && !buttonPressed && timer > 0) { // checks if button A is pressed and wasn't pressed before
+                switch (direction) {
+                    case 0: // Up
+                        if (gamepad.axes[1] < -0.5) score++;
+                        document.getElementById("scoreBox").innerHTML = "Score: " + score;
+                        break;
+                    case 1: // Down
+                        if (gamepad.axes[1] > 0.5) score++;
+                        document.getElementById("scoreBox").innerHTML = "Score: " + score;
+                        break;
+                    case 2: // Left 
+                        if (gamepad.axes[0] < -0.5) score++;
+                        document.getElementById("scoreBox").innerHTML = "Score: " + score;
+                        break;
+                    case 3: // Right   
+                        if (gamepad.axes[0] > 0.5) score++;
+                        document.getElementById("scoreBox").innerHTML = "Score: " + score;
+                        break;
+                }
+            }
+            buttonPressed = gamepad.buttons[0].pressed;
+        }
+
+        function update() {
+            const gamepads = navigator.getGamepads();
+            for (let pad of gamepads) {
+                if (pad) {
+                    handleGamepadInput(pad);
+                }
+            }
+            requestAnimationFrame(update);
+        }
+
+        window.addEventListener("gamepadconnected", (e) => {
+            console.log(`Gamepad connected at index ${e.gamepad.index}.`);
+            requestAnimationFrame(update);
+        });
+
+        // Randomly sets direction to 0, 1, 2, or 3 when called
+        function randomDirection() {
+            direction = Math.floor(Math.random() * 4);
+            if (direction == 0) {
+                document.getElementById("directionBox").innerHTML = "Up";
+            } else if (direction == 1) {
+                document.getElementById("directionBox").innerHTML = "Down";
+            } else if (direction == 2) {
+                document.getElementById("directionBox").innerHTML = "Left";
+            } else if (direction == 3) {
+                document.getElementById("directionBox").innerHTML = "Right";
+            }
+        }
+
+        // Initializes game variables
+        function initializeGame() {
+            score = 0;
+            timer = 20;
+            gameOver = false;
+            buttonPressed = false;
+            randomDirection();
+            document.getElementById("scoreBox").innerHTML = "Score: " + score;
+            document.getElementById("timerBox").innerHTML = "Time: " + timer;
+        }
+
+        // Start the game loop
+        setInterval(function() {
+            if (timer > 0) {
+                // Every 2 seconds, change direction
+                if (timer % 2 === 0) {
+                    randomDirection();
+                }
+                timer--;
+                if (timer == 0) {
+                    gameOver = true;
+                }
+            } else {
+                if (gameOver) {
+                    alert("Game Over! Your score is: " + score);
+                }
+                initializeGame();
+            }
+            document.getElementById("timerBox").innerHTML = "Time: " + timer;
+
+        }, 1000);
+    </script>
+
+    <div id="scoreBox">Score: </div>
+    <div id="timerBox">Time: </div>
+    <div id="directionBox">None</div>
+</body>
+</html>
