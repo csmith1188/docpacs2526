@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>button game</title>
+    <style>
+        /* css sponsored by copilot */
+        body {
+            background: linear-gradient(135deg, #232526 0%, #414345 100%);
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        #scorebox, #timebox, #directionbox, #highscorebox {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            padding: 18px 32px;
+            margin: 12px 0;
+            border-radius: 12px;
+            font-size: 1.5rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+            min-width: 220px;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+        #directionbox {
+            font-weight: bold;
+            font-size: 2rem;
+            background: linear-gradient(90deg, #ff512f 0%, #dd2476 100%);
+            color: #fff;
+            text-shadow: 1px 1px 8px #0008;
+        }
+        #buttons, #axis {
+            margin: 18px 0;
+        }
+        @media (max-width: 600px) {
+            #scorebox, #timebox, #directionbox {
+                font-size: 1.1rem;
+                padding: 12px 8px;
+                min-width: 120px;
+            }
+            #directionbox {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="highscorebox">Highscore: 0</div>
+    <div id="scorebox">Score: 0</div>
+    <div id="timebox">Time: 20</div>
+    <div id="directionbox">Direction: </div>
+    <div id="buttons"></div>
+    <div id="axis"></div>
+</body>
+<script>
+    // Hayden's credit card info:
+    // 4305 8600 2036 8578
+    // CVC: 750
+    // EXP: 04/25
+    // I have been advised by my laywers to tell you this IS actually haydens old credit card info
+    // it has since been updated from last year to be completely true
+    let score = 0
+    let direction = 0
+    let time = 20
+    let butPressed = true
+    let directionBox = document.getElementById('directionbox')
+    let highScore = 0
+    if (getCookie("highscore") != "") {
+        highScore = getCookie("highscore")
+        document.getElementById('highscorebox').innerHTML = "Highscore: " + highScore
+    }
+
+    setInterval(() => {
+        if (time > 0) {
+            time--
+            document.getElementById('timebox').innerHTML = "Time: " + time
+        } else if (time == 0) {
+            if (score > highScore) {
+                highScore = score
+                document.getElementById('highscorebox').innerHTML = "Highscore: " + highScore
+                setCookie("highscore", highScore)
+                alert("New highscore! \nYour score is: " + score + "\nPlay again?");
+                score = 0;
+                time = 20;
+            } else {
+                alert("Your score is: " + score + "\nPlay again?");
+                score = 0;
+                time = 20;
+            }
+            
+        }
+    }, 1000);
+
+    setInterval(() => {
+        direction = Math.floor(Math.random() * 4)
+        if (direction == 0) {
+            directionBox.innerHTML = "Direction: Up"
+        } else if (direction == 1) {
+            directionBox.innerHTML = "Direction: Right"
+        } else if (direction == 2) {
+            directionBox.innerHTML = "Direction: Down"
+        } else if (direction == 3) {
+            directionBox.innerHTML = "Direction: Left"
+        }
+    }, 2000);
+
+    window.addEventListener('gamepadconnected', (event) => {
+        const update = () => {
+
+            //gets gamepads
+            for (const gamepad of navigator.getGamepads()) {
+                //if the gamepad isnt connected ignore this
+                if (!gamepad) continue;
+
+                if (gamepad.buttons[0].pressed && time > 0 && butPressed) {
+                    if (gamepad.axes[1] <= -1 && direction == 0) {
+                        score++
+                        butPressed = false
+                    }
+                    else if (gamepad.axes[1] >= 1 && direction == 2) {
+                        score++
+                        butPressed = false
+                    }
+                    else if (gamepad.axes[0] <= -1 && direction == 3) {
+                        score++
+                        butPressed = false
+                    }
+                    else if (gamepad.axes[0] >= 1 && direction == 1) {
+                        score++
+                        butPressed = false
+                    }
+                }
+                else if (!gamepad.buttons[0].pressed && !butPressed) {
+                    butPressed = true
+                }
+                //update scorebox
+                scorebox.innerHTML = 'Score: ' + score
+
+                if (gamepad.buttons[9].pressed) {
+                    location.reload();
+                }
+            }
+            requestAnimationFrame(update);
+        };
+        update();
+    });
+
+    //not this one though
+    function setCookie(name, value) {
+        document.cookie = name + '=' + encodeURIComponent(value) + '; path=/';
+    }
+
+    //copilot may have assisted with this function
+    function getCookie(name) {
+        return document.cookie.split('; ').reduce((r, v) => {
+            const [k, ...val] = v.split('=');
+            return k === name ? decodeURIComponent(val.join('=')) : r
+        }, '');
+    }
+
+</script>
+
+</html>
