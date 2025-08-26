@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="ScoreBox"></div>
+    <div id="TimerBox"></div>
+    <div id="DirectionBox"></div>
+
+</body>
+<script>
+   let score = 0;
+   let direction = 0;
+   let timer = 20;
+   function setInterval() {
+    if (timer > 0) {
+        timer -= 1;
+        document.getElementById("TimerBox").innerHTML = timer;
+    }
+    else {
+        document.getElementById("TimerBox").innerHTML = "Time's Up! Final Score: " + score;
+        clearInterval(intervalId);
+    }
+   }
+   function setDirection() {
+    direction = Math.floor(Math.random() * 4);
+    if (direction == 0) {
+        document.getElementById("DirectionBox").innerHTML = "Up";
+    }
+    else if (direction == 1) {
+        document.getElementById("DirectionBox").innerHTML = "Down";
+    }
+    else if (direction == 2) {
+        document.getElementById("DirectionBox").innerHTML = "Left";
+    }
+    else if (direction == 3) {
+        document.getElementById("DirectionBox").innerHTML = "Right";
+    }
+   }
+   window.addEventListener("gamepadconnected", (event) => {
+    const gamepad = navigator.getGamepads()[event.gamepad.index];
+    console.log(`Gamepad connected at index ${gamepad.index}: ${gamepad.id}`);
+    }
+    )
+    function gameLoop() {
+    const gamepads = navigator.getGamepads();
+    for (let gamepad of gamepads) {
+        if (gamepad) {
+            // Check buttons
+            gamepad.buttons.forEach((button, index) => {
+                if (button.pressed) {
+                    console.log(`Button ${index} is pressed`);
+                }
+            });
+
+            // Check axes
+            gamepad.axes.forEach((axis, index) => {
+                console.log(`Axis ${index}: ${axis.toFixed(2)}`);
+            });
+        }
+    }
+
+    requestAnimationFrame(gameLoop);
+}
+
+requestAnimationFrame(gameLoop);
+</script>
+</html>
