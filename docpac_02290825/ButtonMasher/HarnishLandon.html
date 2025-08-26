@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Button Masher</title>
+
+        <link rel="stylesheet" href="./style.css">
+    </head>
+    <body>
+        <div id="scoreBox">Score: <strong>0</strong></div>
+        <div id="directionBox">Direction: </div>
+        <div id="timerBox">Timer: <strong>20</strong></div>
+    </body>
+    <script>
+        let score = 0;
+let direction = 0;
+let timer = 20;
+
+const scoreBox = document.getElementById("scoreBox");
+const directionBox = document.getElementById("directionBox");
+const timerBox = document.getElementById("timerBox");
+
+setInterval(() => {
+    if (timer > 0) {
+        timer--;
+        timerBox.innerHTML = `Timer: <strong>${timer}s</strong>`;
+    }
+}, 1000);
+
+function setDir() {
+    if (timer > 0) {
+        direction = Math.floor(Math.random() * 4);
+        let directionText = "";
+        switch (direction) {
+            case 0:
+                directionText = "Up";
+                break;
+            case 1:
+                directionText = "Right";
+                break;
+            case 2:
+                directionText = "Down";
+                break;
+            case 3:
+                directionText = "Left";
+                break;
+        }
+        directionBox.innerHTML = `Direction: <strong>${directionText}</strong>`;
+    }
+}
+
+setDir();
+
+setInterval(setDir, 2000);
+
+let isAHeld = false;
+
+window.addEventListener('gamepadconnected', () => {;
+    const controllerUpdate = () => {
+        if(navigator.getGamepads().length > 0) {;
+            const gamepad = navigator.getGamepads()[0];
+            if (!gamepad) { console.log("No gamepad connected"); return; };
+
+            const leftStickAxes = [0, 1]; // Left Stick axes on a regular Xbox Controller
+            const primButtonIndex = 0; // A button on a regular Xbox Controller
+            const startButtonIndex = 11; // A button on a regular Xbox Controller
+
+            const deadZone = 0.5; // Add deadzone to prevent drift
+
+            const leftAxes = {
+                X: Math.abs(gamepad.axes[leftStickAxes[0]]) < deadZone ? 0 : gamepad.axes[leftStickAxes[0]],
+                Y: Math.abs(gamepad.axes[leftStickAxes[1]]) < deadZone ? 0 : gamepad.axes[leftStickAxes[1]]
+            };
+
+            const directions = {
+                Up: leftAxes.Y < -deadZone,
+                Down: leftAxes.Y > deadZone,
+                Right: leftAxes.X > deadZone,
+                Left: leftAxes.X < -deadZone,
+            }
+
+            if(gamepad.buttons[primButtonIndex].pressed && timer > 0 && !isAHeld) {
+
+                if (
+                    directions.Up    && direction === 0 ||
+                    directions.Right && direction === 1 ||
+                    directions.Down  && direction === 2 ||
+                    directions.Left  && direction === 3
+                ) {
+                    score++;
+                    scoreBox.innerHTML = `Score: <strong>${score}</strong>`;;
+                }
+            }
+
+            if(gamepad.buttons[startButtonIndex].pressed) location.reload();
+
+            isAHeld = gamepad.buttons[primButtonIndex].pressed;
+
+            console.log(directions);
+            
+
+        requestAnimationFrame(controllerUpdate)
+        };
+    };
+    requestAnimationFrame(controllerUpdate)
+});
+    </script>
+</html>

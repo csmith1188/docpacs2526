@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="number" id="thing1">
+    <input type="number" id="thing2">
+    <div id="calc"></div>
+    <label for="operations" id="math thing">Choose the operation you want to use:</label>
+    <select name="operations" id="operations">
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="*">*</option>
+        <option value="/">+</option>
+        <option value="%">%</option>
+    </select>
+    <br><br>
+    <input type="submit" value="submit" onclick="calculate()">
+</body>
+<script>
+    function calculate() {
+    number1 = document.getElementById("thing1").value
+    number2 = document.getElementById("thing2").value
+    operator = document.getElementById("operations").value
+
+    if (operator == "%" && number2 == 0)  {
+        document.getElementById("calc").innerHTML="Error!"
+    }
+    else if (operator == "/" && number2 == 0) {
+        document.getElementById("calc").innerHTML="Error!"
+    }
+    else {
+        number1 = parseFloat(number1)
+        number2 = parseFloat(number2)       
+        if (operator == "+") {
+            result = number1 + number2
+        } else if (operator == "-") {
+            result = number1 - number2
+        } else if (operator == "*") {
+            result = number1 * number2
+        } else if (operator == "/") {
+            result = number1 / number2
+        } else if (operator == "%") {
+            result = number1 % number2
+        }
+        document.getElementById("calc").innerHTML = "Result: " + result;
+        document.getElementById("thing1").value = "";
+        document.getElementById("thing2").value = "";
+        document.getElementById("operations").value = "+";
+    }
+    }
+    
+    
+</script>
+</html>

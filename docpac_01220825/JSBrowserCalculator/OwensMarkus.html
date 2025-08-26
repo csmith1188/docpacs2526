@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function javafunct() {
+            numer1 = parseFloat(document.getElementById("num1").value);
+            numer2 = parseFloat(document.getElementById("num2").value);
+            equal = document.getElementById("equation").value;
+            var answer;
+            if (equal == "plus") {
+                answer = numer1 + numer2;
+            }
+            else if (equal == "minus") {
+                answer = numer1 - numer2;
+            }
+            else if (equal == "multiply") {
+                answer = numer1 * numer2;
+            }
+            else if (equal == "divide") {
+                answer = numer1 / numer2;
+                if (numer2 == 0) {
+                    answer = "Error!";
+                }
+                
+            }
+            else if (equal == "modulus") {
+                answer = (numer1 % numer2);
+                if (numer2 == 0) {
+                    answer = "Error!";
+                }
+               
+
+            }
+            else {
+                answer = "not a choice thats valid pls redo"
+            }
+            document.getElementById("thing1").innerHTML = answer;
+
+
+
+        }
+    </script>
+
+    <input type="number" id="num1">
+    <input type="number" id="num2">
+    <div id="thing1">
+        
+
+    </div>
+    <label for="" equation">pick a type of equation</label>
+    <select id="equation">
+        <option value="plus">+</option>
+        <option value="minus">-</option>
+        <option value="multiply">*</option>"
+        <option value="divide">/</option>
+        <option value="modulus">%</option>
+    </select>
+    <button onclick="javafunct()">math it</button>
+</body>
+
+</html>
