@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Browser Calculator</title>
+
+    <style>
+        /* centers the elements for the calulator and makes the result space always visible */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-color: rgb(82, 177, 255);
+        }
+
+        #number1, #number2 {
+            width: 100px;
+            margin: 5px;
+            text-align: center;
+        }
+
+        #dropdownMenu, button {
+            margin: 5px;
+        }
+
+        #resultSpace {
+            width: 100px;
+            height: 20px;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 1em;
+            background-color: white;
+            border: 1px solid black;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        function Calculate() {
+            // Grabs the input values the user has entered
+            var number1 = parseFloat(document.getElementById("number1").value);
+            var number2 = parseFloat(document.getElementById("number2").value);
+
+            // Grabs the selected operation from the dropdown menu
+            var operation = document.getElementById("dropdownMenu").value;
+
+            // Initializes the result variable
+            var result;
+
+            // Performs the calculation based on the selected operation
+            switch (operation) {
+                case "add":
+                    result = number1 + number2;
+                    break;
+                case "subtract":
+                    result = number1 - number2;
+                    break;
+                case "multiply":
+                    result = number1 * number2;
+                    break;
+                case "divide":
+                    if (number2 == 0) {
+                        result = "Error!";
+                    } else {
+                        result = number1 / number2;
+                    }
+                    break;
+                case "modulate":
+                    if (number2 == 0) {
+                        result = "Error!";
+                    } else {
+                        result = number1 % number2;
+                    }
+                    break;
+            }
+
+            // Displays the result in the result space
+            document.getElementById("resultSpace").innerHTML = result;
+
+        };
+    </script>
+
+    <input type="number" id="number1">
+    <input type="number" id="number2">
+    <div id="resultSpace"></div>
+    
+    <select id="dropdownMenu">
+        <option value="add">+</option>
+        <option value="subtract">-</option>
+        <option value="multiply">x</option>
+        <option value="divide">/</option>
+        <option value="modulate">%</option>
+    </select>
+    <button onclick="Calculate()">Calculate!</button>
+</body>
+</html>
