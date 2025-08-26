@@ -5,25 +5,121 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Button Masher</title>
+
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: row;
+            height: 100vh;
+        }
+
+        #scoreBox,
+        #timerBox,
+        #directionBox {
+            border: 2px solid black;
+            width: 200px;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            margin: 10px;
+        }
+    </style>
 </head>
+
+
 
 <script>
     var score = 0
     var timer = 20
     var direction = 0
-    setInterval(function() {
-        
-    }, 1000 / 60)
+
+    setInterval(function () {
+        if (timer > 0) {
+            timer -= 1
+            document.getElementById("timerBox").innerHTML = timer
+        }
+        else {
+            ("TIME'S UP! YOUR SCORE IS " + score)
+        }
+    }, 1000);
+
+    setInterval(function () {
+        direction = Math.floor(Math.random() * 4)
+        console.log(direction)
+        if (direction == 0) {
+            document.getElementById("directionBox").innerHTML = "UP"
+        }
+        else if (direction == 1) {
+            document.getElementById("directionBox").innerHTML = "RIGHT"
+        }
+        else if (direction == 2) {
+            document.getElementById("directionBox").innerHTML = "DOWN"
+        }
+        else if (direction == 3) {
+            document.getElementById("directionBox").innerHTML = "LEFT"
+        }
+        else if (timerBox == "TIME'S UP!") {
+            document.getElementById("directionBox").innerHTML = "GAME OVER"
+        }
+    }, 2000);
+
+    document.addEventListener('keydown', function (event) {
+
+        if (timer > 0) {
+            if (event.key == "ArrowUp" && direction == 0) {
+                score += 1
+                document.getElementById("scoreBox").innerHTML = score
+            }
+            else if (event.key == "ArrowRight" && direction == 1) {
+                score += 1
+                document.getElementById("scoreBox").innerHTML = score
+            }
+            else if (event.key == "ArrowDown" && direction == 2) {
+                score += 1
+                document.getElementById("scoreBox").innerHTML = score
+            }
+            else if (event.key == "ArrowLeft" && direction == 3) {
+                score += 1
+                document.getElementById("scoreBox").innerHTML = score
+            }
+        }
+    });
+
+    function handleGamepadInput(gamepad) {
+        // Button and Axes indexes to note of: A Button (0), Start Button (9), Left Joystick Vertical (1), Left Joystick Horizontal (0)
+        // to call for a button use gamepad.buttons[buttonIndex] and .pressed is a property to determine if it is pressed
+        // to call for an axis use gamepad.axes[axisIndex] and it returns a float between -1.0 and 1.0 based on tilt
+    }
+
+    function update() {
+        const gamepads = navigator.getGamepads();
+        for (let pad of gamepads) {
+            if (pad) {
+                handleGamepadInput(pad);
+            }
+        }
+        requestAnimationFrame(update);
+    }
+
+    window.addEventListener("gamepadconnected", (e) => {
+        console.log(`Gamepad connected at index ${e.gamepad.index}.`);
+        requestAnimationFrame(update);
+    });
+
+
 
 </script>
 
 <body>
-    <div id="score box"></div>
+    <div id="scoreBox"></div>
 
-    <div id="timer box"></div>
+    <div id="timerBox"></div>
 
-    <div id="direction box"></div>
-
+    <div id="directionBox"></div>
 </body>
 
 </html>
