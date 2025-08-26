@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Masher</title>
+</head>
+<body>
+    <div id="ScoreBox">Score: 0</div>
+    <div id="TimerBox">Time left: 20</div>
+    <div id="DirectionBox"></div>
+    <script>
+        const scoreBox = document.getElementById('ScoreBox');
+        const timerBox = document.getElementById('TimerBox');
+        const directionBox = document.getElementById('DirectionBox');
+        const directionMap = {
+            0: 'Up',
+            1: 'Right',
+            2: 'Down',
+            3: 'Left'
+        };
+
+        let timer = 20;
+        let score = 0;
+        let direction = 0;        
+
+        function generateRandomNumber(min, max) {
+            min = Math.ceil(min)
+            max = Math.floor(max);
+
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
+
+        setInterval(() => {
+            if (timer > 0) {
+                timer--;
+            }
+        }, 1000);
+
+        setInterval(() => {
+            direction = generateRandomNumber(0, 3);
+            directionBox.innerHTML = `Direction: ${directionMap[direction]}`;
+        }, 2000);
+
+        window.addEventListener('gamepadconnected', (event) => {
+            function update() {
+                for (const gamepad of navigator.getGamepads()) {
+                    if (!gamepad) continue;
+
+                    for (const [index, button] of gamepad.buttons.entries()) {
+                        console.log(index, button);
+                    }
+                }
+
+                requestAnimationFrame(update);
+            }
+
+            update();
+        });
+    </script>
+</body>
+</html>
