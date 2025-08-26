@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>butotuotjn j masher</title>
+</head>
+<body>
+    <div id="score"></div>
+    <div id="timer"></div>
+    <div id="direction"></div>
+
+    <script>
+        let score = 0;
+        let direction = 0;
+        let timer = 20;
+        function timerDec () {
+            if (timer > 0) {
+                timer--;
+            }
+        }
+        function directionChange () {
+            direction = Math.random(0,3);
+            if (direction === 0) {
+                document.getElementById("direction").innerHTML = "UP";
+            } else if (direction === 1) {
+                document.getElementById("direction").innerHTML = "DOWN";
+            } else if (direction === 2) {
+                document.getElementById("direction").innerHTML = "LEFT";
+            } else if (direction === 3) {
+                document.getElementById("direction").innerHTML = "RIGHT";
+            }
+        }
+        const gamepad = navigator.getGamepads()[0];
+        function checkJoystickMovement(gamepad) {
+            const [leftStickX, leftStickY, rightStickX, rightStickY] = gamepad.axes;
+        }
+        setInterval(timerDec, 1000);
+        setInterval(directionChange, 2000);
+    </script>
+</body>
+</html>
