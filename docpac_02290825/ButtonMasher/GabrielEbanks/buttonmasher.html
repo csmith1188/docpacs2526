@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="scoreBox">
+
+  </div>
+  <div id="timerBox">
+
+  </div>
+  <div id="directionBox">
+
+  </div>
+
+  <script>
+    let score = 0;
+    let timeLeft = 20;
+    let currentDirection = 0;
+
+    function getRandomDirection() {
+      const directions = [0, 1, 2, 3]; // 0: up , 1: Right, 2: down, 3: Left
+      return directions[Math.floor(Math.random() * directions.length)];
+    }
+
+    function countdown() {
+      if (timeLeft > 0) {
+        timeLeft--;
+        document.getElementById("timerBox").innerText = "Time Left: " + timeLeft;
+      } else {
+        clearInterval(timerInterval);
+        document.getElementById("directionBox").innerText = "Game Over! Final Score: " + score;
+        document.removeEventListener("keydown", handleKeyPress);
+      }
+    }
+  </script>
+
+</body>
+
+</html>
