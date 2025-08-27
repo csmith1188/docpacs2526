@@ -17,6 +17,7 @@
         let direction = 0;
         let timer = 20;
         let directionBox = document.getElementById("directionBox");
+        let buttonPressed = false;
 
         // make timer decrease 🤣🤣🤣
         function timerDec () {
@@ -58,7 +59,9 @@
             if (gp) {
                 const aButton = gp.buttons[0]; 
                 const [leftStickX, leftStickY] = gp.axes;
-                if (aButton.pressed) {
+                if (aButton.pressed && !buttonPressed) {
+                    buttonPressed = true;
+
                     if (direction === 0 && gp.axes[1] <= -1) { 
                         score++;
                         document.getElementById("score").innerHTML = score;
@@ -76,9 +79,13 @@
                         document.getElementById("score").innerHTML = score;
                         console.log("Correct! Direction: RIGHT");
                     }
-            }
+                }
+                if (!aButton.pressed) {
+                    buttonPressed = false; 
+                }
+                
         }
-    }
+    } // Closing brace for gameLoop function
     requestAnimationFrame(gameLoop); // Continue the game loop
 }
         gameLoop();
