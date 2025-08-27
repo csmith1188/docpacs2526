@@ -30,23 +30,21 @@
     </style>
 </head>
 
-
-
 <script>
+    //varibles
     var score = 0
     var timer = 20
     var direction = 0
 
+    //THE TIMER
     setInterval(function () {
         if (timer > 0) {
             timer -= 1
             document.getElementById("timerBox").innerHTML = timer
         }
-        else {
-            ("TIME'S UP! YOUR SCORE IS " + score)
-        }
     }, 1000);
 
+    //direction listener
     setInterval(function () {
         direction = Math.floor(Math.random() * 4)
         console.log(direction)
@@ -67,34 +65,35 @@
         }
     }, 2000);
 
-    document.addEventListener('keydown', function (event) {
+    //score counter
+    function handleGamepadInput(gamepad) {
+        if (gamepad.buttons[9].pressed) {
+            window.location.reload()
+        }
 
-        if (timer > 0) {
-            if (event.key == "ArrowUp" && direction == 0) {
-                score += 1
-                document.getElementById("scoreBox").innerHTML = score
-            }
-            else if (event.key == "ArrowRight" && direction == 1) {
-                score += 1
-                document.getElementById("scoreBox").innerHTML = score
-            }
-            else if (event.key == "ArrowDown" && direction == 2) {
-                score += 1
-                document.getElementById("scoreBox").innerHTML = score
-            }
-            else if (event.key == "ArrowLeft" && direction == 3) {
-                score += 1
-                document.getElementById("scoreBox").innerHTML = score
+        if (gamepad.buttons[0].pressed) {
+            if (timer > 0) {
+                if (direction == 0 && gamepad.axes[1] < -0.5) {
+                    score += 1
+                    document.getElementById("scoreBox").innerHTML = score
+                }
+                else if (direction == 1 && gamepad.axes[0] > 0.5) {
+                    score += 1
+                    document.getElementById("scoreBox").innerHTML = score
+                }
+                else if (direction == 2 && gamepad.axes[1] > 0.5) {
+                    score += 1
+                    document.getElementById("scoreBox").innerHTML = score
+                }
+                else if (direction == 3 && gamepad.axes[0] < -0.5) {
+                    score += 1
+                    document.getElementById("scoreBox").innerHTML = score
+                }
             }
         }
-    });
-
-    function handleGamepadInput(gamepad) {
-        // Button and Axes indexes to note of: A Button (0), Start Button (9), Left Joystick Vertical (1), Left Joystick Horizontal (0)
-        // to call for a button use gamepad.buttons[buttonIndex] and .pressed is a property to determine if it is pressed
-        // to call for an axis use gamepad.axes[axisIndex] and it returns a float between -1.0 and 1.0 based on tilt
     }
 
+    //gamepad
     function update() {
         const gamepads = navigator.getGamepads();
         for (let pad of gamepads) {
@@ -105,12 +104,11 @@
         requestAnimationFrame(update);
     }
 
+    //gamepad 
     window.addEventListener("gamepadconnected", (e) => {
         console.log(`Gamepad connected at index ${e.gamepad.index}.`);
         requestAnimationFrame(update);
     });
-
-
 
 </script>
 
