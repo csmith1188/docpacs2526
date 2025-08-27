@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Calculator</title>
+    </head>
+    <body>
+        <script>
+            function calc() {
+                var input1 = Number(document.getElementById("input1").value);
+                var input2 = Number(document.getElementById("input2").value);
+                var operator = document.getElementById("dropdown").value;
+                console.log(input1, input2, operator);
+                if (operator == "add") {
+                    var output = input1 + input2;
+                } else if (operator == "sub") {
+                    var output = input1 - input2;
+                } else if (operator == "multi") {
+                    var output = input1 * input2;
+                } else if (operator == "div") {
+                    if (input2 == 0) {
+                        var output = "Error!";
+                    } else {
+                        var output = input1 / input2;
+                    }
+                } else {
+                    if (input2 == 0) {
+                        var output = "Error!";
+                    } else {
+                        var output = input1 % input2;
+                    }
+                }
+                document.getElementById("div1").innerHTML = output;
+            }
+        </script>
+        <input type="number" id="input1">
+        <input type="number" id="input2">
+        <select name="dropdown" id="dropdown">
+            <option value="add">+</option>
+            <option value="sub">-</option>
+            <option value="multi">*</option>
+            <option value="div">/</option>
+            <option value="mod">%</option>
+        </select>
+        <button onclick="calc()">=</button>
+        <div id="div1"></div>
+    </body>
+</html>
