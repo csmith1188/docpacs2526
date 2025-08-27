@@ -100,7 +100,7 @@
         
         
         
-                window.addEventListener('gamepadconnected', (event) => {
+        window.addEventListener('gamepadconnected', (event) => {
             const update = () => {
                 for (const gamepad of navigator.getGamepads()) {
                     if (!gamepad) continue;
