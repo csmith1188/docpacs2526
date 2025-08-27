@@ -15,15 +15,18 @@
     var timer = 20
     var direction = 0
     setInterval(()=>{
-        timer = timer - 1
-        document.getElementById("timer box").innerHTML = timer
-        if (timer == 0) {
+        if (timer > 0) {
+            timer = timer - 1
+            if (timer == 0) {
             alert("Time's up! Your score is " + score)
+            }
         }
+        document.getElementById("timer box").innerHTML = timer
     }, 1000);
     
     setInterval(()=>{
-        direction = Math.floor(Math.random() * 4)
+        if (timer > 0) {
+            direction = Math.floor(Math.random() * 4)
         if (direction == 0) {
             document.getElementById("direction box").innerHTML = "UP"
         }
@@ -35,6 +38,7 @@
         }
         if (direction == 3) {
             document.getElementById("direction box").innerHTML = "RIGHT"
+        }
         }
     }, 2000);
     window.addEventListener("gamepadconnected", function(e) {
@@ -49,20 +53,20 @@
             return;
         }
         var gp = gamepads[0];
-        if (gp.buttons[0].pressed) {
+        if (gp.buttons[0].pressed && timer > 0) { // A button
             if ( gp.axes[1] == -1 && direction == 0) { // Up
             score = score + 1
             document.getElementById("score box").innerHTML = score
         }
-        if ( gp.axes[1] == +1 && direction == 1) { // Down
+        if ( gp.axes[1] == +1 && direction == 1 && timer > 0) { // Down
             score = score + 1
             document.getElementById("score box").innerHTML = score
         }
-        if ( gp.axes[0] == -1 && direction == 2) { // Left
+        if ( gp.axes[0] == -1 && direction == 2 && timer > 0) { // Left
             score = score + 1
             document.getElementById("score box").innerHTML = score
         }
-        if ( gp.axes[0] == +1 && direction == 3) { // Right
+        if ( gp.axes[0] == +1 && direction == 3 && timer > 0) { // Right
             score = score + 1
             document.getElementById("score box").innerHTML = score
         }
