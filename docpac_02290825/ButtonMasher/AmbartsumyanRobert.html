@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Masher</title>
+    <style>
+        #restart {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <center>
+        <button id="restart" onclick="restart()">RESTART</button>
+        <div id="timerBox"></div>
+        <div id="scoreBox"></div>
+        <div id="directionBox"></div>
+    </center>
+
+    <script>
+        const directionBox = document.getElementById('directionBox');
+        const scoreBox = document.getElementById('scoreBox');
+        const timerBox = document.getElementById('timerBox');
+        
+        let previousButtonState = false;
+        let score = 0;
+        let timer = 20;
+        let ranDir;
+        let dirTrue;
+
+        window.addEventListener('gamepadconnected', (event) => {
+            aButtonPress();
+            joystickRight();
+            setInterval(randChange, 2000);
+            setInterval(timerDecrease, 1000);
+        });
+
+        window.addEventListener('gamepaddisconnected', () => {
+            location.reload();
+        });
+
+        function timerDecrease() {
+            if (timer > 0) {
+                timer--;
+                timerBox.innerText = `You have ${timer} sec left of the game.`;
+            }
+        }
+
+        function restart() {
+            location.reload();
+        }
+
+        function randChange() {
+            const directionPrint = ['up', 'right', 'down', 'left'];
+            ranDir = Math.floor(Math.random() * 4);
+            directionBox.innerHTML = directionPrint[ranDir];
+        }
+
+        function joystickRight() {
+            for (const gamepad of navigator.getGamepads()) {
+                if (!gamepad) continue;
+
+                const [x, y] = [gamepad.axes[0], gamepad.axes[1]];
+                let direction = -1;
+
+                switch (true) {
+                    case (x < -0.5):
+                        direction = 3; // left
+                        break;
+                    case (x > 0.5):
+                        direction = 1; // right
+                        break;
+                    case (y < -0.5):
+                        direction = 0; // up
+                        break;
+                    case (y > 0.5):
+                        direction = 2; // down
+                        break;
+                    default:
+                        direction = -1; // no direction
+                }
+
+                dirTrue = (direction === ranDir);
+                requestAnimationFrame(joystickRight);
+            }
+        }
+
+        function aButtonPress() {
+            const gamepad = navigator.getGamepads()[0];
+
+            if (dirTrue && timer > 0) {
+                const currentButtonState = gamepad.buttons[0].pressed;
+
+                if (currentButtonState && !previousButtonState) {
+                    score++;
+                    scoreBox.innerHTML = `Your score is: ${score}`;
+                }
+
+                previousButtonState = currentButtonState;
+            }
+
+            requestAnimationFrame(aButtonPress);
+        }
+    </script>
+</body>
+
+</html>
