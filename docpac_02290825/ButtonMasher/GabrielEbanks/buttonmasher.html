@@ -8,38 +8,114 @@
 </head>
 
 <body>
-  <div id="scoreBox">
-
-  </div>
-  <div id="timerBox">
-
-  </div>
-  <div id="directionBox">
-
-  </div>
+  <div id="scoreBox"></div>
+  <div id="timerBox"></div>
+  <div id="directionBox"></div>
 
   <script>
     let score = 0;
     let timeLeft = 20;
     let currentDirection = 0;
+    let running = true;
+    let locked = false;
+    const cd = 150;
+    let pressed = false;
 
-    function getRandomDirection() {
-      const directions = [0, 1, 2, 3]; // 0: up , 1: Right, 2: down, 3: Left
-      return directions[Math.floor(Math.random() * directions.length)];
+    const dbox = document.getElementById("directionBox");
+    const tbox = document.getElementById("timerBox");
+    const sbox = document.getElementById("scoreBox");
+
+    sbox.innerText = "Score: " + score;
+    tbox.innerText = "Time Left: " + timeLeft;
+
+    function scorePoint() {
+      score++;
+      sbox.innerText = "Score: " + score;
     }
 
     function countdown() {
       if (timeLeft > 0) {
+        if (!running) return;
         timeLeft--;
-        document.getElementById("timerBox").innerText = "Time Left: " + timeLeft;
+        tbox.innerText = "Time Left: " + timeLeft;
       } else {
+        running = false;
         clearInterval(timerInterval);
-        document.getElementById("directionBox").innerText = "Game Over! Final Score: " + score;
-        document.removeEventListener("keydown", handleKeyPress);
+        clearInterval(directionInterval);
+        dbox.innerText = "Game Over! Final Score: " + score;
       }
     }
-  </script>
 
+    function updateDirectionBox() {
+      if (!running) return;
+      const directionNames = ["Up", "Right", "Down", "Left"];
+      currentDirection = Math.floor(Math.random() * 4);
+      console.log(currentDirection);
+      dbox.innerText = directionNames[currentDirection];
+    }
+
+    function handleGpPress() {
+      if (!running) return;
+
+      let gp;
+      if (navigator.getGamepads) {
+        const pads = navigator.getGamepads();
+        gp = pads[0];
+      }
+
+      if (gp) {
+        let x = gp.axes[0];
+        let y = gp.axes[1];
+        let aButton = gp.buttons[0];
+
+        if (Math.abs(x) > Math.abs(y)) {
+          if (x > 0.5 && aButton.pressed && !locked) {
+            console.log("right");
+            if (currentDirection === 1) scorePoint();
+            locked = true;
+            setTimeout(() => locked = false, cd);
+          } else if (x < -0.5 && aButton.pressed && !locked) {
+            console.log("left");
+            if (currentDirection === 3) scorePoint();
+            locked = true;
+            setTimeout(() => {
+              locked = false
+            }, cd);
+          }
+        } else {
+          if (y > 0.5 && aButton.pressed && !locked) {
+            console.log("down");
+            if (currentDirection === 2) scorePoint();
+            locked = true;
+            setTimeout(() => {
+              locked = false
+            }, cd);
+          } else if (y < -0.5 && aButton.pressed && !locked) {
+            console.log("up");
+            if (currentDirection === 0) scorePoint();
+            locked = true;
+            setTimeout(() => {
+              locked = false
+            }, cd);
+          }
+        }
+      }
+
+      requestAnimationFrame(handleGpPress);
+    }
+
+    const timerInterval = setInterval(countdown, 1000);
+    const directionInterval = setInterval(updateDirectionBox, 2000);
+    updateDirectionBox();
+    handleGpPress();
+
+    window.addEventListener('gamepadconnected', (event) => {
+      console.log('connected:', event.gamepad.connected);
+    });
+    window.addEventListener('gamepaddisconnected', (event) => {
+      console.log('connected:', event.gamepad.connected);
+    });
+  </script>
 </body>
 
 </html>
