@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+</head>
+<body>
+    <input type="number" id="num1">
+    <input type="number" id="num2">
+    <div id="divid">
+
+    </div>
+    <select id="operation">
+        <option value="add">+</option>
+        <option value="subtract">-</option>
+        <option value="multiply">*</option>
+        <option value="divide">/</option>
+        <option value="modul">%</option>
+    </select>
+    <button onclick ="calc ()">=</button>
+    <script>
+    function calc() {
+        let num1 = parseFloat(document.getElementById("num1").value);
+        let num2 = parseFloat(document.getElementById("num2").value);
+        let operation = document.getElementById("operation").value;
+        switch (operation) {
+            case "add":
+                document.getElementById("divid").innerHTML = num1 + num2;
+                break;
+            case "subtract":
+                document.getElementById("divid").innerHTML = num1 - num2;
+                break;
+            case "multiply":
+                document.getElementById("divid").innerHTML = num1 * num2;
+                break;
+            case "divide":
+                if (num2 !== 0) {
+                    document.getElementById("divid").innerHTML = num1 / num2;
+                } else {
+                    document.getElementById("divid").innerHTML = "Error!";
+                }
+                break;
+            case "modul":
+                if (num2 !== 0) {
+                    document.getElementById("divid").innerHTML = num1 % num2;
+                } else {
+                    document.getElementById("divid").innerHTML = "Error!";
+                }
+                break;
+        }
+    }
+    </script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Calculator</title>
+</head>
+<body>
+    <label for="numberInput1">Number Input 1:</label>
+    <input type="number" id="numberInput1" name="numberInput1">
+
+
+    <label for="numberInput2">Number Input 2:</label>
+    <input type="number" id="numberInput2" name="numberInput2">
+    
+    <div id="answerBox">
+        
+    </div>
+
+    <label for="operationSelect">Select an Operation:</label>
+        <select id="operationSelect" name="operation">
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="*">*</option>
+            <option value="/">/</option>
+            <option value="%">%</option>
+        </select>
+
+    <button onclick="doMath()"></button>    
+
+    <script>
+
+function doMath() {
+            var numberInput1 = parseFloat(document.getElementById('numberInput1').value);
+            var numberInput2 = parseFloat(document.getElementById('numberInput2').value);
+            var operationSelect = document.getElementById('operationSelect').value;
+            var answerBox = document.getElementById('answerBox');
+            var answer = 0;
+
+            switch(operationSelect) {
+                case '+':
+                    answer = numberInput1 + numberInput2;
+                    break;
+                case '-':
+                    answer = numberInput1 - numberInput2;
+                    break;
+                case '*':
+                    answer = numberInput1 * numberInput2;
+                    break;
+                case '/':
+                    if (numberInput2 === 0) {
+                        answer = 'Error!';
+                    } else {
+                        answer = numberInput1 / numberInput2;
+                    }
+                    break;
+                case '%':
+                    if (numberInput2 === 0) {
+                        answer = 'Error!';
+                    } else {
+                        answer = numberInput1 % numberInput2
+                    }
+                    break;
+                default:
+                    answer = 'Invalid operation';
+                    break;
+            }
+
+            answerBox.innerText = answer;
+        }
+      
+        
+
+    </script>
+</body>
+</html>
