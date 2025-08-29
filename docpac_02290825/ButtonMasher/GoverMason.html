@@ -8,7 +8,7 @@
 <body>
     <div id="ScoreBox">Score: 0</div>
     <div id="TimerBox">Time left: 20</div>
-    <div id="DirectionBox">Direction: </div>
+    <div id="DirectionBox">Direction: Up</div>
     <script>
         let timer = 20;
         let score = 0;
@@ -68,9 +68,11 @@
                 directionX = gamepad.axes[0];
                 directionY = gamepad.axes[1];
 
-                // Check if the A button is pressed and if the direction is correct
-                if (AButton.pressed && !isPlayerHolding && directionChecks[direction]) {
-                    addScore();
+                // If the A button is pressed and the direction is correct, add score
+                if (aButton.pressed) {
+                    if (!isPlayerHolding && directionChecks[direction]) {
+                        addScore();
+                    }
                     isPlayerHolding = true;
                 } else {
                     // Reset this so the player can press again to get points
