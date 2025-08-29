@@ -5,25 +5,119 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Button Masher</title>
+
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: row;
+            height: 100vh;
+        }
+
+        #scoreBox,
+        #timerBox,
+        #directionBox {
+            border: 2px solid black;
+            width: 200px;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            margin: 10px;
+        }
+    </style>
 </head>
 
 <script>
+    //varibles
     var score = 0
     var timer = 20
     var direction = 0
-    setInterval(function() {
-        
-    }, 1000 / 60)
+
+    //THE TIMER
+    setInterval(function () {
+        if (timer > 0) {
+            timer -= 1
+            document.getElementById("timerBox").innerHTML = timer
+        }
+    }, 1000);
+
+    //direction listener
+    setInterval(function () {
+        direction = Math.floor(Math.random() * 4)
+        console.log(direction)
+        if (direction == 0) {
+            document.getElementById("directionBox").innerHTML = "UP"
+        }
+        else if (direction == 1) {
+            document.getElementById("directionBox").innerHTML = "RIGHT"
+        }
+        else if (direction == 2) {
+            document.getElementById("directionBox").innerHTML = "DOWN"
+        }
+        else if (direction == 3) {
+            document.getElementById("directionBox").innerHTML = "LEFT"
+        }
+        else if (timerBox == "TIME'S UP!") {
+            document.getElementById("directionBox").innerHTML = "GAME OVER"
+        }
+    }, 2000);
+
+    //score counter
+    function handleGamepadInput(gamepad) {
+        if (gamepad.buttons[9].pressed) {
+            window.location.reload()
+        }
+
+        if (gamepad.buttons[0].pressed) {
+            if (timer > 0) {
+                if (direction == 0 && gamepad.axes[1] < -0.5) {
+                    score += 1
+                    document.getElementById("scoreBox").innerHTML = score
+                }
+                else if (direction == 1 && gamepad.axes[0] > 0.5) {
+                    score += 1
+                    document.getElementById("scoreBox").innerHTML = score
+                }
+                else if (direction == 2 && gamepad.axes[1] > 0.5) {
+                    score += 1
+                    document.getElementById("scoreBox").innerHTML = score
+                }
+                else if (direction == 3 && gamepad.axes[0] < -0.5) {
+                    score += 1
+                    document.getElementById("scoreBox").innerHTML = score
+                }
+            }
+        }
+    }
+
+    //gamepad
+    function update() {
+        const gamepads = navigator.getGamepads();
+        for (let pad of gamepads) {
+            if (pad) {
+                handleGamepadInput(pad);
+            }
+        }
+        requestAnimationFrame(update);
+    }
+
+    //gamepad 
+    window.addEventListener("gamepadconnected", (e) => {
+        console.log(`Gamepad connected at index ${e.gamepad.index}.`);
+        requestAnimationFrame(update);
+    });
 
 </script>
 
 <body>
-    <div id="score box"></div>
+    <div id="scoreBox"></div>
 
-    <div id="timer box"></div>
+    <div id="timerBox"></div>
 
-    <div id="direction box"></div>
-
+    <div id="directionBox"></div>
 </body>
 
 </html>
