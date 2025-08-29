@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Masher</title>
+</head>
+
+<body>
+    <div id="titleBox">
+        <h1 id="titleText"></h1>
+    </div>
+    <div id="gameBox">
+        <div id="scoreBox"></div>
+        <div id="timerBox"></div>
+        <div id="directionBox"></div>
+    </div>
+    <script>
+
+        const buttonA = 0;
+        const buttonStart = 9;
+
+        const specialButton = buttonA;
+        const restartButton = buttonStart;
+
+        const leftStickHorizontal = 0;
+        const leftStickVerticle = 1;
+
+        let titleText = document.getElementById('titleText');
+        let titleBox = document.getElementById('titleBox');
+        let scoreBox = document.getElementById('scoreBox');
+        let timerBox = document.getElementById('timerBox');
+        let directionBox = document.getElementById('directionBox');
+        let gameBox = document.getElementById('gameBox');
+
+        let score = 0;
+        let timer = 20;
+        let direction = 0;
+
+        let restartCoolDownTime = 500;
+
+        let canRestart = false;
+
+        let directionX = 0;
+        let directionY = 0;
+
+        let directionNames = ['⬆️', '➡️', '⬇️', '⬅️'];
+
+        let timerUpdateInterval;
+        let directionUpdateInterval;
+        let checkButtonsInterval;
+
+
+        // I'm so sorry
+        let directionCheckKey = {
+            0: () => {return directionY == -1},
+            1: () => {return directionX == 1},
+            2: () => {return directionY == 1},
+            3: () => {return directionX == -1},
+        }
+
+        let buttonJustPressed = false;
+
+        titleText.innerText = "CONNECT CONTROLLER";
+
+        setTimeout(function(){
+            window.addEventListener("gamepadconnected", onGamepadConnected);
+            window.addEventListener("gamepaddisconnected", onGamepadDisconnected);
+        }, restartCoolDownTime);
+
+        function onGamepadConnected(event) {
+
+            console.log(
+                "Gamepad connected at index %d: %s. %d buttons, %d axes.",
+                event.gamepad.index,
+                event.gamepad.id,
+                event.gamepad.buttons.length,
+                event.gamepad.axes.length,
+            );
+
+            timerUpdateInterval = setInterval(timerUpdate, 1000);
+            directionUpdateInterval = setInterval(directionUpdate, 2000);
+            checkButtonsInterval = setInterval(checkButtons, 16);
+
+            timerUpdate();
+            directionUpdate();
+
+            titleBox.style.display = 'none';
+            gameBox.style.display = 'block';
+
+
+            setTimeout(function(){
+                canRestart = true;
+            }, restartCoolDownTime);
+
+        }
+
+        function onGamepadDisconnected(event) {
+            location.reload();
+        }
+
+        function checkButtons() {
+            let gp = navigator.getGamepads()[0];
+            let buttons = gp.buttons;
+            let sticks = gp.axes;
+
+            directionX = Math.round(sticks[leftStickHorizontal]);
+            directionY = Math.round(sticks[leftStickVerticle]);
+
+            if (buttons[restartButton].pressed && canRestart) {
+                location.reload();
+            }
+
+            if (buttons[specialButton].pressed) {
+                if(buttonJustPressed) return;
+                
+                let directionMatches = directionCheckKey[direction]();
+
+                if(directionMatches){
+                    addScore();
+                }
+
+                buttonJustPressed = true;
+            } else {
+                buttonJustPressed = false;
+            }
+
+
+        }
+
+        function addScore() {
+
+            if(timer <= 0) return;
+
+            score++;
+            scoreBox.innerText = "Score: "+score;
+        }
+
+        function timerUpdate() {
+            if (timer > 0) {
+                timer -= 1;
+                timerBox.innerHTML = "Time Remaining: "+timer;
+            } else {
+                gameOver();
+            }
+        }
+
+        function gameOver(){
+            clearInterval(timerUpdateInterval);
+            clearInterval(directionUpdateInterval);
+
+            alert("Game Over! Your score was: "+score);
+        }
+
+        function directionUpdate() {
+
+            let randomDirection = Math.round(Math.random() * 3);
+            direction = randomDirection;
+            directionBox.innerHTML = directionNames[randomDirection];
+
+        }
+    </script>
+
+    <style>
+        #gameBox {
+            display: none;
+        }
+    </style>
+</body>
+
+</html>

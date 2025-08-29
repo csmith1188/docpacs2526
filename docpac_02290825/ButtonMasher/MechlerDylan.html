@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+
+    <body>
+        <div id='score box'>
+
+        </div>
+        <div id='timer box'>
+
+        </div>
+        <div id='direction box'>
+
+        </div>
+    </body>
+
+    <script>
+        var score = 0
+        var direction = 0
+        var timer = 20
+        var aPressed = false
+        setInterval(function() {
+            if (timer > 0) {
+                timer -= 1
+                document.getElementById('timer box').innerText = 'Time Left: ' + timer
+            }
+        }, 1000)
+        setInterval(function() {
+            if (timer > 0) {
+                window.direction = Math.floor(Math.random() * 4)
+                if (direction === 0) {
+                    document.getElementById('direction box').innerText = 'Up'
+                } else if (direction === 1) {
+                    document.getElementById('direction box').innerText = 'Right'
+                } else if (direction === 2) {
+                    document.getElementById('direction box').innerText = 'Down'
+                } else if (direction === 3) {
+                    document.getElementById('direction box').innerText = 'Left'
+                }
+            }
+        }, 2000)
+        setInterval(function() {
+            var gamepad = navigator.getGamepads()[0]
+            if (gamepad) {
+                if (timer > 0) {
+                    if (gamepad.buttons[0].pressed && aPressed === false) {
+                        if (gamepad.axes[1] < -0.5 && direction === 0) {
+                            score += 1
+                            document.getElementById('score box').innerText = 'Score: ' + score
+                        } else if (gamepad.axes[0] > 0.5 && direction === 1) {
+                            score += 1
+                            document.getElementById('score box').innerText = 'Score: ' + score
+                        } else if (gamepad.axes[1] > 0.5 && direction === 2) {
+                            score += 1
+                            document.getElementById('score box').innerText = 'Score: ' + score
+                        } else if (gamepad.axes[0] < -0.5 && direction === 3) {
+                            score += 1
+                            document.getElementById('score box').innerText = 'Score: ' + score
+                        }
+                        aPressed = true
+                    }
+                    if (!gamepad.buttons[0].pressed) {
+                        aPressed = false
+                    }
+                }
+            }
+        }, 100)
+        setInterval(function() {
+            var gamepad = navigator.getGamepads()[0]
+            if (gamepad) {
+                if (gamepad.buttons[9].pressed) {
+                    location.reload()
+                }
+            }
+        }, 100)
+    </script>
