@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #container {
+            width: 480px;
+            margin: auto;
+            background-color: #666666;
+        }
+
+        #swipeImg {
+            width: 480px;
+            height: auto;
+            position: relative;
+            top: 0px;
+            left: 0px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <img src="img/levelup01.png" alt="" id="swipeImg">
+    </div>
+</body>
+<script>
+    //CONSTANTS
+    const SWIPE_MIN = 200; //How far you must swipe to trigger a swipe
+
+    //SETUP IMAGE
+    let swipeImg = document.getElementById('swipeImg');
+    //set its style property to its computed style
+    swipeImg.style.top = window.getComputedStyle(swipeImg).top;
+    swipeImg.style.left = window.getComputedStyle(swipeImg).left;
+
+    //LIST OF IMAGES
+    let images = [
+        'img/levelup01.png',
+        'img/levelup02.png',
+        'img/levelup03.png',
+        'img/levelup04.png',
+        'img/levelup05.png',
+        'img/levelup06.png',
+        'img/levelup07.png',
+        'img/levelup08.png',
+        'img/levelup09.png',
+        'img/levelup10.png'
+    ]
+
+    //image index
+    let imgIndex = 0;
+
+    //start and end coordinates of touch
+    let startX = [];
+    let startY = [];
+    let lastX = [];
+    let lastY = [];
+    let endX = [];
+    let endY = [];
+
+    //detect touch on any part of the window
+    swipeImg.addEventListener('touchstart', function () {
+        start(event);
+    });
+    //detect movement of touch
+    swipeImg.addEventListener('touchmove', function () {
+        move(event);
+    });
+    //detect release of touch
+    swipeImg.addEventListener('touchend', function () {
+        end(event);
+    });
+
+    /**********************************************************************************************************************\
+     * After this comment, write the appropriate line of code to achieve each comment.                                    *
+     * Some comments will have multiple lines of code.                                                                    *
+     * Some comments will be one line of code, but use two lines to describe it.                                          *
+     * Indents should match the code blocks.                                                                              *
+    \**********************************************************************************************************************/
+
+    function start(events) {
+        //set the start coordinate of each axis to the touch position
+        //reset the last touch position of each axis to 0
+    }
+
+    function move(event) {
+        //if the touch is not in its initial position, move the image by the amount the touch has moved since the last event
+            //calculate the difference between the start touch and the current touch for each axis
+            //if the absolute value of the X difference is greater than the Y difference
+                // move the image horizontally
+                //reset the vertical position of the image to 0px
+            //else
+            //move the image vertically
+            //reset the horizontal position of the image to 0px
+        //set the last touch position to the current touch position
+    }
+
+    function end(event) {
+        //set the end coordinate of each axis to the touch position
+        //calculate the absolute value of difference between the start touch and the end touch for each axis
+        // if the distance from the start to end on the X axis is greater than the minimum swipe distance and
+        // the difference of the X axis is greater than the Y axis
+            //if the image index is greater than 0
+                //decrement the image index
+                //change the image src property to the previous image in the list
+            //else
+            //set the image index to the last image in the list
+            //change the image src property to the last image in the list
+        // else if the distance from the start to end on the X axis is less than the minimum swipe distance and
+        // the difference of the X axis is greater than the Y axis
+            //if the image index is less than the length of the image list
+                //increment the image index
+                //change the image src property to the next image in the list
+            //else
+            //reset the image index to 0
+            //change the image src property to the first image in the list
+        // else if the distance from the start to end on the Y axis is greater than the minimum swipe distance and
+        // the difference of the Y axis is greater than the X axis
+            //if there is at least one image in the list
+                //remove this image from the list
+                //if the image index is greater than the length of the image list
+                    //decrement the image index
+                //else
+                //change the image src property to the current image in the list
+            //change the image src property to the current image in the list
+        // else if the distance from the start to end on the Y axis is less than the minimum swipe distance and
+        // the difference of the Y axis is greater than the X axis
+            //add this image to the end of the list
+        //reset the horizontal and vertical position of the image to 0px
+        //reset the last touch position of each exis to 0
+    }
+
+</script>
+
+</html>
