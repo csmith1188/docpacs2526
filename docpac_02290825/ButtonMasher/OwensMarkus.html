@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        score = 0;
+        timer = 20;
+        direction = 0;
+        setInterval(functb, 1000);
+        function functb() {
+            if (timer > 0)
+                timer -= 1
+            timerbox.innerHTML = timer;
+        }
+        function functc() {
+            dirnum = Math.floor(Math.random() * 4);
+            direction = dirnum;
+            if (dirnum == 0) {
+                directionbox.innerHTML = "up";
+            } else if (dirnum == 1) {
+                directionbox.innerHTML = "right";
+            } else if (dirnum == 2) {
+                directionbox.innerHTML = "down";
+            } else if (dirnum == 3) {
+                directionbox.innerHTML = "left";
+            }
+        }
+        function functgame(gamepad) {
+            if (gamepad.buttons[0].pressed) {
+                if (timer > 0 && gamepad.axes[1] <= -0.5 && direction == 0) {
+                    score += 1
+                    scorebox.innerHTML = score;
+                }
+                else if (timer > 0 && gamepad.axes[0] >= 0.5 && direction == 1) {
+                    score += 1
+                    scorebox.innerHTML = score;
+
+                }
+                else if (timer > 0 && gamepad.axes[1] >= 0.5 && direction == 2) {
+                    score += 1
+                    scorebox.innerHTML = score;
+                } else if (timer > 0 && gamepad.axes[0] <= -0.5 && direction == 3) {
+                    score += 1
+                    scorebox.innerHTML = score;
+                }
+
+            }
+        }
+        function update() {
+            const gamepads = navigator.getGamepads();
+            for (let pad of gamepads) {
+                if (pad) {
+                    functgame(pad)
+                    refreshpage(pad)
+                }
+            }
+            requestAnimationFrame(update);
+        }
+        window.addEventListener("gamepadconnected", (e) => {
+            console.log(`gamepad connected at index ${e.gamepad.index}`);
+            requestAnimationFrame(update);
+        });
+        setInterval(functc, 2000);
+        
+        function refreshpage(gamepad) {
+            if (gamepad.buttons[9].pressed) {
+                window.location.reload();
+            }
+                
+        }
+    </script>
+    <div id="scorebox">
+
+    </div>
+    <div id="timerbox">
+
+    </div>
+    <div id="directionbox">
+
+    </div>
+</body>
+
+</html>
