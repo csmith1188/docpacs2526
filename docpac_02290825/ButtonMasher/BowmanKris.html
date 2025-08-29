@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Masher</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+
+        #gameBoxes {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        #timerBox,
+        #scoreBox,
+        #directionBox {
+            border: 1px solid black;
+            padding: 10px;
+            width: 100px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Button Masher</h1>
+    <p>Move the joystick to the correct direction and mash "A" as fast as you can!</p>
+    <p>When the timer reaches zero, press "Start" to reload the page.</p>
+
+    <div id="gameBoxes">
+        <label for="timerBox">Score:</label>
+        <div id="scoreBox">0</div>
+        <label for="timerBox">Time Left:</label>
+        <div id="timerBox">20</div>
+        <label for="directionBox">Direction:</label>
+        <div id="directionBox">Up</div>
+    </div>
+</body>
+
+<script>
+    // Step 2a: create variables for score, timer, and direction
+    let score = 0;
+    let timer = 20;
+    let direction
+
+    // create variables for each box
+    let timerBox = document.getElementById("timerBox");
+    let scoreBox = document.getElementById("scoreBox");
+    let directionBox = document.getElementById("directionBox");
+
+    // Step 2b: set interval function for timer
+    setInterval(() => {
+        if (timer > 0) {
+            timer--;
+            timerBox.innerHTML = timer;
+        }
+    }, 1000);
+
+    // Step 2c: set interval function for direction
+    setInterval(() => {
+        let directionList = ["Up", "Right", "Down", "Left"];
+        let direction = directionList[Math.floor(Math.random() * directionList.length)];
+        directionBox.innerHTML = direction;
+    }, 2000);
+
+    window.addEventListener("gamepadconnected", (event) => {
+        console.log("Gamepad connected:", event.gamepad);
+
+        requestAnimationFrame(handleGamepad);
+    });
+
+    function handleGamepad() {
+        // Get gamepad events
+        let gamepad = navigator.getGamepads()[0];
+
+        // Read button input
+        let buttonA = gamepad.buttons[0]; // A button
+        let buttonAPressState = false;
+        let buttonStart = gamepad.buttons[9]; // Start button
+        let buttonStartPressState = false;
+
+        // Read joystick axes
+        let xAxis = gamepad.axes[0]; // Left joystick horizontal
+        let yAxis = gamepad.axes[1]; // Left joystick vertical
+        let axesDirection = "";
+
+        // Determine joystick direction
+        if (yAxis < -0.5) {
+            axesDirection = "Up";
+        } else if (yAxis > 0.5) {
+            axesDirection = "Down";
+        } else if (xAxis < -0.5) {
+            axesDirection = "Left";
+        } else if (xAxis > 0.5) {
+            axesDirection = "Right";
+        } else {
+            axesDirection = "Neutral"; // Add a default value for when no direction is detected
+        }
+
+        let direction = directionBox.innerHTML; // Get the current displayed direction
+
+        // Check if button A is pressed and if the joystick direction matches the displayed direction
+        if (buttonA.pressed) {
+            buttonAPressState = true;
+            console.log("Button A pressed");
+            console.log(buttonAPressState);
+            if (axesDirection === direction && timer > 0) {
+                score++;
+                scoreBox.innerHTML = score;
+            }
+        } else if (!buttonA.pressed) {
+            buttonAPressState = false;
+        }
+
+        // Continue the game loop
+        if (buttonStart.pressed) {
+            buttonStartPressState = true;
+            window.location.reload();
+        }
+        requestAnimationFrame(handleGamepad);
+    };
+</script>
+
+</html>

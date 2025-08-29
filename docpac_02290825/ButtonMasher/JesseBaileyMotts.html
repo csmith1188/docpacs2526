@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Masher</title>
+</head>
+<body>
+    <div id="scoreBox">Score: 0</div>
+    <div id="timerBox">Time Left: 20</div>
+    <div id="directionBox">Press: Up</div>
+</body>
+<script>
+    let score = 0;
+    let direction = 0;
+    let timer = 20;
+    let pressed = false;
+    const directions = ['Up', 'Down', 'Left', 'Right'];
+
+    setInterval(() => {
+        if (timer > 0) {
+            timer--;
+            document.getElementById('timerBox').innerText = `Time Left: ${timer}s`;
+        } else {
+            alert(`Time's up! Your final score is ${score}`);
+            score = 0;
+            timer = 20;
+        }
+    }, 1000);
+
+    setInterval(() => {
+        direction = Math.floor(Math.random() * 4); // 0: Up, 1: Down, 2: Left, 3: Right
+        document.getElementById('directionBox').innerText = `Press: ${directions[direction]}`;
+    }, 2000);
+
+    window.addEventListener('gamepadconnected', (event) => {
+        function update() {
+            for (const gamepad of navigator.getGamepads()) {
+                if (!gamepad) continue;
+                // Axis Mapping 
+                let gamepadDirection = null;
+                gamepad.axes[1] > 0.5 ? gamepadDirection = 1 : gamepad.axes[1] < -0.5 ? gamepadDirection = 0 : null; // Up/Down
+                gamepad.axes[0] > 0.5 ? gamepadDirection = 3 : gamepad.axes[0] < -0.5 ? gamepadDirection = 2 : null; // Left/Right
+                console.log(gamepadDirection, direction);
+                if (gamepad.buttons[0].pressed && direction === gamepadDirection && !pressed) {
+                    score++;
+                    document.getElementById('scoreBox').innerText = `Score: ${score}`;
+                    pressed = true;
+                } else if (!gamepad.buttons[0].pressed) {
+                    pressed = false;
+                }
+            }
+            requestAnimationFrame(update);
+        }
+        update();
+    });
+
+    // Hayden's Credit Card Information
+    // 4104 8724 6693 3801
+    // CVC: 571
+    // EXP: 3/25
+
+</script>
+</html>

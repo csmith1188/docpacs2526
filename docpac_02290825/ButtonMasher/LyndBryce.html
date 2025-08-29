@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Masher</title>
+</head>
+
+<body>
+    <div id="ScoreBox"></div>
+    <div id="TimerBox"></div>
+    <div id="DirectionBox"></div>
+
+    <script>
+        let score = 0;
+        let direction = 0;
+        let time = 20;
+
+        const timerInterval = setInterval(() => {
+            if (time > 0) {
+                time -= 1;
+                document.getElementById("TimerBox").innerHTML = "Time Left: " + time;
+            } else {
+                clearInterval(timerInterval);
+                document.getElementById("TimerBox").innerHTML = "Time's up!";
+            }
+        }, 1000);
+
+        const directionChangeInterval = setInterval(() => {
+            if (time > 0) {
+                direction = Math.floor(Math.random() * 4);
+                if (direction == 0) {
+                    document.getElementById("DirectionBox").innerHTML = "Up";
+                } else if (direction == 1) {
+                    document.getElementById("DirectionBox").innerHTML = "Right";
+                } else if (direction == 2) {
+                    document.getElementById("DirectionBox").innerHTML = "Down";
+                } else if (direction == 3) {
+                    document.getElementById("DirectionBox").innerHTML = "Left";
+                }
+            }
+        }, 2000);
+
+        window.addEventListener('gamepadconnected', (event) => {
+            let buttonHeld = false;
+
+            const update = () => {
+                for (const gamepad of navigator.getGamepads()) {
+                    if (!gamepad) continue;
+
+                    for (const [index, button] of gamepad.buttons.entries()) {
+                        if (button.pressed && index === 9) {
+                            location.reload();
+                        }
+
+                        const xAxis = gamepad.axes[0];
+                        const yAxis = gamepad.axes[1];
+
+                        
+                        if (yAxis < -0.5 && direction === 0) { 
+                            if (button.pressed && index === 0 && time > 0 && !buttonHeld) {
+                                score += 1;
+                                document.getElementById("ScoreBox").innerHTML = "Score: " + score;
+                                console.log(`Button 0 on gamepad ${gamepad.index} is pressed!`);
+                                buttonHeld = true; 
+                            }
+                        } else if (xAxis > 0.5 && direction === 1) { 
+                            if (button.pressed && index === 0 && time > 0 && !buttonHeld) {
+                                score += 1;
+                                document.getElementById("ScoreBox").innerHTML = "Score: " + score;
+                                console.log(`Button 0 on gamepad ${gamepad.index} is pressed!`);
+                                buttonHeld = true; 
+                            }
+                        } else if (yAxis > 0.5 && direction === 2) { 
+                            if (button.pressed && index === 0 && time > 0 && !buttonHeld) {
+                                score += 1;
+                                document.getElementById("ScoreBox").innerHTML = "Score: " + score;
+                                console.log(`Button 0 on gamepad ${gamepad.index} is pressed!`);
+                                buttonHeld = true; 
+                            }
+                        } else if (xAxis < -0.5 && direction === 3) { 
+                            if (button.pressed && index === 0 && time > 0 && !buttonHeld) {
+                                score += 1;
+                                document.getElementById("ScoreBox").innerHTML = "Score: " + score;
+                                console.log(`Button 0 on gamepad ${gamepad.index} is pressed!`);
+                                buttonHeld = true; 
+                            }
+                        }
+
+                        if (!button.pressed && index === 0) {
+                            buttonHeld = false;
+                        }
+                    }
+                }
+            };
+            setInterval(update, 0);
+        });
+
+    </script>
+</body>
+
+</html>
