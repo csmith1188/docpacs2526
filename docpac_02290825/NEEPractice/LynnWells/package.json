@@ -1,6 +1,7 @@
 {
+  "type": "module",
   "dependencies": {
     "ejs": "^3.1.10",
-    "express": "^5.1.0"
+    "express": "^4.19.2"
   }
 }
