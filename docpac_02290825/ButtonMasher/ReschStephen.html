@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="scoreBox"></div>
+    <div id="timerBox"></div>
+    <div id="directionBox"></div>
+    <script>
+        var score = 0;
+        var timer = 20;
+        var direction = 0;
+        var buttonPressed = false;
+
+        function handleGamepadInput(gamepad) {
+            if (gamepad.buttons[9].pressed) {
+                window.location.reload();
+            }
+            if (gamepad.buttons[0].pressed && !buttonPressed && timer > 0) {
+                switch (direction) {
+                    case 0:
+                        if (gamepad.axes[1] < -0.5) {
+                            score++;
+                            document.getElementById("scoreBox").innerHTML = "Score: " + score;
+                        }
+                        break;
+                    case 1:
+                        if (gamepad.axes[0] > 0.5) {
+                            score++;
+                            document.getElementById("scoreBox").innerHTML = "Score: " + score;
+                        }
+                        break;
+                    case 2:
+                        if (gamepad.axes[1] > 0.5) {
+                            score++;
+                            document.getElementById("scoreBox").innerHTML = "Score: " + score;
+                        }
+                        break;
+                    case 3:
+                        if (gamepad.axes[0] < -0.5) {
+                            score++;
+                            document.getElementById("scoreBox").innerHTML = "Score: " + score;
+                        }
+                        break;
+                }
+                buttonPressed = true;
+            }
+            if (!gamepad.buttons[0].pressed) {
+                buttonPressed = false;
+            }
+        }
+
+        function update() {
+            const gamepads = navigator.getGamepads();
+            for (let pad of gamepads) {
+                if (pad) {
+                    handleGamepadInput(pad);
+                }
+            }
+            requestAnimationFrame(update);
+        }
+
+        window.addEventListener("gamepadconnected", (e) => {
+            console.log(`Gamepad connected at index ${e.gamepad.index}.`);
+            requestAnimationFrame(update);
+        });
+
+        const timerInterval = setInterval(() => {
+            if (timer > 0) {
+                timer -= 1;
+                document.getElementById("timerBox").innerHTML = "Time Remaining: " + timer;
+            } else {
+                clearInterval(timerInterval);
+                document.getElementById("timerBox").innerHTML = "Time's up! Press start to play again.";
+            }
+        }, 1000);
+        if (timer > 0) {
+            document.getElementById("timerBox").innerHTML = timer;
+        }
+
+        setInterval(function () {
+            direction = Math.floor(Math.random() * 4);
+            switch (direction) {
+                case 0:
+                    document.getElementById("directionBox").innerHTML = "up";
+                    break;
+                case 1:
+                    document.getElementById("directionBox").innerHTML = "right";
+                    break;
+                case 2:
+                    document.getElementById("directionBox").innerHTML = "down";
+                    break;
+                case 3:
+                    document.getElementById("directionBox").innerHTML = "left";
+                    break;
+            }
+        }, 2000);
+
+    </script>
+</body>
+
+</html>
