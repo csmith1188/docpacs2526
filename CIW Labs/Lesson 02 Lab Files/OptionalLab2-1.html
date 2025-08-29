@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="utf-8">
+  <title>Optional Lab 2-1</title>
+</head>
+
+<body>
+  <h2>CIW JavaScript Specialist</h2>
+  <h3>JavaScript Retirement Calculator</h3>
+  <hr>
+
+  <div id="output"></div>
+
+  <script>
+    // Prompt user for input
+    const ageInput = prompt("Enter your age:", "");
+    const retirementAgeInput = prompt("Enter your expected retirement age:", "");
+
+    // Convert inputs to numbers
+    const age = Number(ageInput);
+    const retirementAge = Number(retirementAgeInput);
+    const bonusYears = 10;
+
+    // Calculate retirement info
+    const yearsUntilRetirement = retirementAge - age;
+    const extendedRetirementAge = retirementAge + bonusYears;
+
+    // Get output container
+    const output = document.getElementById("output");
+
+    // Display results
+    output.innerHTML = `
+      <p>You have <strong>${yearsUntilRetirement}</strong> years until you retire.</p>
+      <p>If you wait until you are <strong>${extendedRetirementAge}</strong>, your 
+retirement savings can grow much larger!</p>
+    `;
+  </script>
+
+</body>
+</html>

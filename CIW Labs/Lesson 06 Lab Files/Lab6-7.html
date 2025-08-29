@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Lab 6-7</title>
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+	  <h3>Device Information</h3>
+
+	  <p id="memory">Checking device memory...</p>
+	  <p id="cpu">Checking number of CPU cores...</p>
+
+	  <script>
+		document.addEventListener("DOMContentLoaded", () => {
+		  const memoryDisplay = document.getElementById("memory");
+		  const cpuDisplay = document.getElementById("cpu");
+
+		  // Get device memory in GB (approximate)
+		  if ('deviceMemory' in navigator) {
+			memoryDisplay.textContent = `Your device has approximately ${navigator.} GB of RAM.`;
+		  } else {
+			memoryDisplay.textContent = "Your browser does not support reporting device memory.";
+		  }
+
+		  // Get number of logical CPU cores
+		  if ('hardwareConcurrency' in navigator) {
+			cpuDisplay.textContent = `Your device has ${navigator.} logical CPU cores.`;
+		  } else {
+			cpuDisplay.textContent = "Your browser does not support reporting CPU cores.";
+		  }
+		});
+	  </script>
+
+	</body>
+</html>

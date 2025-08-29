@@ -1,0 +1,1 @@
+Note: This lab will preload images and swap them when the user moves the mouse over and away from a link's image. To ensure all links and images function correctly, please keep all associated .html and image files together in the same folder.

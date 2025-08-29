@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <meta charset="utf-8">
+	  <title>Optional Lab 3-3</title>
+	</head>
+
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+	  <p>Click the button below to enter two numbers and see their sum:</p>
+	  <button id="calculateBtn">Add Two Numbers</button>
+	  <div class="result" id="output"></div>
+
+	  <script>
+		// Add two numbers and return the result
+		function addNumbers(arg1, arg2) {
+		  return arg1 + arg2;
+		}
+		
+		// Add two numbers and return the result
+		function handleAddition() {
+		  const input1 = prompt("Please enter a numerical value:");
+		  const input2 = prompt("Please enter another numerical value:");
+		  
+		  const num1 = parseFloat(input1);
+		  const num2 = parseFloat(input2);
+		  
+		  if (isNaN(num1) || isNaN(num2)) {
+			document.getElementById("output").textContent = "Please enter valid numbers.";
+			return;
+		  }
+		  
+		  const result = addNumbers(num1, num2);
+		  document.getElementById("output").textContent =
+			`The result of the addNumbers() function is: ${result}`;
+		}
+		
+		document.getElementById("calculateBtn").addEventListener("click", handleAddition);
+	  </script>
+	</body>
+
+</html>

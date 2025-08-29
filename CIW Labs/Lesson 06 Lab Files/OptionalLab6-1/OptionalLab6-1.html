@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Optional Lab 6-1</title>
+    </head>
+	
+	<body>
+	  <h2>Not a CIW JavaScript Specialist</h2>
+	  <hr>
+		  
+	  <div>
+		<input type="button" value="Open Windows" id="openBtn" />
+		<input type="button" value="Close All Windows" id="closeBtn" />
+	  </div>
+
+	  <script>
+		const windowRefs = {};
+
+		const openWindows = () => {
+		  windowRefs.two = window.open("optlab6-1newwindow.html", "two", "toolbar=no,width=190,height=257,left=200,top=0");
+		  windowRefs.three = window.open("optlab6-1newwindow1.html", "three", "toolbar=no,width=190,height=257,left=400,top=0");
+		  windowRefs.four = window.open("optlab6-1newwindow2.html", "four", "toolbar=no,width=190,height=257,left=600,top=0");
+
+		};
+
+		const closeAllWindows = () => {
+		  Object.values(windowRefs).forEach(win => {
+			if (win && !win.closed) {
+			  win.close();
+			}
+		  });
+		};
+
+		document.addEventListener('DOMContentLoaded', () => {
+		  document.getElementById('openBtn').addEventListener('click', openWindows);
+		  document.getElementById('closeBtn').addEventListener('click', closeAllWindows);
+		});
+	  </script>
+	  
+	</body>
+</html>

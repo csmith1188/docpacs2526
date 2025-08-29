@@ -1,0 +1,1 @@
+Note: This optional lab will open multiple pop-up windows during execution. To ensure all links function correctly, please keep all associated .html files together in the same folder.

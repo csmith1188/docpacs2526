@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Lab 9-2</title>
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+		<b>List of developers:</b>
+		<ul>
+		  <li>Valve</li>
+		  <li>Bethesda</li>
+		  <li>Orion</li>
+		</ul>
+
+		<!-- Display the first <li> content here -->
+		<p id="output"></p>
+
+		<script>
+		  const q = document.getElementsByTagName('li');
+		  // Show the first <li> element's content inside the paragraph with id "output"
+		  document.getElementById('output').textContent = q[0].innerHTML;
+		</script>
+
+	</body>
+</html>

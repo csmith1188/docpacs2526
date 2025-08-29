@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Lab 13-2</title>
+		<link href="https://fonts.googleapis.com/css?family=Fauna+One|Muli" rel="stylesheet">
+		<link rel="stylesheet" href="style.css">
+
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+      <div id="mainform">
+        <div class="innerdiv">
+            <!-- Required Div Starts Here -->
+            <h3>Form Validation Using AJAX</h3>
+            <form action="#" id="myForm" method="post" name="myForm">
+                <h3>Fill Your Information!</h3>
+                <table>
+                    <tr>
+                        <td>Username</td>
+                        <td><input id="username1" name="username" type="text" onblur="validate('username', this.value)"></td>
+                        <td><div id="username"></div></td>
+                    </tr>
+                    <tr>
+                        <td>Password</td>
+                        <td><input id="password1" name="password" type="password" onblur="validate('password', this.value)"></td>
+                        <td><div id="password"></div></td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td><input id="email1" name="email" type="text" onblur="validate('email', this.value)"></td>
+                        <td><div id="email"></div></td>
+                    </tr>
+                    <tr>
+                        <td>Website</td>
+                        <td><input id="website1" name="website" type="text" onblur="validate('website', this.value)"></td>
+                        <td><div id="website"></div></td>
+                    </tr>
+                </table>
+                <input id="submitBtn" type="button" value="Submit">
+            </form>
+            <div id="successMessage" style="color: green; text-align: center; margin-top: 60px;"></div>
+        </div>
+      </div>
+
+      <script src="script.js"></script>
+	  
+	</body>
+</html>

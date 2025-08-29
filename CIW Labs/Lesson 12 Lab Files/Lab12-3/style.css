@@ -1,0 +1,46 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+form div {
+  margin-bottom: 15px;
+}
+
+label {
+  display: inline-block;
+  width: 180px;
+}
+
+input, textarea {
+  width: 250px;
+  padding: 5px;
+}
+
+textarea {
+  height: 100px;
+}
+
+input[type="checkbox"] {
+  width: auto;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #2563eb;
+}
+
+.parsley-errors-list {
+  color: red;
+  list-style: none;
+  padding-left: 0;
+  margin: 5px 0 0 0;
+  font-size: 0.9em;
+}

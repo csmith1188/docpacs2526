@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Lab 5-1</title>
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+	  <form id="gradeForm">
+		<label for="gradeSelect">Select numerical grade value:</label>
+		<select id="gradeSelect">
+		  <!-- Grade options from 100 to 70 -->
+		  <option value="100">100</option>
+		  <option value="99">99</option>
+		  <option value="98">98</option>
+		  <option value="97">97</option>
+		  <option value="96">96</option>
+		  <option value="95">95</option>
+		  <option value="94">94</option>
+		  <option value="93">93</option>
+		  <option value="92">92</option>
+		  <option value="91">91</option>
+		  <option value="90">90</option>
+		  <option value="89">89</option>
+		  <option value="88">88</option>
+		  <option value="87">87</option>
+		  <option value="86">86</option>
+		  <option value="85">85</option>
+		  <option value="84">84</option>
+		  <option value="83">83</option>
+		  <option value="82">82</option>
+		  <option value="81">81</option>
+		  <option value="80">80</option>
+		  <option value="79">79</option>
+		</select>
+		<p><button type="submit">Check Grade</button></p>
+	  </form>
+	  
+	  <p id="result" style="font-weight: bold;"></p>
+	  
+	  <script>
+		// Add event listener to form submit
+		document.getElementById("gradeForm").addEventListener("submit", function(event) {
+			  event.preventDefault(); // Prevent page reload
+			  const grade = Number(document.getElementById("gradeSelect").value);
+			  let message;
+	  </script>
+	</body>
+
+</html>

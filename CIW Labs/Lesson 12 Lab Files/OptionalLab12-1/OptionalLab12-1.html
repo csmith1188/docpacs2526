@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Optional Lab 12-1</title>
+	  <link rel="stylesheet" href="css.css">
+	  <script defer src="https://unpkg.com/alpinejs@3.12.0/dist/cdn.min.js"></script>
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+		<p>Simple Drop-Down Menu</p>
+
+		<nav x-data="{ open: false }" class="dropdown">
+		  <button
+			@click="open = !open"
+			@keydown.escape="open = false"
+			aria-haspopup="true"
+			:aria-expanded="open.toString()"
+			aria-controls="menu"
+			class="dropdown-button"
+			id="menuButton"
+		  >
+			Menu
+		  </button>
+
+		  <ul
+			x-show="open"
+			x-transition
+			x-cloak
+			id="menu"
+			role="menu"
+			class="dropdown-menu"
+			@click.away="open = false"
+			tabindex="-1"
+		  >
+			<li role="none"><a href="Option1.html" role="menuitem" tabindex="0">Level 1</a></li>
+			<li role="none"><a href="Option2.html" role="menuitem" tabindex="0">Level 2</a></li>
+			<li role="none"><a href="Option3.html" role="menuitem" tabindex="0">Level 3</a></li>
+		  </ul>
+		</nav>
+	  </div>
+
+	  <script src="script.js"></script>
+	  
+	</body>
+</html>

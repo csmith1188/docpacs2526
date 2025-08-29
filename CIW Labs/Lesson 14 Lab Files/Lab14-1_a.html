@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Lab 14-1a</title>
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+	  <form>
+		<label>First Name: <input type="text" id="firstName"></label>
+		<button type="button" class="save">Save Name</button>
+		<button type="button" class="access">Get Name</button>
+	  </form>
+
+	  <script>
+		if (typeof localStorage !== "undefined") {
+		  const saveButton = document.querySelector(".save");
+		  const accessButton = document.querySelector(".access");
+		  const firstNameInput = document.getElementById("firstName");
+
+		  saveButton.addEventListener("click", () => {
+			const firstName = firstNameInput.value.trim();
+			if (firstName) {
+			  localStorage.setItem("first_name", firstName);
+			  alert("Your first name has been saved.");
+			} else {
+			  alert("Please enter your first name before saving.");
+			}
+		  });
+
+		  accessButton.addEventListener("click", () => {
+			const storedName = localStorage.getItem("first_name");
+			if (storedName) {
+			  alert("Hi, " + storedName);
+			} else {
+			  alert("No name is saved yet.");
+			}
+		  });
+		} else {
+		  alert("Sorry, your browser does not support local storage.");
+		}
+	  </script>
+	  
+	</body>
+</html>                  

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Lab 9-4</title>
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+	  <div id="SetDiv" data-special="CIW rules!">
+		<p>What are the attributes of this div tag?</p>
+	  </div>
+
+	  <input type="button" id="btn" value="Click Me!">
+	  <p>Please click the button now.</p>
+
+	  <script>
+		const div = document.getElementById("SetDiv");
+		const button = document.getElementById("btn");
+
+		if (!div) {
+		  console.error("Error: Element with ID 'SetDiv' not found.");
+		} else {
+		  button.addEventListener("click", getValues);
+
+		  function getValues() {
+			// Getting attributes
+			
+			
+
+			changeValues();
+		  }
+
+		  function changeValues() {
+			// Setting an attribute
+
+
+
+			removeValues();
+		  }
+
+		  function removeValues() {
+			// Removing an attribute
+
+
+
+			changeValuesBack();
+		  }
+
+		  function changeValuesBack() {
+			// Setting an attribute again
+
+
+
+		  }
+		}
+	  </script>
+	</body>
+</html>

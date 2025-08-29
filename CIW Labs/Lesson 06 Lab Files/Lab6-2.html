@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Lab 6-2</title>
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+
+	  <button type="button" id="openWindowBtn">Open New Window</button>
+
+	  <script>
+		document.addEventListener('DOMContentLoaded', () => {
+		  const openWindowBtn = document.getElementById('openWindowBtn');
+
+		  openWindowBtn.addEventListener('click', () => {
+			const popup = 
+
+		
+			}
+
+			// Build a safe HTML structure using DOM methods
+			popup.document.title = 'Popup Window';
+
+			const style = popup.document.createElement('style');
+			style.textContent = 'body { font-family: sans-serif; padding: 10px; }';
+			popup.document.head.appendChild(style);
+
+			const heading = popup.document.createElement('h4');
+			heading.textContent = 'Popup Window';
+			popup.document.body.appendChild(heading);
+
+			const closeBtn = popup.document.createElement('button');
+			closeBtn.textContent = 'Close';
+			closeBtn.type = 'button';
+			closeBtn.addEventListener('click', () => popup.close());
+
+			popup.document.body.appendChild(closeBtn);
+		  });
+		});
+	  </script>
+
+	</body>
+</html>
