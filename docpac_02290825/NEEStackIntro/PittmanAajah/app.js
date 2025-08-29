@@ -12,12 +12,8 @@ app.get('/', (req, res) => {
     res.send('Welcome to My App!!');
 });
 
-app.get('/endpoint', (req, res) => {
-    let name = 'Guest'; 
-    if (req.query.name) {
-        usernname = req.query.name;
-    }
-    
-    res.render('templatefile', { name: username });
+app.get('/template', (req, res) => {
+    const username = req.query.name || 'Guest'; 
+    res.render('template', { name: username });
 });
 
