@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="score box"></div>
+    <div id="timer box"></div>
+    <div id="direction box"></div>
+</body>
+<script>
+    var score = 0
+    var timer = 20
+    var direction = 0
+    setInterval(()=>{
+        if (timer > 0) {
+            timer = timer - 1
+            if (timer == 0) {
+            alert("Time's up! Your score is " + score)
+            }
+        }
+        document.getElementById("timer box").innerHTML = timer
+    }, 1000);
+    
+    setInterval(()=>{
+        if (timer > 0) {
+            direction = Math.floor(Math.random() * 4)
+        if (direction == 0) {
+            document.getElementById("direction box").innerHTML = "UP"
+        }
+        if (direction == 1) {
+            document.getElementById("direction box").innerHTML = "DOWN"
+        }
+        if (direction == 2) {
+            document.getElementById("direction box").innerHTML = "LEFT"
+        }
+        if (direction == 3) {
+            document.getElementById("direction box").innerHTML = "RIGHT"
+        }
+        }
+    }, 2000);
+    window.addEventListener("gamepadconnected", function(e) {
+        console.log("Gamepad connected at index %d: %s. %d buttons, %d axes.",
+        e.gamepad.index, e.gamepad.id,
+        e.gamepad.buttons.length, e.gamepad.axes.length);
+        setInterval(pollGamepad, 100);
+    });
+    function pollGamepad() {
+        var gamepads = navigator.getGamepads();
+        if (!gamepads) {
+            return;
+        }
+        var gp = gamepads[0];
+        if (gp.buttons[0].pressed && timer > 0) { // A button
+            if ( gp.axes[1] == -1 && direction == 0) { // Up
+            score = score + 1
+            document.getElementById("score box").innerHTML = score
+        }
+        if ( gp.axes[1] == +1 && direction == 1 && timer > 0) { // Down
+            score = score + 1
+            document.getElementById("score box").innerHTML = score
+        }
+        if ( gp.axes[0] == -1 && direction == 2 && timer > 0) { // Left
+            score = score + 1
+            document.getElementById("score box").innerHTML = score
+        }
+        if ( gp.axes[0] == +1 && direction == 3 && timer > 0) { // Right
+            score = score + 1
+            document.getElementById("score box").innerHTML = score
+        }
+        }
+        
+        if (gp.buttons[9].pressed) { // Start button
+            window.location.reload();
+        }
+    }
+
+</script>
+</html>

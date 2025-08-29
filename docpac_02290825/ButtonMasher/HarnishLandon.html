@@ -4,8 +4,6 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Button Masher</title>
-
-        <link rel="stylesheet" href="./style.css">
     </head>
     <body>
         <div id="scoreBox">Score: <strong>0</strong></div>
@@ -64,7 +62,7 @@ window.addEventListener('gamepadconnected', () => {;
 
             const leftStickAxes = [0, 1]; // Left Stick axes on a regular Xbox Controller
             const primButtonIndex = 0; // A button on a regular Xbox Controller
-            const startButtonIndex = 11; // A button on a regular Xbox Controller
+            const startButtonIndex = 9; // A button on a regular Xbox Controller
 
             const deadZone = 0.5; // Add deadzone to prevent drift
 
@@ -96,9 +94,6 @@ window.addEventListener('gamepadconnected', () => {;
             if(gamepad.buttons[startButtonIndex].pressed) location.reload();
 
             isAHeld = gamepad.buttons[primButtonIndex].pressed;
-
-            console.log(directions);
-            
 
         requestAnimationFrame(controllerUpdate)
         };
