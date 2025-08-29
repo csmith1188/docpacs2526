@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>"Use the left joystick to match the direction shown and spam the A button as fast as possible!"</h1>
+    <div id="scoreBox">
+
+    </div>
+    <div id="timerBox">
+        
+    </div>
+    <div id="directionBox">
+
+    </div>
+</body>
+<script>
+// Functions and Variables (Startup)
+    // Gamepad Button Press thing
+    let gamepad = null;
+
+    window.addEventListener("gamepaddisconnected", (e) => {
+        console.log("Gamepad disconnected:", e.gamepad.id);
+        gamepad = null;
+    });
+
+    let previousButtonState = false; // Tracks the previous state of the button
+
+function gameLoop() {
+    if (gamepad) {
+        const currentGamepad = navigator.getGamepads()[gamepad.index];
+        var leftJoystickDirection = "input";
+        if (currentGamepad.buttons[9].pressed) {
+                refreshPage()
+            }
+
+        if (currentGamepad.axes[0] == 1) {
+            leftJoystickDirection = "right";
+        } else if (currentGamepad.axes[0] == -1) {
+            leftJoystickDirection = "left";
+        } else if (currentGamepad.axes[1] == 1) {
+            leftJoystickDirection = "down";
+        } else if (currentGamepad.axes[1] == -1) {
+            leftJoystickDirection = "up";
+        } else {
+            leftJoystickDirection = "center";
+        }
+
+        // Detect button press event
+        const currentButtonState = currentGamepad.buttons[0].pressed;
+        if (currentButtonState && !previousButtonState) {
+            // Button was just pressed
+            if (timer > 0 && leftJoystickDirection == direction) {
+                    score += 1;
+                    scoreBox.innerHTML = "Score: " + score;
+            }
+        }
+
+        // Update the previous button state
+        previousButtonState = currentButtonState;
+    }
+
+    requestAnimationFrame(gameLoop);
+}
+    function countdown() {
+        if (timer > 0) {
+            timer -= 1
+            timerBox.innerHTML = "Time Left: " + timer
+        }
+    }
+    function directionFunct() {
+        if (timer > 0) {
+            var min = 0
+            var max = 3
+            direction = Math.floor(Math.random() * (max - min + 1)) + min
+            if (direction == 0) {
+                direction = "up"
+            } else if (direction == 1) {
+                direction = "right"
+            } else if (direction == 2) {
+                direction = "down"
+            } else if (direction == 3) {
+                direction = "left"
+            } else {
+                direction = "Error"
+            }
+            directionBox.innerHTML = "Direction: " + direction
+        } else {
+            directionBox.innerHTML = "Game Over. Press the Start button to play again!"
+        }
+    }
+    function refreshPage() {
+        location.reload();
+    }
+
+    var score = 0
+    var direction = 0
+    var timer = 20
+    var timerBox = document.getElementById("timerBox")
+    var directionBox = document.getElementById("directionBox")
+    var scoreBox = document.getElementById("scoreBox")
+    scoreBox.innerHTML = "Score: " + score
+    timerBox.innerHTML = "Time Left: " + timer
+    directionBox.innerHTML = "Directon: " + direction
+// Program
+    setInterval(countdown, 1000)
+    setInterval(directionFunct, 2000)
+    window.addEventListener("gamepadconnected", (e) => {
+        console.log("Gamepad connected:", e.gamepad.id);
+        gamepad = e.gamepad;
+        gameLoop();
+    });
+</script>
+</html>
