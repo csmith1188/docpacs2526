@@ -9,9 +9,6 @@
 
 <body>
 
-
-
-
     <div id="scoreBox"> Score</div>
 
     <div id="timerBox"></div>
@@ -25,48 +22,42 @@
         score = 0
         //Starts the game off with no direction
         direction = 0
-        let buttonPressed = false
+        let buttonPressed = true
         var scoreBox = document.getElementById('scoreBox');
         setInterval(timerCount, 1000);
         setInterval(directionChange, 2000);
-        buttonPressed = false
-
         window.addEventListener('gamepadconnected', (event) => {
             const update = () => {
+
+                //Makes the controller do thing and makes it not be able to be held down
                 for (const gamepad of navigator.getGamepads()) {
                     if (!gamepad) continue;
 
-                    if (gamepad.buttons[9].pressed != buttonPressed) {
-                        buttonPressed = gamepad.buttons[9].pressed
-                        if (buttonPressed) {
-                            location.reload();
+                    if (gamepad.buttons[0].pressed && timer > 0 && buttonPressed) {
+                        if (gamepad.axes[1] <= -1 && direction == 0) {
+                            score++
+                            buttonPressed = false
+                        }
+                        else if (gamepad.axes[1] >= 1 && direction == 2) {
+                            score++
+                            buttonPressed = false
+                        }
+                        else if (gamepad.axes[0] <= -1 && direction == 3) {
+                            score++
+                            buttonPressed = false
+                        }
+                        else if (gamepad.axes[0] >= 1 && direction == 1) {
+                            score++
                             buttonPressed = false
                         }
                     }
+                    else if (!gamepad.buttons[0].pressed && !buttonPressed) {
+                        buttonPressed = true
+                    }
+                    scoreBox.innerHTML = 'Score: ' + score
 
-                    if (gamepad.buttons[0].pressed != buttonPressed) {
-                        buttonPressed = gamepad.buttons[0].pressed
-                        if (buttonPressed) {
-                            if (gamepad.axes[1] == -1.0 && direction == 0 && timer > 0 && buttonPressed) {
-                                score++
-                                scoreBox.innerHTML = score
-                                buttonPressed = false
-                            } else if (gamepad.axes[1] == 1.0 && direction == 2 && timer > 0 && buttonPressed) {
-                                score++
-                                scoreBox.innerHTML = score
-                                buttonPressed = false
-                            } else if (gamepad.axes[0] == -1.0 && direction == 3 && timer > 0 && buttonPressed) {
-                                score++
-                                scoreBox.innerHTML = score
-                                buttonPressed = false
-                            } else if (gamepad.axes[0] == 1.0 && direction == 1 && timer > 0 && buttonPressed) {
-                                score++
-                                scoreBox.innerHTML = score
-                                buttonPressed = false
-                            } else if (!gamepad.buttons[0].pressed && !buttonPressed) {
-                                buttonPressed = true
-                            }
-                        }
+                    if (gamepad.buttons[9].pressed) {
+                        location.reload();
                     }
                 }
                 requestAnimationFrame(update);
@@ -75,7 +66,6 @@
         });
 
         function timerCount() {
-            // counts the timer down
             let timerBox = document.getElementById('timerBox');
 
             if (timer > 0) {
@@ -84,15 +74,7 @@
             }
         }
 
-
-        function axisChange() {
-
-
-        }
-
-
         function directionChange() {
-            // changes the direction listed
             let directionBox = document.getElementById('directionBox');
             up = 0
             right = 1
@@ -110,8 +92,6 @@
                     directionBox.innerHTML = 'Left'
                 }
             }
-
-
         }
 
     </script>
