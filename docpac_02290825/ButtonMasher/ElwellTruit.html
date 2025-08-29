@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Masher</title>
+</head>
+
+<body>
+    <div id="score">Score: 0</div>
+    <div id="timer">Timer: 20</div>
+    <div id="dir">Direction: Left</div>
+    <button onclick="location.reload()">Restart</button>
+</body>
+
+<script>
+
+    let controller = null
+    let score = 0
+    let timer = 20
+    let direction = 0
+
+    window.addEventListener("gamepadconnected", (event) => {
+        console.log("Gamepad connected:", event.gamepad)
+        controller = event.gamepad;
+    });
+
+    function tDown() {
+
+        if (timer > 0) {
+            timer--
+            document.getElementById("timer").innerText = "Time left: " + timer
+
+        } else {
+            clearInterval(timerInterval)
+            clearInterval(dirInterval)
+        }
+    }
+
+    function changeDir() {
+        direction = Math.floor(Math.random() * 4)
+        let textDirection
+        if (direction === 0) {
+            textDirection = "Left"
+        } else if (direction === 1) {
+            textDirection = "Up"
+        } else if (direction === 2) {
+            textDirection = "Right"
+        } else if (direction === 3) {
+            textDirection = "Down"
+        }
+        document.getElementById("dir").innerText = "Direction: " + textDirection
+    }
+
+    let pressedButtons = []
+    let userDirection = false
+
+    function loop() {
+
+        let gamepads = navigator.getGamepads();
+        userDirection = false;
+
+        if (gamepads[0]) {
+            for (let i = 0; i < gamepads[0].axes.length; i++) {
+                let axisValue = gamepads[0].axes[i]
+                // Direction mapping: left=0, up=1, right=2, down=3
+                if (i === 0) { // horizontal axis
+                    if (axisValue < -0.9) {
+                        userDirection = 0
+                    } else if (axisValue > 0.9) {
+                        userDirection = 2
+                    }
+                }
+                if (i === 1) { // vertical axis
+                    if (axisValue < -0.9) {
+                        userDirection = 1
+                    } else if (axisValue > 0.9) {
+                        userDirection = 3
+                    }
+                }
+            }
+
+            for (let i = 0; i < gamepads[0].buttons.length; i++) {
+                if (gamepads[0].buttons[i].pressed && !pressedButtons.includes(i)) {
+                    console.log(i);
+                    pressedButtons.push(i);
+                    if (userDirection === direction && timer > 0 && i == 0) {
+                        score++;
+                    }
+                } else if (!gamepads[0].buttons[i].pressed && pressedButtons.includes(i)) {
+                    pressedButtons.splice(pressedButtons.indexOf(i), 1);
+                }
+            }
+        }
+
+        document.getElementById("score").innerText = "Score: " + score
+
+        requestAnimationFrame(loop)
+    }
+
+    requestAnimationFrame(loop)
+    let dirInterval = setInterval(changeDir, 2000)
+    let timerInterval = setInterval(tDown, 1000)
+
+</script>
+
+</html>
