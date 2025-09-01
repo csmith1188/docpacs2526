@@ -18,8 +18,7 @@
     let currentDirection = 0;
     let running = true;
     let locked = false;
-    const cd = 150;
-    let pressed = false;
+    let pressed = false; 
 
     const dbox = document.getElementById("directionBox");
     const tbox = document.getElementById("timerBox");
@@ -60,44 +59,47 @@
       let gp;
       if (navigator.getGamepads) {
         const pads = navigator.getGamepads();
-        gp = pads[0];
+        gp = pads && pads[0];
       }
 
       if (gp) {
+        if (gp.buttons[9].pressed) {
+          location.reload();
+          return;
+        }
+
         let x = gp.axes[0];
         let y = gp.axes[1];
         let aButton = gp.buttons[0];
 
-        if (Math.abs(x) > Math.abs(y)) {
-          if (x > 0.5 && aButton.pressed && !locked) {
-            console.log("right");
-            if (currentDirection === 1) scorePoint();
-            locked = true;
-            setTimeout(() => locked = false, cd);
-          } else if (x < -0.5 && aButton.pressed && !locked) {
-            console.log("left");
-            if (currentDirection === 3) scorePoint();
-            locked = true;
-            setTimeout(() => {
-              locked = false
-            }, cd);
+        if (aButton.pressed && !pressed && !locked) {
+          locked = true;
+
+          if (Math.abs(x) > Math.abs(y)) {
+            if (x > 0.5) {
+              console.log("right");
+              if (currentDirection === 1) scorePoint();
+            } else if (x < -0.5) {
+              console.log("left");
+              if (currentDirection === 3) scorePoint();
+            }
+          } else {
+            if (y > 0.5) {
+              console.log("down");
+              if (currentDirection === 2) scorePoint();
+            } else if (y < -0.5) {
+              console.log("up");
+              if (currentDirection === 0) scorePoint();
+            }
           }
-        } else {
-          if (y > 0.5 && aButton.pressed && !locked) {
-            console.log("down");
-            if (currentDirection === 2) scorePoint();
-            locked = true;
-            setTimeout(() => {
-              locked = false
-            }, cd);
-          } else if (y < -0.5 && aButton.pressed && !locked) {
-            console.log("up");
-            if (currentDirection === 0) scorePoint();
-            locked = true;
-            setTimeout(() => {
-              locked = false
-            }, cd);
-          }
+
+          pressed = true;
+
+          setTimeout(() => { locked = false; }, 150);
+        }
+
+        if (!aButton || !aButton.pressed) {
+          pressed = false;
         }
       }
 
