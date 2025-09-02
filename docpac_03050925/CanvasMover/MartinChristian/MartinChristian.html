@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="directions">
+        <h2>Use the Arrow Keys on your keyboard to navigate.</h2>
+    </div>
+    <div id="debug">
+        Position: (0, 0)
+    </div>
+    <canvas id="canvas" width="800" height="600" style="border-style: solid; border-width: 1px;"></canvas>
+    <script>
+        // Avatar Creation
+            var debug = document.getElementById('debug');
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            const img = new Image();
+            img.src = 'avatar.png';
+            const player = {
+                x: 0,
+                y: 0,
+                w: 50,
+                h: 50,
+                Image: img
+            }
+        // Keyboard Inputs & Player Loading Loop
+            const keys = {};
+        
+            window.addEventListener('keydown', (event) => {
+                keys[event.key] = true;
+            });
+        
+            window.addEventListener('keyup', (event) => {
+                keys[event.key] = false;
+            });
+        
+            function updatePlayer() {
+                if (keys['ArrowUp']) player.y -= 2;
+                if (keys['ArrowDown']) player.y += 2;
+                if (keys['ArrowLeft']) player.x -= 2;
+                if (keys['ArrowRight']) player.x += 2;
+                if (player.x < 0) {player.x = 0}
+                if (player.y < 0) {player.y = 0}
+                if (player.x + player.w > canvas.width) {player.x = canvas.width - player.w}
+                if (player.y + player.h > canvas.height) {player.y = canvas.height - player.h}
+                ctx.fillStyle = "white";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(img, player.x, player.y, player.w, player.h);
+                debug.innerHTML = "Position: (" + player.x + ", " + player.y + ")"
+                console.log(player.x, player.y)
+            }
+        
+            function gameLoop() {
+                updatePlayer();
+                requestAnimationFrame(gameLoop);
+            }
+            
+            gameLoop();
+            </script>
+</body>
+</html>
