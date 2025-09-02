@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Lesson 11 Application Project</title>
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+		  <h4>Enter Your Name</h4>
+		  <hr>
+
+		  <form id="nameForm">
+			<input type="text" id="userName" name="userName">
+			<br><br>
+
+		  </form>
+
+		  <script>
+			function setCookie(name, value, days) {
+			  const expires = new Date(Date.now() + days * 86400000).toUTCString();
+			  document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
+			}
+
+			function handleFormSubmit(event) {
+			  event.preventDefault();
+
+			  const nameInput = document.getElementById('userName');
+			  const name = nameInput.value.trim();
+
+			  if (name === "") {
+				alert("Please enter your name.");
+				return false;
+			  }
+
+			  setCookie("userName", name, 30);
+			  alert("Cookie has been set.");
+			  return false;
+			}
+
+			function openWelcomeWindow() {
+			  const cookieVal = getCookie("userName");
+			  const welcomeWindow = window.open("", "WelcomeWindow", "width=400,height=200");
+
+			  welcomeWindow.document.write("<!DOCTYPE html><html><head><title>Welcome</title></head><body>");
+			  if (cookieVal) {
+				welcomeWindow.document.write(`<h3>Welcome, ${cookieVal}!</h3>`);
+			  } else {
+				welcomeWindow.document.write("<h3>No user name found in cookies.</h3>");
+			  }
+			  welcomeWindow.document.write("</body></html>");
+			  welcomeWindow.document.close();
+			}
+
+			//Add getCookie(name) below
+
+
+
+			//Add event listeners below
+			const form = document.getElementById("nameForm");
+
+
+			const seeCookieButton = document.getElementById("seeCookie");
+
+
+		  </script>
+	</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Lab 12-3</title>
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+	  <h1>Registration Form</h1>
+	  <form id="registrationForm" action="submitted.html" method="post" data-parsley-validate>
+		<label for="firstName">First Name:</label><br>
+		<input
+		  type="text"
+		  id="firstName"
+		  name="firstName"
+		  required
+		  minlength="2"
+		  data-parsley-trigger="change"
+		/><br><br>
+
+		<label for="lastName">Last Name:</label><br>
+		<input
+		  type="text"
+		  id="lastName"
+		  name="lastName"
+		  required
+		  minlength="2"
+		  data-parsley-trigger="change"
+		/><br><br>
+
+		<label for="email">Email:</label><br>
+		<input
+		  type="email"
+		  id="email"
+		  name="email"
+		  required
+		  data-parsley-type="email"
+		  data-parsley-trigger="change"
+		/><br><br>
+
+		<label for="website">Website (optional):</label><br>
+		<input
+		  type="url"
+		  id="website"
+		  name="website"
+		  placeholder="https://example.com"
+		  data-parsley-type="url"
+		  data-parsley-pattern="https?://.+"
+		  data-parsley-pattern-message="Please enter a valid URL starting with http or https."
+		  data-parsley-trigger="change"
+		/><br><br>
+
+		<label for="years">Years in Business (optional):</label><br>
+		<input
+		  type="text"
+		  id="years"
+		  name="years"
+		  data-parsley-type="number"
+		  data-parsley-trigger="change"
+		/><br><br>
+
+		<label for="comments">Comments:</label><br>
+		<textarea
+		  id="comments"
+		  name="comments"
+		  required
+		  data-parsley-trigger="change"
+		></textarea><br><br>
+
+		<input
+		  type="checkbox"
+		  id="license"
+		  name="license"
+		  required
+		  data-parsley-error-message="You must accept the license agreement."
+		/>
+		<label for="license">I accept the license agreement</label><br><br>
+
+		<input type="submit" value="Submit" />
+	  </form>
+
+	</body>
+</html>

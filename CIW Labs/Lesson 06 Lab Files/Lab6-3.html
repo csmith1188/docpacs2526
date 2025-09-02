@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Lab 6-3</title>
+	  <style>
+		#ciwLink {
+		  color: purple;
+		  transition: color 0.2s ease;
+		}
+	  </style>
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+
+	  <a href="http://www.CIWcertified.com" id="ciwLink">Visit CIW!</a>
+
+	  <script>
+		document.addEventListener('DOMContentLoaded', () => {
+		  const ciwLink = document.getElementById('ciwLink');
+
+		  ciwLink.addEventListener('mouseover', () => {
+			ciwLink.style.color = 'red';
+		  });
+
+		  ciwLink.addEventListener('mouseout', () => {
+			ciwLink.style.color = 'purple';
+		  });
+		});
+	  </script>
+
+	</body>
+</html>

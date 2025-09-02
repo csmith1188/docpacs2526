@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mash On Them Buttons Twin</title>
+</head>
+
+<body>
+
+    <div id="scoreBox"> Score</div>
+
+    <div id="timerBox"></div>
+
+    <div id="directionBox"> </div>
+
+    <script>
+        //How many seconds the game will last
+        timer = 60
+        //users score (duh)
+        score = 0
+        //Starts the game off with no direction
+        direction = 0
+        let buttonPressed = true
+        var scoreBox = document.getElementById('scoreBox');
+        setInterval(timerCount, 1000);
+        setInterval(directionChange, 2000);
+        window.addEventListener('gamepadconnected', (event) => {
+            const update = () => {
+
+                //Makes the controller do thing and makes it not be able to be held down
+                for (const gamepad of navigator.getGamepads()) {
+                    if (!gamepad) continue;
+
+                    if (gamepad.buttons[0].pressed && timer > 0 && buttonPressed) {
+                        if (gamepad.axes[1] <= -1 && direction == 0) {
+                            score++
+                            buttonPressed = false
+                        }
+                        else if (gamepad.axes[1] >= 1 && direction == 2) {
+                            score++
+                            buttonPressed = false
+                        }
+                        else if (gamepad.axes[0] <= -1 && direction == 3) {
+                            score++
+                            buttonPressed = false
+                        }
+                        else if (gamepad.axes[0] >= 1 && direction == 1) {
+                            score++
+                            buttonPressed = false
+                        }
+                    }
+                    else if (!gamepad.buttons[0].pressed && !buttonPressed) {
+                        buttonPressed = true
+                    }
+                    scoreBox.innerHTML = 'Score: ' + score
+
+                    if (gamepad.buttons[9].pressed) {
+                        location.reload();
+                    }
+                }
+                requestAnimationFrame(update);
+            };
+            update();
+        });
+
+        function timerCount() {
+            let timerBox = document.getElementById('timerBox');
+
+            if (timer > 0) {
+                timer -= 1
+                timerBox.innerHTML = timer
+            }
+        }
+
+        function directionChange() {
+            let directionBox = document.getElementById('directionBox');
+            up = 0
+            right = 1
+            down = 2
+            left = 3
+            direction = Math.floor(Math.random() * 4)
+            if (timer > 0) {
+                if (direction == 0) {
+                    directionBox.innerHTML = 'Up'
+                } else if (direction == 1) {
+                    directionBox.innerHTML = 'Right'
+                } else if (direction == 2) {
+                    directionBox.innerHTML = 'Down'
+                } else {
+                    directionBox.innerHTML = 'Left'
+                }
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>

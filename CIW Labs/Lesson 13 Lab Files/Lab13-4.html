@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Lab 13-4</title>
+		<style>
+		  #demo {
+			margin-top: 20px;
+			padding: 10px;
+			border: 1px solid #ccc;
+			font-family: monospace;
+			white-space: pre-wrap;
+		  }
+		  button {
+			margin-right: 10px;
+		  }
+		</style>
+		
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+		<p>Click "Send AJAX Request" to simulate an AJAX error. Then fix the code so that clicking "Fix AJAX Request" shows a successful response.</p>
+
+		<button id="sendRequest">Send AJAX Request</button>
+		<button id="fixRequest">Fix AJAX Request</button>
+
+		<div id="demo"></div>
+
+		<script>
+		  const demo = document.getElementById('demo');
+		  let isFixed = false;
+
+		  function simulateAjax() {
+			demo.textContent = "Sending request...";
+
+			setTimeout(() => {
+			  if (!isFixed) {
+				demo.textContent = 'AJAX Error: Failed to fetch';
+			  } else {
+				const response = {
+				  status: "success",
+				  message: "AJAX request processed correctly."
+				};
+				demo.textContent = 'Response received:\n' + JSON.stringify(response, null, 2);
+			  }
+			}, 1500);
+		  }
+
+		  document.getElementById('sendRequest').addEventListener('click', () => {
+			isFixed = false;
+			simulateAjax();
+		  });
+
+		  // Add an event listener to fix the AJAX request
+
+
+
+		</script>
+	</body>
+</html>

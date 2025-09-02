@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	  <meta charset="utf-8">
+	  <title>Example: getElementsByName</title>
+	
+	  <style>
+	    body {
+	      font-family: Arial, sans-serif;
+	      margin: 20px;
+	    }
+
+	    #output {
+	      margin-top: 20px;
+	      padding: 10px;
+	      border: 1px solid #ccc;
+	      background-color: #f9f9f9;
+	      white-space: pre-wrap;
+	    }
+	  </style>
+	</head>
+	
+	<body>
+	<h2>CIW JavaScript Specialist</h2>
+	  <hr>
+
+	<label>Text1: <input name="txtField" type="text" value="CIW"></label><br>
+	<label>Text2: <input name="txtField" type="text" value="CERTIFICATION"></label><br>
+	<label>Text3: <input name="txtField" type="text" value="RULES"></label><br>
+
+	<button id="getValuesBtn">Get Elements Named txtField</button>
+
+	<div id="output"></div>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', () => {
+		const button = document.getElementById('getValuesBtn');
+		const output = document.getElementById('output');
+
+			button.addEventListener('click', () => {
+			const elements = document.getElementsByName('txtField');
+			let message = `Total objects with name "txtField": ${elements.length}\n`;
+
+				elements.forEach((element, index) => {
+				const label = element.id || `Field ${index + 1}`;
+				message += `${label} = ${element.value}\n`;
+				});
+
+				output.textContent = message;
+			});
+	    });
+	</script>
+	
+	</body>
+</html>

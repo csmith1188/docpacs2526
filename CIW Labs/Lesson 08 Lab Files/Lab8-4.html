@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Lab 8-4</title>
+	  <style>
+		body {
+		  font-family: Arial, sans-serif;
+		}
+	  </style>
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <h3>Employee Database</h3>
+	  <hr>
+	  <form id="empForm">
+		<strong>Select name to view information:</strong>
+		<select id="empSelect" name="empName">
+		  <!-- Options will be added dynamically -->
+		</select>
+		<p>
+		  <button type="button" id="showAllBtn">Show All Employees</button>
+		</p>
+	  </form>
+
+	  <script>
+		// Constructor function to create employee objects with properties and method
+		function employeeObject(name, department, extension) {
+		  this.name = name;
+		  this.department = department;
+		  this.extension = extension;
+		  this.showEmployee = function() {
+			alert(
+			  `Employee: ${this.name}\nDepartment: ${this.department}\nExtension: ${this.extension}\nEmployed: ${this.employed}`
+			);
+		  };
+		}
+
+		// Debug the prototype property below
+		employeeObject.prototype = .employed 
+
+		// Create employee instances and store them in an array
+		const employees = [
+		  null, // placeholder for index 0 "Select Employee"
+		  new employeeObject("Mai Li", "Sales", 551),
+		  new employeeObject("Maria Alvarez", "Human Resources", 441),
+		  new employeeObject("Tom Smith", "Marketing", 331),
+		];
+
+		// Get references to DOM elements
+		const empSelect = document.getElementById('empSelect');
+		const showAllBtn = document.getElementById('showAllBtn');
+
+		// Function to populate the select dropdown with employee names
+		function populateEmployeeOptions() {
+		  empSelect.innerHTML = ''; // Clear any existing options
+
+		  // Add default "Select Employee" option
+		  const defaultOption = document.createElement('option');
+		  defaultOption.textContent = 'Select Employee';
+		  defaultOption.value = '';
+		  empSelect.appendChild(defaultOption);
+
+		  // Add an option for each employee in the array (skipping index 0)
+		  for (let i = 1; i < employees.length; i++) {
+			const option = document.createElement('option');
+			option.textContent = employees[i].name;
+			option.value = i;
+			empSelect.appendChild(option);
+		  }
+		}
+
+		// Event listener to display info for the selected employee
+		empSelect.addEventListener('change', () => {
+		  const selectedIndex = parseInt(empSelect.value, 10);
+		  if (!isNaN(selectedIndex) && employees[selectedIndex]) {
+			employees[selectedIndex].showEmployee();
+			empSelect.selectedIndex = 0; // Reset dropdown to default after showing alert
+		  }
+		});
+
+		// Event listener to show information for all employees in one alert
+		showAllBtn.addEventListener('click', () => {
+		  let info = '';
+		  for (let i = 1; i < employees.length; i++) {
+			info += `Employee: ${employees[i].name}\n`;
+			info += `Department: ${employees[i].department}\n`;
+			info += `Extension: ${employees[i].extension}\n`;
+			info += `Employed: ${employees[i].employed}\n\n`;
+		  }
+		  alert(info);
+		});
+
+		// Initialize the dropdown with employee options when the page loads
+		populateEmployeeOptions();
+	  </script>
+	</body>
+</html>

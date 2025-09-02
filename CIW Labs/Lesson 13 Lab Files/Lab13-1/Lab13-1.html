@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Lab 13-1</title>
+    </head>
+	
+	<body>
+		<h2>CIW JavaScript Specialist</h2>
+		<hr>
+		<h3>AJAX Button Clicker</h3>
+		<p>This script shows how to use multiple external scripts that load dynamically when you click a button.</p>
+		<input type="button" value="Button 1" id="btn1">
+		<input type="button" value="Button 2" id="btn2">
+		<input type="button" value="Button 3" id="btn3">
+		<div id="MyID">&nbsp;</div>
+		<hr>
+
+		<script src="ajax.js" defer></script>
+		<script>
+		  function ChangeData(str) {
+			document.getElementById('MyID').innerHTML = str;
+		  }
+
+		  document.getElementById('btn1').addEventListener('click', () => loadScript('Data1.js'));
+		  document.getElementById('btn2').addEventListener('click', () => loadScript('Data2.js'));
+		  document.getElementById('btn3').addEventListener('click', () => loadScript('Data3.js'));
+		</script>
+		
+	</body>
+</html>
