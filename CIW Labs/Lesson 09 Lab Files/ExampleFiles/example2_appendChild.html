@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+	<head>
+	  <meta charset="utf-8">
+	  <title>Example: appendChild</title>
+	 
+	  <script type="text/javascript">
+	    let appendedText = "";
+	    function answerWrong() {
+	      const txt = 'Wrong Answer!';
+	      const newText = document.createTextNode(txt);
+	      document.body.appendChild(newText);
+	    }
+
+	    function answerRight() {
+	      const txt = 'RIGHT ANSWER!';
+	      const newText = document.createTextNode(txt);
+	      document.body.appendChild(newText);
+	    }
+	  </script>
+	</head>
+
+	<body>
+		<h2>CIW JavaScript Specialist</h2>
+		  <hr>
+		  Question: How many little pigs had houses made of straw?<br>
+		 
+		  <form name="formButtons">
+		    <p>
+			<input type="button" onclick="answerRight(); this.disabled = true;" name="button1" value="1 little pig">
+		    </p>
+		    <p>
+			<input type="button" onclick="answerWrong(); this.disabled = true;" name="button2" value="2 little pigs">
+		    </p>
+		    <p>
+			<input type="button" onclick="answerWrong(); this.disabled = true;" name="button3" value="3 little pigs">
+		    </p>
+		    <p>
+			<input type="button" value="Reload Page" onclick="window.location.reload()">
+		    </p>
+		  </form>
+		
+	</body>
+</html>

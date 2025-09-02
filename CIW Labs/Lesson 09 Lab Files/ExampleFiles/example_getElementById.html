@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Example: getElementById</title>
+	</head>
+ 
+	<body>
+		<h2>CIW JavaScript Specialist</h2>
+		<hr>
+		<p>
+		<a id="ChangeURL" href="http://www.microsoft.com" target="_blank">Microsoft</a>
+		</p>
+		
+		<button id="changeLinkBtn">Change Link</button>
+
+		<script>
+			const link = document.getElementById('ChangeURL');
+			const button = document.getElementById('changeLinkBtn');
+		    let changedLink = false;
+
+		    button.addEventListener('click', () => {
+		      if (!changedLink) {
+		        link.textContent = 'CIW Certified';
+		        link.href = 'http://www.CIWcertified.com/';
+		      } else {
+		        link.textContent = 'Microsoft';
+		        link.href = 'http://www.microsoft.com/';
+		      }
+		      link.target = '_blank';
+		      changedLink = !changedLink;
+		    });
+		</script>
+
+	</body>
+</html>

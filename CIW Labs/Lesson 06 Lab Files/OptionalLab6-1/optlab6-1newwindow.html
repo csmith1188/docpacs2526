@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>New Window</title>
+  <style>
+    body {
+      background-color: blue;
+      color: white;
+      font-family: sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <p>New Window</p>
+  <input type="button" value="Close This Window" id="closeBtn" />
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('closeBtn').addEventListener('click', () => {
+        window.close();
+      });
+    });
+  </script>
+</body>
+</html>

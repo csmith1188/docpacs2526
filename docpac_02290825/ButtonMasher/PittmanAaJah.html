@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Smasher</title>
+</head>
+
+<body>
+    <div id="scoreBox">Score: 0</div>
+    <div id="timerBox">Timer: 20</div>
+    <div id="directionBox">Direction: 0</div>
+
+    <script>
+        var score = 0;
+        var direction = 0;
+        var timer = 20;
+
+        const scoreBox = document.getElementById('scoreBox');
+        const timerBox = document.getElementById('timerBox');
+        const directionBox = document.getElementById('directionBox');
+
+        const updateTimer = setInterval(() => {
+            if (timer > 0) {
+                timer--;
+                timerBox.innerHTML = 'Timer: ' + timer;
+            } else {
+                clearInterval(updateTimer);
+            }
+        }, 1000);
+
+        setInterval(directionChange, 2000);
+
+        window.addEventListener('gamepadconnected', () => {
+            console.log("Gamepad connected");
+
+            const update = () => {
+                for (const gamepad of navigator.getGamepads()) {
+                    if (!gamepad) continue;
+
+                    if (gamepad.buttons[0].pressed) {
+                        if (timer > 0) {
+                            if (direction == "Left" && gamepad.axes[0] == -1) {
+                                score++;
+                                directionChange()
+                            }
+                            if (direction == "Right" && gamepad.axes[0] == 1) {
+                                score++;
+                                directionChange()
+                            }
+                            if (direction == "Up" && gamepad.axes[1] == -1) {
+                                score++;
+                                directionChange()
+                            }
+                            if (direction == "Down" && gamepad.axes[1] == 1) {
+                                score++;
+                                directionChange()
+                            }
+                            scoreBox.innerHTML = "Score: " + score;
+                        }
+                    }
+
+                    if (gamepad.buttons[9] && gamepad.buttons[9].pressed) {
+                        location.reload();
+                    }
+                }
+                requestAnimationFrame(update);
+            };
+            update();
+        });
+
+        function directionChange() {
+            let rand = Math.floor(Math.random() * 4);
+
+            if (rand === 0.5) {
+                direction = "Up";
+            } else if (rand === 1) {
+                direction = "Right";
+            } else if (rand === 2) {
+                direction = "Down";
+            } else if (rand === 3) {
+                direction = "Left";
+            }
+
+            directionBox.innerHTML = "Direction: " + direction;
+
+        }
+    </script>
+</body>
+
+</html>

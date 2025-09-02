@@ -1,0 +1,70 @@
+/* General page styles */
+body {
+  background: #6595A3;
+  padding: 0 20px;
+  font-family: Tahoma, Arial, sans-serif;
+}
+
+#all {
+  width: 80%;
+  min-width: 650px;
+  margin: 40px auto 0 auto;
+  background: #FCFFED;
+  padding: 20px 35px;
+}
+
+h3 {
+  color: #324143;
+}
+
+p {
+  font-size: 12px;
+  color: #171F26;
+  margin-bottom: 25px;
+}
+
+/* Dropdown setup */
+nav.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown button styling */
+.dropdown-button {
+  background: #324143;
+  color: #EAFFED;
+  border: none;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* Dropdown menu */
+.dropdown-menu {
+  position: absolute;
+  background: #ffffff;
+  border: 1px solid #324143;
+  margin-top: 5px;
+  width: 150px;
+  list-style: none;
+  padding: 0;
+  z-index: 1000;
+}
+
+/* Hide by default when Alpine.js cloak is active */
+[x-cloak] {
+  display: none;
+}
+
+/* Menu items */
+.dropdown-menu li a {
+  display: block;
+  padding: 10px;
+  color: #324143;
+  text-decoration: none;
+}
+
+.dropdown-menu li a:hover {
+  background-color: #8EA344;
+  color: white;
+}

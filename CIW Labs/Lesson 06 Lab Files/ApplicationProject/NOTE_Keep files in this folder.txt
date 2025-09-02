@@ -1,0 +1,1 @@
+Note: This application project uses links to images. To ensure all links and images function correctly, please keep all associated .html and image files together in the same folder.

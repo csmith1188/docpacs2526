@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	  <meta charset="UTF-8">
+	  <title>Example: getElementsByTagName</title>
+
+		<style>
+		  .slide {
+		  display: none;
+		  cursor: pointer;
+		  }
+		  .slide.active {
+		  display: block;
+		  }
+		</style>
+	</head>
+ 
+	<body>
+	   <h2>CIW JavaScript Specialist</h2>
+	   <hr>
+
+		<h1>Cool Slide Show</h1>
+		<img class="slide" src="images/pics1.jpg" width="400" height="300" alt="A pink tulip flower"> 
+		<img class="slide" src="images/pics2.jpg" width="400" height="300" alt="A red color sunflower">
+		<img class="slide" src="images/pics3.jpg" width="400" height="300" alt="A bunch of daisies">
+		<img class="slide" src="images/pics4.jpg" width="400" height="300" alt="Purple petaled flowers">
+		<img class="slide" src="images/pics5.jpg" width="400" height="300" alt="A few blooming roses">
+
+		<p>Click the image to advance the slides.</p>
+
+		<script>
+		  document.addEventListener('DOMContentLoaded', () => {
+		    const slides = Array.from(document.querySelectorAll('img.slide'));
+		    let currentSlide = 0;
+		    function showSlide(index) {
+		      slides.forEach((slide, i) => {
+		        slide.classList.toggle('active', i === index);
+		      });
+		    }
+
+		    function nextSlide() {
+		      currentSlide = (currentSlide + 1) % slides.length;
+		      showSlide(currentSlide);
+		    }
+
+		    // Initialize slideshow: show first slide
+		    showSlide(currentSlide);
+
+		    // Add a click event to each slide to go to the next slide
+		    slides.forEach(slide => {
+		      slide.addEventListener('click', nextSlide);
+		    });
+		  });
+		</script>
+	</body>
+</html>

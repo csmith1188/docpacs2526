@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Lab 3-4</title>
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+	  <script>
+		// Anonymous Function Example
+		function showAnonymousFunction() {
+		  const fn1 = function() {
+			return "This is an anonymous function.";
+		  };
+		  document.write("<strong>Anonymous Function:</strong> " + fn1() + "<br><br>");
+		}
+		// Prototype Function Example
+		function showPrototypeFunction() {
+		  function Pen(penColor) {
+			this.penColor = penColor;
+		  }
+		  Pen.prototype.display = function() {
+			return this.penColor;
+		  };
+		  const lux = new Pen("Blue");
+		  document.write("<strong>Prototype Function:</strong> " + lux.display() + "<br><br>");
+		}
+		// Closure Function Example
+		function showClosureFunction() {
+		  function display(name) {
+			const desig = "Your name is ";
+			const fullName = function() {
+			  return desig + name;
+			};
+			return fullName();
+		  }
+		  document.write("<strong>Closure Function:</strong> " + display("Alex") + "<br><br>");
+		}
+		// Arrow Function Example
+		function showArrowFunction() {
+		  const add = (p, q) => p + q;
+		  document.write("<strong>Arrow Function:</strong> 10 + 20 = " + add(10, 20) + "<br><br>");
+		}
+		// Spread Operator Example
+		function showSpreadOperator() {
+		  const x = [1, 2, 3];
+		  const sample = (ar1, ar2, ar3) => `${ar1}-${ar2}-${ar3}`;
+		  document.write("<strong>Spread Operator:</strong> " + sample(7, ...x) + "<br><br>");
+		}
+		// Call all examples
+		function runAllExamples() {
+		  showAnonymousFunction();
+		  showPrototypeFunction();
+		  showClosureFunction();
+		  showArrowFunction();
+		  showSpreadOperator();
+		}
+		// Run everything when the page loads
+		window.onload = runAllExamples;
+	  </script>
+	</body>
+
+</html>

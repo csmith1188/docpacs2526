@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Example: Database and AJAX</title>
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+
+		<p>Please enter Customer ID: <input type="number" id="CustomerID" min="0"></p> 
+		<p><button id="getInfoBtn">Get Information</button></p> 
+
+		<p>First Name: <span id="DCustomerInfo"></span></p> 
+
+		<script>
+		  // Create a new XMLHttpRequest object
+		  function getXMLHttpRequest() {
+			if (window.XMLHttpRequest) {
+			  return new XMLHttpRequest();
+			} else {
+			  try {
+				return new ActiveXObject("MSXML2.XMLHTTP.3.0");
+			  } catch (ex) {
+				return null;
+			  }
+			}
+		  }
+
+		  const http = getXMLHttpRequest();
+
+		  function requestCustomerInfo() {
+			const customerID = document.getElementById('CustomerID').value;
+			if (customerID === "") {
+			  alert("Please enter a Customer ID");
+			  return;
+			}
+
+			http.open("GET", "customer.xml", true);
+
+			http.onreadystatechange = function() {
+			  if (http.readyState === 4) {
+				if (http.status === 200) {
+				  const xmlDoc = http.responseXML;
+				  if (xmlDoc) {
+					const customers = xmlDoc.getElementsByTagName("Customer");
+					const id = parseInt(customerID, 10);
+					if (id >= 0 && id < customers.length) {
+					  const firstName = customers[id].getElementsByTagName("FirstName")[0].textContent;
+					  document.getElementById('DCustomerInfo').textContent = firstName;
+					} else {
+					  document.getElementById('DCustomerInfo').textContent = "Customer not found.";
+					}
+				  } else {
+					document.getElementById('DCustomerInfo').textContent = "Error parsing XML.";
+				  }
+				} else {
+				  document.getElementById('DCustomerInfo').textContent = "Error loading XML file.";
+				}
+			  }
+			};
+
+			http.send(null);
+		  }
+
+		  // Attach event listener after DOM is loaded
+		  document.getElementById('getInfoBtn').addEventListener('click', requestCustomerInfo);
+		</script>
+
+	</body>
+</html>
+
