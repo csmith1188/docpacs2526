@@ -27,6 +27,10 @@
     sbox.innerText = "Score: " + score;
     tbox.innerText = "Time Left: " + timeLeft;
 
+    let startAllowed = false;
+
+setTimeout(() => { startAllowed = true; }, 1000);
+
     function scorePoint() {
       score++;
       sbox.innerText = "Score: " + score;
@@ -63,7 +67,7 @@
       }
 
       if (gp) {
-        if (gp.buttons[9].pressed) {
+        if (gp.buttons[9].pressed && startAllowed) {
           location.reload();
           return;
         }
