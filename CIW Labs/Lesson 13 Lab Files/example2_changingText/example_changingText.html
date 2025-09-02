@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Example: Changing text in AJAX</title>
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+
+	  <p><a href="#" id="loadText">Click here to watch the text below change with AJAX!</a></p>
+	  <div id="text">
+		Here is the old text.
+	  </div>
+
+	  <script>
+		function replaceText() {
+		  const http = new XMLHttpRequest();
+		  http.open("GET", "example.txt", true);
+		  http.onreadystatechange = function () {
+			if (http.readyState === 4 && http.status === 200) {
+			  document.getElementById('text').innerHTML = http.responseText;
+			}
+		  };
+		  http.send();
+		}
+
+		document.getElementById('loadText').addEventListener('click', function (e) {
+		  e.preventDefault();
+		  replaceText();
+		});
+	  </script>
+	  
+	</body>
+</html>

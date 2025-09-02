@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+		<title>Lab 2-3</title>
+	</head>
+
+<body>
+  <h3>CIW JavaScript Specialist</h3>
+  <hr>
+  <div id="output"></div>
+  
+  <script>
+    // Declare variables using let and const
+    let a = new Number(5);
+    const b = "5";
+    let c = new Number(10);
+    // Get output container
+    const output = document.getElementById("output");
+    // Create output
+    let html = `
+      <p>Values of variables: <strong>a = new Number(5)</strong>, <strong>b = "5"</strong>, <strong>c = new Number(10)</strong>.</p>
+      <p>Value of <b>insert your code here for comparing the value of variables a and b</p>
+      <p>Value of <b>insert your code here for comparing the value and type of variables a and b </p>
+      <p>Value of <b>insert your code here for checking if the variables a and c are not of the same type and do not have the same value</p>
+      <p>Value of <b>insert your code here for concatinating the values of variables a and b </p>
+    `;
+    // Updates variable a using valueOf() to avoid object-to-object addition
+    a = new Number(a.valueOf() + c.valueOf());
+    // Displays output
+    output.innerHTML = html;
+  </script>
+</body>
+
+</html>

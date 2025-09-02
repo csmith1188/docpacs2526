@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Lab 12-5</title>
+	  <style>
+		.divBlock {
+		  width: 100px;
+		  height: 50px;
+		  padding: 15px;
+		  margin: 15px;
+		  background-color: red;
+		}
+	  </style>
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+
+	  <div class="divBlock" x-data="{ show: true }" x-show="show" x-transition></div>
+
+	  <button 
+		x-data 
+		  @click="document.querySelector('.divBlock').style.display == 'none' ? 'block' : 'none'">
+	   Test
+	  </button>  
+
+	  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+	  <script>
+	   // Simulating a library conflict:
+		// In some libraries, a global symbol like $ might be claimed.
+		// Uncommenting the line below could simulate a $ conflict resolution (like jQuery's $.noConflict)
+		
+		// delete window.$;
+
+		// This script block is here for learning purposes only.
+		// In this case, Alpine.js does not actually use the $ symbol,
+		// but this setup helps you understand how global symbol conflicts can be resolved.
+	  </script>
+	</body>
+</html>
