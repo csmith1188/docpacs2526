@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Lab 7-8</title>
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+	  <form name="clockForm" id="clockForm">
+		<h4>Time Watcher</h4>
+		The time is:
+		<input type="text" name="clockBox" id="clockBox" size="15" readonly />
+	  </form>
+
+	  <script>
+		function runClock() {
+		  const timeNow = new Date();
+
+	//Enter the three lines of code below
+		   
+
+
+
+		  const ampm = hours < 12 ? "AM" : "PM";
+
+		  hours = hours % 12 || 12; // Convert 0 to 12 for 12 AM
+		  minutes = minutes < 10 ? "0" + minutes : minutes;
+		  seconds = seconds < 10 ? "0" + seconds : seconds;
+
+		  const stringTime = `${hours}:${minutes}:${seconds} ${ampm}`;
+
+		  const clockBox = document.getElementById("clockBox");
+		  if (clockBox) {
+			clockBox.value = stringTime;
+		  }
+
+		  setTimeout(runClock, 1000);
+		}
+
+		window.addEventListener("DOMContentLoaded", runClock);
+	  </script>
+	</body>
+</html>

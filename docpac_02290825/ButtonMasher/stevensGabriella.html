@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Masher</title>
+</head>
+
+<body>
+    <p id="pressButton">Connect your controller and press a button to start</p>
+    <div id="scoreBox">
+
+    </div>
+    <div id="timerBox">
+
+    </div>
+    <div id="directionBox">
+
+    </div>
+    <script>
+        navigator.getGamepads();
+        let score = 0;
+        let timer = 20;
+        let direction = 0;
+        scoreBox = document.getElementById("scoreBox");
+        timerBox = document.getElementById("timerBox");
+        directionBox = document.getElementById("directionBox");
+        let start = document.getElementById("pressButton");
+
+        let gamepad = navigator.getGamepads()[0];
+
+        let time;
+        let directionChange;
+        let stickDirection;
+        let pastState = false;
+
+        window.addEventListener("gamepadconnected", (event) => {
+            start.style.display = "none";
+            aButtonPress();
+            joysticks();
+            timerDown();
+            changeDirection();
+            time = setInterval(timerDown, 1000);
+            directionChange = setInterval(changeDirection, 2000);
+            startButtonPress();
+        })
+
+        window.addEventListener("gamepaddisconnected", (event) => {
+            clearInterval(time);
+            clearInterval(directionChange);
+            location.reload();
+        })
+        
+        function startButtonPress() {
+            let gamepad = navigator.getGamepads()[0];
+            
+            if (gamepad.buttons[9].pressed) {
+                location.reload();
+            }
+            requestAnimationFrame(startButtonPress);
+        }
+        
+        function joysticks() {
+            let gamepad = navigator.getGamepads()[0];
+            let gamepadX = gamepad.axes[0];
+            let gamepadY = gamepad.axes[1];
+
+            if (gamepadX < -0.5) {
+                stickDirection = 3; //left
+            } else if (gamepadX > 0.5) {
+                stickDirection = 1; //right
+            } else if (gamepadY < -0.5) {
+                stickDirection = 0; //up
+            } else if (gamepadY > 0.5) {
+                stickDirection = 2; //down
+            }
+            requestAnimationFrame(joysticks);
+        }
+        
+        function aButtonPress() {
+            let gamepad = navigator.getGamepads()[0];
+            if (stickDirection == direction) {
+                if (timer >= 0) {
+                    const buttonState = gamepad.buttons[0].pressed
+                    if (buttonState && !pastState) {
+                        score++;
+                        scoreBox.innerHTML = "Score: " + score;
+                    }
+                    pastState = buttonState;
+                }
+            }
+            requestAnimationFrame(aButtonPress);
+        }
+        
+        
+        
+        function timerDown() {
+            if (timer >= 0) {
+                timerBox.innerHTML = "Time: " + timer;
+                timer--;
+            } else {
+                timerBox.innerHTML = "Time's up.";
+                return;
+            }
+        }
+
+        function changeDirection() {
+            if (timer >= 0) {
+                direction = Math.floor(Math.random() * 4);
+                if (direction === 0) {
+                    directionBox.innerHTML = "Up";
+                } else if (direction === 1) {
+                    directionBox.innerHTML = "Right";
+                } else if (direction === 2) {
+                    directionBox.innerHTML = "Down";
+                } else if (direction === 3) {
+                    directionBox.innerHTML = "Left";
+                }
+            }
+        }
+
+    </script>
+</body>
+
+</html>

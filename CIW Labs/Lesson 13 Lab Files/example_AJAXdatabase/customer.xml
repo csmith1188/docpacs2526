@@ -1,0 +1,12 @@
+<Customers>
+<Customer>
+<CustomerID>0</CustomerID>
+<FirstName>Jessica</FirstName>
+<LastName>Rabbit</LastName>
+</Customer>
+<Customer>
+<CustomerID>1</CustomerID>
+<FirstName>Roger</FirstName>
+<LastName>Rabbit</LastName>
+</Customer>
+</Customers>

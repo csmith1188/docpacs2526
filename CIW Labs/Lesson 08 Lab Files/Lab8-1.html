@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Lab 8-1</title>
+	  <style>
+		body {
+		  font-family: Arial, sans-serif;
+		}
+	  </style>
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <h3>Employee Database</h3>
+	  <hr>
+	  <form id="empForm">
+		<strong>Select name to view information:</strong>
+		<select id="empSelect" name="empName">
+		  <!-- Options will be added dynamically -->
+		</select>
+		<p>
+		  <button type="button" id="showAllBtn">Show All Employees</button>
+		</p>
+	  </form>
+
+	  <script>
+		// Define a class named Employee
+		class Employee {
+		  // Constructor function to create an Employee object with name, department, and extension
+		  // In the constructor, assign each parameter to a property on the object using syntax like:
+		  // this.name = name;
+		  // This sets up each new Employee object with its own name, department, and extension.
+		  constructor(name, department, extension) {
+			// Replace this comment with your code
+		  }
+
+		  // Write a method called showInfo that displays an alert
+		  // showing the employee’s name, department, and extension.
+		  showInfo() {
+			 // Replace this comment with your code
+		  }
+		}
+
+		// Create an array named employees to hold all Employee objects
+		// Add a placeholder (like null or a string) at index 0
+		// Then create at least three Employee objects and add them to the array
+		const employees = [
+		   // Replace this comment with your code
+		];
+
+		const empSelect = document.getElementById('empSelect');
+		const showAllBtn = document.getElementById('showAllBtn');
+
+		// Function to populate the dropdown menu with employee names
+		function populateEmployeeOptions() {
+		  empSelect.innerHTML = '';
+
+		  const defaultOption = document.createElement('option');
+		  defaultOption.textContent = 'Select Employee';
+		  defaultOption.value = '';
+		  empSelect.appendChild(defaultOption);
+
+		  // Loop through the employees array starting at index 1
+		  // Create an <option> element for each employee with their name
+		  for (let i = 1; i < employees.length; i++) {
+			 // Replace this comment with your code
+		  }
+		}
+
+		// Event listener: When the user selects an employee from the dropdown,
+		// call that employee's showInfo method
+		empSelect.addEventListener('change', () => {
+		   // Replace this comment with your code
+		});
+
+		// Event listener: When the "Show All Employees" button is clicked,
+		// loop through all employees (starting at index 1), build a string
+		// of their details, and display it in an alert
+		showAllBtn.addEventListener('click', () => {
+		   // Replace this comment with your code
+		});
+
+		// Call this function to fill the dropdown when the page loads
+		populateEmployeeOptions();
+	  </script>
+	  
+	</body>
+</html>

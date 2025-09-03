@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Lab 5-4</title>
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+	<form id="gradeForm">
+	  <label for="gradeSelect">Select numerical grade value:</label>
+	  <select id="gradeSelect" name="myselect"></select>
+	  <p>
+		<button type="submit">Check Grade</button>
+	  </p>
+	</form>
+
+	<script>
+	  // Populate the select options from 100 down to 0
+	  const gradeSelect = document.getElementById('gradeSelect');
+	  for  
+		const option = document.createElement('option');
+		option.value = i;
+		option.textContent = i;
+		gradeSelect.appendChild(option);
+	  }
+
+	  // Add event listener to the form submit
+	  document.getElementById('gradeForm').addEventListener('submit', function(event) {
+		event.preventDefault();
+		const selectedGrade = Number(gradeSelect.value);
+		let message;
+
+		if (selectedGrade >= 90) {
+		  message = "Your grade is an A.";
+		} else if (selectedGrade >= 80) {
+		  message = "Your grade is a B.";
+		} else {
+		  message = "Your grade is a C or lower.";
+		}
+
+		alert(message);
+	  });
+	</script>
+
+	</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Lab 10-5</title>
+		  <style>
+			body {
+			  font-family: Arial, sans-serif;
+			}
+			#lblValues {
+			  margin-top: 20px;
+			  white-space: pre-line; /* preserves line breaks */
+			}
+		  </style>
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+
+
+	  <form id="myForm" name="myForm">
+		<p>
+		  Your Name:<br><br>
+		  <input type="text" name="Your_Name" id="Your_Name" placeholder="Enter your name">
+		</p>
+		<p>
+		  Interesting Fact About You:<br><br>
+		  <textarea name="Interesting_Fact" id="Interesting_Fact" placeholder="Enter some text"></textarea>
+		</p>
+		<input type="submit" value="Submit Data">
+	  </form>
+
+	  <hr>
+	  <div id="lblValues"></div>
+
+	  <script>
+		  // Add an event listener and stop the browser's default behavior 
+		  document.getElementById('myForm').addEventListener('submit', function(event) {
+		  event.preventDefault(); 
+
+		  const elements = this.elements;
+		  let output = '';
+		  let isValid = true;
+
+		  for (let i = 0; i < elements.length; i++) {
+			const field = elements[i];
+			const type = field.type;
+			const name = field.name || '';
+			const value = field.value;
+
+			// Complete the form field validation block
+		  
+
+			output += 'Type: ' + type + '  ';
+			output += 'Name: ' + name + '  ';
+			output += 'Value: ' + value + '\n';
+		  }
+
+		  if (isValid) {
+			document.getElementById('lblValues').textContent = output;
+		  }
+		});
+	  </script>
+	  
+	</body>
+</html>
+

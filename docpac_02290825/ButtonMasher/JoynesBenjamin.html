@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+<style>
+    body {
+        background-color: #000;
+        color: #fff;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        font-size: 24px;
+    }
+
+    #scoreBox, #timerBox, #directionBox #titleBox{
+        margin: 20px auto;
+        padding: 10px;
+        width: 200px;
+        border: 2px solid #fff;
+        border-radius: 10px;
+    }
+
+    #score, #timerBox, #directionBox {
+        font-size: 32px;
+    }
+
+    #timerBox {
+        width: 300px; /* Fixed width for the timer */
+        background-color: black; /* Black background */
+        border-radius: 10px;
+        height: 30px;
+        margin: 10px auto; /* Center horizontally */
+        position: relative;
+    }
+
+    #timerBar {
+        height: 100%;
+        background-color: white; /* White foreground */
+        border-radius: 10px;
+        width: 100%; /* Start with full width */
+        transition: width 0.2s ease;
+    }
+</style>
+
+
+    <div id="titleBox">
+        <h1>Press the Corresponding Key</h1>
+        <h2>Press Space to Start</h2>
+        <h2>Press R to Restart</h2>
+        <h2>Use W A S D or a Controller</h2>
+    </div>
+
+
+    <div id="scoreBox"> Score:
+
+        <div id="score">0</div>
+
+    </div>
+
+
+    <div id="timerBox">
+        <div id="timerBar"></div>
+    </div>
+
+    <div id="directionBox">
+
+
+    </div>
+
+    <script>
+        let timer = 20; // Total time in seconds
+        let score = 0; // Initialize score
+        let direction = 0;
+        let gameStarted = false; // Flag to track if the game has started
+        buttonPressed = false
+        
+        const scoreBox = document.getElementById('score');
+        const timerBar = document.getElementById('timerBar');
+
+        // Start the timer interval
+        setInterval(timerCount, 1000);
+        
+        // Timer function
+        function timerCount() {
+            if (gameStarted && timer > 0) {
+                timer -= 1; 
+                const percentage = (timer / 20) * 100; 
+                timerBar.style.width = percentage + '%'; 
+            } else if (timer === 0 && gameStarted) {
+                
+                gameStarted = false;
+                alert("Game Over! Your score: " + score);
+            }
+        }
+        
+        
+        
+        window.addEventListener('gamepadconnected', (event) => {
+            const update = () => {
+                for (const gamepad of navigator.getGamepads()) {
+                    if (!gamepad) continue;
+
+                    if (gamepad.buttons[9].pressed != buttonPressed) {
+                        buttonPressed = gamepad.buttons[9].pressed
+                        if (buttonPressed) {
+                            location.reload();
+                            buttonPressed = false
+                        }
+                    }
+                    
+                    if (gamepad.buttons[0].pressed != buttonPressed) {
+                        buttonPressed = gamepad.buttons[0].pressed
+                        if (buttonPressed) {
+                            if (gamepad.axes[1] == -1.0 && direction == 0 && timer > 0) {
+                                score++
+                                scoreBox.innerHTML = score
+                                directionChange();
+                            } else if (gamepad.axes[1] == 1.0 && direction == 2 && timer > 0) {
+                                score++
+                                scoreBox.innerHTML = score
+                                directionChange();
+                            } else if (gamepad.axes[0] == -1.0 && direction == 3 && timer > 0) {
+                                score++
+                                scoreBox.innerHTML = score
+                                directionChange();
+                            } else if (gamepad.axes[0] == 1.0 && direction == 1 && timer > 0) {
+                                score++
+                                scoreBox.innerHTML = score
+                                directionChange();
+                            }
+                            
+                        }
+                    }
+                }
+            requestAnimationFrame(update);
+        };
+        update();
+        });
+
+
+
+
+        // Key press handling
+
+        onkeydown = function (e) {
+            if (!gameStarted && e.keyCode !== 32 && e.keyCode !== 82) {
+                // If the game hasn't started and the key is not the spacebar, do nothing
+                return;
+            }
+        
+            if (e.keyCode == 32) { // Spacebar key
+                if (!gameStarted) { // Start the game only once
+                    gameStarted = true;
+                    directionChange(); // Set the initial direction when the game starts
+                }
+            } else if (e.keyCode == '87') { // W key
+                if (direction == 0 && timer > 0) {
+                    score++;
+                    scoreBox.innerHTML = score;
+                    directionChange();
+                } 
+            } else if (e.keyCode == '65') { // A key
+                if (direction == 3 && timer > 0) {
+                    score++;
+                    scoreBox.innerHTML = score;
+                    directionChange();
+                }
+            } else if (e.keyCode == '83') { // S key
+                if (direction == 2 && timer > 0) {
+                    score++;
+                    scoreBox.innerHTML = score;
+                    directionChange();
+                }
+            } else if (e.keyCode == '68') { // D key
+                if (direction == 1 && timer > 0) {
+                    score++;
+                    scoreBox.innerHTML = score;
+                    directionChange();
+                } 
+            } else if (e.keyCode == '82') { // R key
+                location.reload(); // Restart the game
+            }
+        };
+        
+        // Change the direction
+        function directionChange() {
+            let directionBox = document.getElementById('directionBox');
+            up = 0
+            right = 1
+            down = 2
+            left = 3
+            direction = Math.floor(Math.random() * 4)
+            if (timer > 0) {
+                if (direction == 0) {
+                    directionBox.innerHTML = 'Up'
+                } else if (direction == 1) {
+                    directionBox.innerHTML = 'Right'
+                } else if (direction == 2) {
+                    directionBox.innerHTML = 'Down'
+                } else {
+                    directionBox.innerHTML = 'Left'
+                }
+            }
+        }
+        // window.addEventListener('gamepadconnected', (event) => {
+        //     const update = () => {
+        //         for (const gamepad of navigator.getGamepads()) {
+        //             if (!gamepad) continue;
+
+        //             if (gamepad.buttons[9].pressed != buttonPressed) {
+        //                 buttonPressed = gamepad.buttons[9].pressed
+        //                 if (buttonPressed) {
+        //                     location.reload();
+        //                     buttonPressed = false
+        //                 }
+        //             }
+                    
+        //             if (gamepad.buttons[0].pressed != buttonPressed) {
+        //                 buttonPressed = gamepad.buttons[0].pressed
+        //                 if (buttonPressed) {
+        //                     if (gamepad.axes[1] == -1.0 && direction == 0 && timer > 0) {
+        //                         score++
+        //                         scoreBox.innerHTML = score
+        //                     } else if (gamepad.axes[1] == 1.0 && direction == 2 && timer > 0) {
+        //                         score++
+        //                         scoreBox.innerHTML = score
+        //                     } else if (gamepad.axes[0] == -1.0 && direction == 3 && timer > 0) {
+        //                         score++
+        //                         scoreBox.innerHTML = score
+        //                     } else if (gamepad.axes[0] == 1.0 && direction == 1 && timer > 0) {
+        //                         score++
+        //                         scoreBox.innerHTML = score
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     requestAnimationFrame(update);
+        // };
+        // update();
+        // });
+
+    </script>
+
+</body>
+
+</html>

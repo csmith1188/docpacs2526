@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Lab 5-7</title>
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+
+	  <form id="cityForm">
+		<label for="citySelect">Select a U.S. city to learn its state</label><br>
+		<select id="citySelect">
+		  <option value="0">Select a U.S. city - See the state!</option>
+		  <option value="1">Orlando</option>
+		  <option value="2">Dallas</option>
+		  <option value="3">Nashville</option>
+		  <option value="4">My city</option>
+		  <option value="5">Your city</option>
+		</select>
+	  </form>
+
+	  <script>
+		const citySelect = document.getElementById("citySelect");
+
+		citySelect.addEventListener("change", () => {
+		  const selectedValue = citySelect.value;
+
+		  switch (selectedValue) {
+			case "1":
+			  alert("Florida");
+			  break;
+			case "2":
+			  alert("Texas");
+			  break;
+			case "3":
+			  alert("Tennessee");
+			  break;
+			default:
+			  alert("Cannot be determined");
+		  }
+		});
+	  </script>
+
+	</body>
+</html>

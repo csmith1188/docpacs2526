@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('dirt.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+        }
+        canvas {
+            display: block;
+            margin: 40px auto 0 auto;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+            background: rgba(255,255,255,0.1);
+        }
+        .controls-cross {
+            display: grid;
+            grid-template-columns: 80px 80px 80px;
+            grid-template-rows: 80px 80px 80px;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        #upBox {
+            grid-column: 2;
+            grid-row: 1;
+        }
+        #leftBox {
+            grid-column: 1;
+            grid-row: 2;
+        }
+        #downBox {
+            grid-column: 2;
+            grid-row: 3;
+        }
+        #rightBox {
+            grid-column: 3;
+            grid-row: 2;
+        }
+        .control-box {
+            border: 2px solid #444;
+            background: #ccc;
+            color: #222;
+            padding: 10px 0;
+            border-radius: 8px;
+            transition: background 0.2s, color 0.2s;
+            min-width: 80px;
+            text-align: center;
+            user-select: none;
+            font-size: 1.2em;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .active {
+            background: #c00;
+            color: #fff;
+            border-color: #900;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="800" height="600" style="border:1px solid #000000;"></canvas>
+    <div class="controls-cross">
+        <h1 id="upBox" class="control-box">UP</h1>
+        <h1 id="leftBox" class="control-box">LEFT</h1>
+        <h1 id="downBox" class="control-box">DOWN</h1>
+        <h1 id="rightBox" class="control-box">RIGHT</h1>
+    </div>
+</body>
+<script>
+    // Movement variables
+    let up = 0;
+    let down = 0;
+    let left = 0;
+    let right = 0;
+    let speed = 5;
+
+    // Canvas setup
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    // Player setup
+    const player = {};
+
+    player.x = 0;
+    player.y = 0;
+    player.width = 70;
+    player.height = 70;
+    player.img = new Image();
+    player.img.src = 'venture.png';
+
+    // Control boxes to get the state of each box when being pressed
+    const upBox = document.getElementById('upBox');
+    const downBox = document.getElementById('downBox');
+    const leftBox = document.getElementById('leftBox');
+    const rightBox = document.getElementById('rightBox');
+
+    // Event listeners for key presses, gives them a true value for the update cycle, also updates the active state for the direction boxes
+    document.addEventListener('keydown', function(event) {
+        let key = event.key.toLowerCase();
+        if (key === 'w') up = 1;
+        if (key === 'a') left = 1;
+        if (key === 's') down = 1;
+        if (key === 'd') right = 1;
+        updateControls();
+    });
+
+    // Event listeners for key releases, gives them a false value for the update cycle, also updates the active state for the direction boxes
+    document.addEventListener('keyup', function(event) {
+        let key = event.key.toLowerCase();
+        if (key === 'w') up = 0;
+        if (key === 'a') left = 0;
+        if (key === 's') down = 0;
+        if (key === 'd') right = 0;
+        updateControls();
+    });
+
+    // Function to update the active state of the direction boxes
+    function updateControls() {
+        upBox.classList.toggle('active', up);
+        downBox.classList.toggle('active', down);
+        leftBox.classList.toggle('active', left);
+        rightBox.classList.toggle('active', right);
+    }
+
+    // Main update loop
+    requestAnimationFrame(update);
+
+    // loop that constants checks for if the key press is true or not then does the movement bases off the speed, also checks if the player tries to go outside of the walls
+    function update() {
+        if (up) player.y -= speed;
+        if (down) player.y += speed;
+        if (left) player.x -= speed;
+        if (right) player.x += speed;
+
+        // border patrol to stop the illagals 
+        if (player.x < 0) player.x = 0;
+        if (player.y < 0) player.y = 0;
+        if (player.x + player.width > canvas.width) player.x = canvas.width - player.width;
+        if (player.y + player.height > canvas.height) player.y = canvas.height - player.height;
+
+        // clear the canvas and redraw the player
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(player.img, player.x, player.y, player.width, player.height);
+        requestAnimationFrame(update);
+    }
+</script>
+</html>

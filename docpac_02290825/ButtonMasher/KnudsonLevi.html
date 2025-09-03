@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var score = 0;
+        var direction = 0;
+        var timer = 20;
+        var wasHeld = false;
+        //Run timer countdown every second
+        setInterval(countdown, 1000);
+        //set a randoim direction every 2 seconds
+        setInterval(setDirection, 2000);
+        //detect gamepad connection
+        window.addEventListener('gamepadconnected', (event) => {
+            console.log("Gamepad connected");
+            //run gamepad listener to detect button presses
+            gamepadListener();
+        });
+        function countdown() {
+            if (timer > 0) {
+                timer -= 1;
+                //update timer display
+                document.getElementById("timerBox").innerHTML = timer;
+            }
+        }
+        function setDirection() {
+            //Get random number between 0 and 3
+            direction = Math.floor(Math.random() * (4));
+            //set direction display to corresponding direction
+            if (direction == 0) {
+                document.getElementById("directionBox").innerHTML = "Up";
+            } else if (direction == 1){
+                document.getElementById("directionBox").innerHTML = "right";
+            } else if (direction == 2){
+                document.getElementById("directionBox").innerHTML = "Down";
+            } else {
+                document.getElementById("directionBox").innerHTML = "Left";
+            } 
+        }
+        function gamepadListener() {
+            //shortcut to access p1 Gamepad
+            const gamepad = navigator.getGamepads()[0];
+            //check if A button is pressed
+            if (gamepad.buttons[0].pressed) {
+                OnAPress();
+            } else {
+                //reset wasHeld when A button is released
+                wasHeld = false;
+            }
+            //check if Plus button is pressed
+            if (gamepad.buttons[9].pressed) {
+                OnPlusPress();
+            }
+            requestAnimationFrame(gamepadListener);
+        }
+        function OnAPress() {
+            //define joystick direction in neutral position
+            var joystickDirection = -1;
+            //shortcut to access p1 Gamepad
+            const gamepad = navigator.getGamepads()[0];
+            console.log(gamepad.axes[1]);
+            //shrortcut to access joystick axes
+            const xAxis = gamepad.axes[0];
+            const yAxis = gamepad.axes[1];
+            //check joystick direction
+            if (yAxis < -0.75) {
+                //up
+                joystickDirection = 0;
+            } else if (xAxis > 0.75) {
+                //right
+                joystickDirection = 1;
+            } else if (yAxis > 0.75) {
+                //down
+                joystickDirection = 2;
+            } else if (xAxis < -0.75) {
+                //left
+                joystickDirection = 3;
+            } else {
+                //neutral
+                joystickDirection = -1;
+            }
+            //change score if joystick direction matches the random direction, the time has not run out, and the a button was pressed (not held)
+            if (timer > 0 && !wasHeld && joystickDirection == direction) {
+                score += 1;
+                //update score display
+                document.getElementById("scoreBox").innerHTML = "Score: " + score;
+            }
+            console.log("A Button pressed");
+            //set wasHeld to true to prevent score from increasing while button is held
+            wasHeld = true;
+        }
+        function OnPlusPress() {
+            //reload the page to reset the game
+            location.reload();
+            console.log("Plus Button pressed");
+        }
+
+    </script>
+    <div id="scoreBox">Score: 0</div>
+    <div id="timerBox">20</div>
+    <div id="directionBox">Up</div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Lab 6-4</title>
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+
+		<form name="myForm">
+			<input type="button" value="Write to Remote Document" id="openWindowBtn" />
+		</form>
+
+		<script>
+			document.getElementById('openWindowBtn').addEventListener('click', () => {
+				const textColor = prompt("Please enter a text color:", "white");
+				const backColor = prompt("Please enter a background color:", "black");
+				const pageTitle = prompt("The page will be titled:", "Default Title");
+				const yourText = prompt("Add content to the new document:", "page content");
+
+				// Open new window
+				const docWindow = window.open("", "docWin", "width=250,height=150,resizable=1,status=1");
+
+				if (!docWindow) {
+					alert("Failed to open new window. Please check your pop-up blocker.");
+					return;
+				}
+
+				// Clear any existing content (important if window was reused)
+				docWindow.document.documentElement.innerHTML = "";
+
+				// Set up the new document's head and body
+				const doc = docWindow.document;
+
+				// Create and set the <title>
+				const titleElem = doc.createElement('title');
+				titleElem.textContent = pageTitle;
+				doc.head.appendChild(titleElem);
+
+				// Add a script to show alert after the page loads
+				const scriptElem = doc.createElement('script');
+				scriptElem.textContent = `
+					window.onload = function() {
+						alert('The page ' + document.title + ' was created: ' + document.lastModified);
+					};
+				`;
+				doc.head.appendChild(scriptElem);
+
+				// Set body styles and add content
+				doc.body.style.backgroundColor = backColor;
+				doc.body.style.color = textColor;
+
+				const strongElem = doc.createElement('strong');
+				strongElem.textContent = yourText;
+				doc.body.appendChild(strongElem);
+			});
+		</script>
+	</body>
+</html>

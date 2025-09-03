@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Mortgage Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    table {
+      margin: auto;
+      background-color: wheat;
+      padding: 10px;
+      border-collapse: collapse;
+    }
+    td {
+      padding: 5px;
+    }
+    .container {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1 style="color: blue;">CIW JavaScript Specialist</h1>
+  <h2 style="color: green;">JavaScript Mortgage Calculator</h2>
+  <hr>  <div class="container">
+    <form id="mortgageForm">
+      <table>
+        <tr>
+          <td>Mortgage amount:</td>
+          <td><input type="number" id="amt" required></td>
+        </tr>
+        <tr>
+          <td>Yearly interest rate (%):</td>
+          <td><input type="number" step="0.01" id="ir" required></td>
+        </tr>
+        <tr>
+          <td>Term (in years):</td>
+          <td><input type="number" id="term" required></td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <button type="button" onclick="calcpayment()">Calculate Monthly Payment</button>
+          </td>
+        </tr>
+        <tr><td colspan="2"><hr></td></tr>
+        <tr>
+          <td>Monthly payment:</td>
+          <td><input type="text" id="payment" readonly></td>
+        </tr>
+        <tr>
+          <td>Total payments:</td>
+          <td><input type="text" id="total" readonly></td>
+        </tr>
+      </table>
+    </form>
+  </div>
+
+  <script>
+    function calcpayment() {
+      const amt = parseFloat(document.getElementById('amt').value);
+      const ir = parseFloat(document.getElementById('ir').value) / 1200;
+      const term = parseInt(document.getElementById('term').value) * 12;     
+
+      let total = 1;
+      for (let i = 0; i < term; i++) {
+        total *= (1 + ir);
+      }
+
+      const mp = amt * ir / (1 - (1 / total));
+      const monthlyPayment = Math.round(mp * 100) / 100;
+
+      //math.round ( ) function
+      const totalPayment = Math.round(mp * term * 100) / 100;
+
+      document.getElementById('payment').value = monthlyPayment.toFixed(2);
+      document.getElementById('total').value = totalPayment.toFixed(2);
+    }
+  </script>
+</body>
+</html>

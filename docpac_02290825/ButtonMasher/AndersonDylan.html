@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Masher</title>
+</head>
+
+<body>
+    <h1>Button Masher</h1>
+    <div id="score">Score: 0</div>
+    <div id="timer">Time Left: 20</div>
+    <div id="direction"></div>
+</body>
+<script>
+    let score = 0
+    let timer = 20
+    let direction = 0
+    direction = Math.floor(Math.random() * 4);
+    if (direction == 0) {
+        direction = "Direction: Up"
+    } else if (direction == 1) {
+        direction = "Direction: Down"
+    } else if (direction == 2) {
+        direction = "Direction: Left"
+    } else if (direction == 3) {
+        direction = "Direction: Right"
+    }
+    document.getElementById("direction").innerHTML = direction
+    setInterval(function () {
+        if (timer > 0) {
+            timer -= 1
+            document.getElementById("timer").innerHTML = "Time Left: " + timer
+        }
+    }, 1000)
+    setInterval(function () {
+        direction = Math.floor(Math.random() * 4);
+        if (direction == 0) {
+            direction = "Direction: Up"
+        } else if (direction == 1) {
+            direction = "Direction: Down"
+        } else if (direction == 2) {
+            direction = "Direction: Left"
+        } else if (direction == 3) {
+            direction = "Direction: Right"
+        }
+        if (timer > 0) {
+            document.getElementById("direction").innerHTML = direction
+        }
+    }, 2000)
+
+    let wasButtonPressed = false;
+    let startButtonPressed = false;
+
+    function gameLoop() {
+        const gamepads = navigator.getGamepads();
+        for (let gamepad of gamepads) {
+            if (gamepad) {
+                const isButtonPressed = gamepad.buttons[0].pressed;
+                const leftStickX = gamepad.axes[0];
+                const isStartButtonPressed = gamepad.buttons[9].pressed;
+                const leftStickY = gamepad.axes[1];
+                if (isButtonPressed && !wasButtonPressed && timer > 0) {
+                    if (leftStickX < -0.5 && direction == "Direction: Left") {
+                        score += 1;
+                    } else if (leftStickX > 0.5 && direction == "Direction: Right") {
+                        score += 1;
+                    } else if (leftStickY < -0.5 && direction == "Direction: Up") {
+                        score += 1;
+                    } else if (leftStickY > 0.5 && direction == "Direction: Down") {
+                        score += 1;
+                    }
+                    document.getElementById("score").innerHTML = "Score: " + score;
+                    wasButtonPressed = true;
+                } else if (!isButtonPressed) {
+                    wasButtonPressed = false;
+                };
+                if (startButtonPressed && !localStorage.getItem('startButtonPressed')) {
+                    localStorage.setItem('startButtonPressed', 'true');
+                    window.location.reload();
+                } else if (!isStartButtonPressed) {
+                    localStorage.removeItem('startButtonPressed');
+                }
+            }
+        }
+
+        requestAnimationFrame(gameLoop);
+    }
+
+    requestAnimationFrame(gameLoop);
+
+
+
+</script>
+
+</script>
+
+</html>

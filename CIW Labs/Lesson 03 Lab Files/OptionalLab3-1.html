@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+		<title>Optional Lab 3-1</title>
+	  <style>
+		label {
+		  background-color: #fdfdf0;
+		  color: black;
+		  border: 2px outset #8b8378;
+		  padding: 0.1em 2ex 0.1em 0.5ex;
+		  line-height: 1.6em;
+		  cursor: pointer;
+		  user-select: none;
+		  margin-right: 0.5em;
+		  display: inline-block;
+		}
+		button {
+		  margin-right: 0.5em;
+		  margin-top: 1em;
+		  padding: 0.4em 1em;
+		}
+	  </style>
+	</head>
+
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+	  <h3>JavaScript Get or Set Checked Radio Value</h3>
+
+	  <form name="radioExampleForm" method="get" action="#" onsubmit="return false;">
+		<p>
+		  <label for="number0"><input type="radio" id="number0" name="number" value="0"> Zero</label>
+		  <label for="number1"><input type="radio" id="number1" name="number" value="1"> One</label>
+		  <label for="number2"><input type="radio" id="number2" name="number" value="2"> Two</label>
+		  <label for="number3"><input type="radio" id="number3" name="number" value="3"> Three</label>
+		  <label for="number4"><input type="radio" id="number4" name="number" value="4"> Four</label>
+		</p>
+		<p>
+		  <button id="showValueBtn" type="button">Show Checked Value</button>
+		  <button id="setTwoBtn" type="button">Set Checked to Two</button>
+		  <button id="setFourBtn" type="button">Set Checked to Four</button>
+		  <button id="uncheckAllBtn" type="button">Uncheck All</button>
+		</p>
+	  </form>
+
+	  <script>
+		const form = document.forms.radioExampleForm;
+		const radios = form.elements.number;
+
+		const getCheckedValue = (radioObj) => {
+		  if (!radioObj) return "";
+		  if (radioObj.length === undefined) {
+			return radioObj.checked ? radioObj.value : "";
+		  }
+		  for (let radio of radioObj) {
+			if (radio.checked) return radio.value;
+		  }
+		  return "";
+		};
+
+		const setCheckedValue = (radioObj, newValue) => {
+		  if (!radioObj) return;
+		  if (radioObj.length === undefined) {
+			radioObj.checked = (radioObj.value === newValue.toString());
+			return;
+		  }
+		  let found = false;
+		  for (let radio of radioObj) {
+			if (radio.value === newValue.toString()) {
+			  radio.checked = true;
+			  found = true;
+			} else {
+			  radio.checked = false;
+			}
+		  }
+		  if (!found) {
+			// If no match found, uncheck all
+			for (let radio of radioObj) {
+			  radio.checked = false;
+			}
+		  }
+		};
+
+		document.getElementById("showValueBtn").addEventListener("click", () => {
+		  alert("Checked value is: " + getCheckedValue(radios));
+		});
+
+		document.getElementById("setTwoBtn").addEventListener("click", () => {
+		  setCheckedValue(radios, "2");
+		});
+
+		document.getElementById("setFourBtn").addEventListener("click", () => {
+		  setCheckedValue(radios, "4");
+		});
+
+		document.getElementById("uncheckAllBtn").addEventListener("click", () => {
+		  setCheckedValue(radios, "");
+		});
+	  </script>
+
+	</body>
+</html>
