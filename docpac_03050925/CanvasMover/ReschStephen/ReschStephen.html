@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="controls">Control Method: Keyboard</div>
+    <div id="position">Player X:    Player Y: </div>
+    <canvas width="800" height="600"></canvas>
+    <script>
+        const avatar = {
+            x: 0,
+            y: 0,
+            w: 50,
+            h: 50,
+            img: new Image(),
+            playerSpeed: 2
+        }
+
+        const canvas = document.querySelector('canvas');
+        const ctx = canvas.getContext('2d');
+
+        var inputVertical = 0;
+        var inputHorizontal = 0;
+        var keyWDown = false;
+        var keyADown = false;
+        var keySDown = false;
+        var keyDDown = false;
+
+        avatar.img.src = 'Hog.jpg';
+
+        document.addEventListener('keydown', (key) => {
+            switch (key.key) {
+                case 'w':
+                    inputVertical = -1;
+                    keyWDown = true;
+                    document.getElementById('position').innerText = `Player X: ${avatar.x} Player Y: ${avatar.y}`;
+                    break;
+                case 'a':
+                    inputHorizontal = -1;
+                    keyADown = true;
+                    document.getElementById('position').innerText = `Player X: ${avatar.x} Player Y: ${avatar.y}`;
+                    break;
+                case 's':
+                    inputVertical = 1;
+                    keySDown = true;
+                    document.getElementById('position').innerText = `Player X: ${avatar.x} Player Y: ${avatar.y}`;
+                    break;
+                case 'd':
+                    inputHorizontal = 1;
+                    keyDDown = true;
+                    document.getElementById('position').innerText = `Player X: ${avatar.x} Player Y: ${avatar.y}`;
+                    break;
+            }
+        });
+
+        document.addEventListener('keyup', (key) => {
+            switch (key.key) {
+                case 'w':
+                    keyWDown = false;
+                    if (keySDown) {
+                        inputVertical = 1;
+                        document.getElementById('position').innerText = `Player X: ${avatar.x} Player Y: ${avatar.y}`;
+                    } else {
+                        inputVertical = 0;
+                        document.getElementById('position').innerText = `Player X: ${avatar.x} Player Y: ${avatar.y}`;
+                    }
+                    break;
+                case 'a':
+                    keyADown = false;
+                    if (keyDDown) {
+                        inputHorizontal = 1;
+                        document.getElementById('position').innerText = `Player X: ${avatar.x} Player Y: ${avatar.y}`;
+                    } else {
+                        inputHorizontal = 0;
+                        document.getElementById('position').innerText = `Player X: ${avatar.x} Player Y: ${avatar.y}`;
+                    }
+                    break;
+                case 's':
+                    keySDown = false;
+                    if (keyWDown) {
+                        inputVertical = -1;
+                        document.getElementById('position').innerText = `Player X: ${avatar.x} Player Y: ${avatar.y}`;
+                    } else {
+                        inputVertical = 0;
+                        document.getElementById('position').innerText = `Player X: ${avatar.x} Player Y: ${avatar.y}`;
+                    }
+                    break;
+                case 'd':
+                    keyDDown = false;
+                    if (keyADown) {
+                        inputHorizontal = -1;
+                        document.getElementById('position').innerText = `Player X: ${avatar.x} Player Y: ${avatar.y}`;
+                    } else {
+                        inputHorizontal = 0;
+                        document.getElementById('position').innerText = `Player X: ${avatar.x} Player Y: ${avatar.y}`;
+                    }
+                    break;
+            }
+        });
+
+        requestAnimationFrame(update);
+        function update() {
+
+            console.log(inputHorizontal, inputVertical);
+            avatar.x += avatar.playerSpeed * inputHorizontal;
+            avatar.y += avatar.playerSpeed * inputVertical;
+
+            if (avatar.x < 0)
+                avatar.x = 0;
+                document.getElementById('position').innerText = `Player X: ${avatar.x} Player Y: ${avatar.y}`;
+            if (avatar.y < 0)
+                avatar.y = 0;
+                document.getElementById('position').innerText = `Player X: ${avatar.x} Player Y: ${avatar.y}`;
+            if (avatar.x + avatar.w > canvas.width)
+                avatar.x = canvas.width - avatar.w;
+                document.getElementById('position').innerText = `Player X: ${avatar.x} Player Y: ${avatar.y}`;
+            if (avatar.y + avatar.h > canvas.height)
+                avatar.y = canvas.height - avatar.h;
+                document.getElementById('position').innerText = `Player X: ${avatar.x} Player Y: ${avatar.y}`;
+            ctx.fillStyle = 'pink';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(avatar.img, avatar.x, avatar.y, avatar.w, avatar.h);
+            requestAnimationFrame(update);
+
+        }
+    </script>
+</body>
+
+</html>
