@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Mover</title>
+    <style>
+        .button {
+            background-color: white;
+            font-size: 16px;
+            border-radius: 12px;
+            text-align: center;
+            width: 70px;
+    
+        }
+
+        body {
+            text-align: center;
+        }
+        .debug {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: lightgrey;
+            width: 200px;
+            height: 100px;
+            opacity: 0.7;
+        }
+    </style>    
+</head>
+
+<body>
+    <div class="debug">
+        Device: Keyboard<br>
+    <div id="xyCoo">
+    </div>
+    </div>
+    <canvas id="myCanvas" width="800" height="600" style="border:1px solid #000000;"></canvas>
+    <br>
+
+    <button class="button upBut" id="upButton">UP</button>
+    <br>
+    <button class="button" id="leftButton">LEFT</button>
+    <button class="button" id="downButton">DOWN</button>
+    <button class="button" id="rightButton">RIGHT</button>
+
+    <script>
+        //variables for keys + character
+        let up = 0;
+        let down = 0;
+        let left = 0;
+        let right = 0;
+
+        var DreamJourney = {
+            x: 0,
+            y: 0,
+            width: 100,
+            height: 100,
+            Image: "/DreamJ.jpeg",
+            speed: 7
+        };
+        
+        const canvas = document.getElementById('myCanvas');
+        const ctx = canvas.getContext('2d');
+        const img = new Image();
+        img.src = DreamJourney.Image;
+        img.onload = function() {
+            ctx.drawImage(img, DreamJourney.x, DreamJourney.y, DreamJourney.width, DreamJourney.height);
+        };
+        document.addEventListener('keydown', function(event) {
+
+            //New arrows for movement so the movement isn't like a brick according to Smith
+            document.addEventListener('keydown', function (event) {
+                var key = event.key.toLowerCase();
+                if (key == 'w') {
+                    up = 1;
+                } else if (key == 's') {
+                    down = 1;
+                } else if (key == 'a') {
+                    left = 1;
+                } else if (key == 'd') {
+                    right = 1;
+                }
+            });
+            
+            document.addEventListener('keyup', function (event) {
+                var key = event.key.toLowerCase();
+                if (key == 'w') {
+
+                    up = 0;
+                } else if (key == 's') {
+                    down = 0;
+                } else if (key == 'a') {
+                    left = 0;
+                } else if (key == 'd') {
+                    right = 0;
+                }
+            });
+        });
+        function update() {   
+            if (up) {
+                DreamJourney.y -= DreamJourney.speed * 1;
+                document.getElementById("upButton").style.backgroundColor = "lightblue";
+            } 
+            if (down) {
+                DreamJourney.y += DreamJourney.speed * 1;
+                document.getElementById("downButton").style.backgroundColor = "lightblue";
+            } 
+            if (left) {
+                DreamJourney.x -= DreamJourney.speed * 1;
+                document.getElementById("leftButton").style.backgroundColor = "lightblue";
+            } 
+            if (right) {
+                DreamJourney.x += DreamJourney.speed * 1;
+                document.getElementById("rightButton").style.backgroundColor = "lightblue";
+            }
+            
+            //button color reset
+            if (!up) {
+                document.getElementById("upButton").style.backgroundColor = "white";
+            }
+            if (!down) {
+                document.getElementById("downButton").style.backgroundColor = "white";
+            }
+            if (!left) {
+                document.getElementById("leftButton").style.backgroundColor = "white";
+            }
+            if (!right) {
+                document.getElementById("rightButton").style.backgroundColor = "white";
+            }
+
+        document.getElementById("xyCoo").innerHTML = "Dream Journey's X: " + DreamJourney.x + "<br>Dream Journey's Y: " + DreamJourney.y;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, DreamJourney.x, DreamJourney.y, DreamJourney.width, DreamJourney.height);
+
+        requestAnimationFrame(update);
+
+        //border patrol
+        if(DreamJourney.x < 0) DreamJourney.x = 0;
+            if(DreamJourney.y < 0) DreamJourney.y = 0;
+            if(DreamJourney.x + DreamJourney.width > canvas.width) DreamJourney.x = canvas.width - DreamJourney.width;
+            if(DreamJourney.y + DreamJourney.height > canvas.height) DreamJourney.y = canvas.height - DreamJourney.height;
+        }
+        update();
+
+    </script>
+
+</body>
+</html>
