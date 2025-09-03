@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Mover</title>
+    <style>
+        body {
+            background-color: rgb(34, 34, 34);
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas width="800px" height="600px" id="canvas" style="border: 4px solid white;"></canvas>
+</body>
+
+<script>
+
+    
+    let playerSpeed = 4
+    
+    const canvas = document.getElementById("canvas")
+    var c = canvas.getContext('2d')
+    
+    var playerImg = new Image();
+    playerImg.src = "Hayden.png"
+    playerImg.onload = function () {
+        c.drawImage(playerImg, player.x, player.y);
+    }
+
+    const player = {
+        x: 0,
+        y: 0,
+        h: 64,
+        w: 48,
+    }
+
+    let right;
+    let left;
+    let up;
+    let down;
+
+    window.addEventListener("keydown", function (event) {
+        if (event.defaultPrevented) {
+            return;
+        }
+
+        if (event.key == "ArrowDown" || event.key == "s") {
+            down = true
+        }
+        if (event.key == "ArrowUp" || event.key == "w") {
+            up = true
+        }
+        if (event.key == "ArrowRight" || event.key == "d") {
+            right = true
+        }
+        if (event.key == "ArrowLeft" || event.key == "a") {
+            left = true
+        }
+    });
+
+    window.addEventListener("keyup", function (event) {
+        if (event.defaultPrevented) {
+            return;
+        }
+
+        if (event.key == "ArrowDown" || event.key == "s") {
+            down = false
+        }
+        if (event.key == "ArrowUp" || event.key == "w") {
+            up = false
+        }
+        if (event.key == "ArrowRight" || event.key == "d") {
+            right = false
+        }
+        if (event.key == "ArrowLeft" || event.key == "a") {
+            left = false
+        }
+
+    });
+    c.drawImage(playerImg, player.x, player.y, player.w, player.h)
+    function refresh() {
+
+        c.clearRect(0, 0, canvas.width, canvas.height)
+        c.drawImage(playerImg, player.x, player.y, player.w, player.h)
+        c.font = "15px Arial"
+        c.fillStyle = "white"
+        c.fillText("Keyboard " + player.x + "," + player.y, 10, 15);
+
+        if (down == true) {
+            player.y += playerSpeed
+        }
+        if (up == true) {
+            player.y -= playerSpeed
+        }
+        if (right == true) {
+            player.x += playerSpeed
+        }
+        if (left == true) {
+            player.x -= playerSpeed
+        }
+        if (player.x <= 0) {
+            player.x = 0
+        }
+        if (player.y <= 0) {
+            player.y = 0
+        }
+        if (player.x + player.w >= 800) {
+            player.x = 800 - player.w
+        }
+        if (player.y + player.h >= 600) {
+            player.y = 600 - player.h
+        }
+
+        requestAnimationFrame(refresh)
+    }
+    refresh()
+
+</script>
+
+</html>
