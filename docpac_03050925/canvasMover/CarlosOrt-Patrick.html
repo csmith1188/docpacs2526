@@ -141,7 +141,7 @@
         if (left) player.x -= speed;
         if (right) player.x += speed;
 
-        // border patrol to stop the illagals 
+        // Border Patrol
         if (player.x < 0) player.x = 0;
         if (player.y < 0) player.y = 0;
         if (player.x + player.width > canvas.width) player.x = canvas.width - player.width;
@@ -150,6 +150,12 @@
         // clear the canvas and redraw the player
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(player.img, player.x, player.y, player.width, player.height);
+
+        // draw player coordinates in top left
+        ctx.font = "20px Arial";
+        ctx.fillStyle = "#222";
+        ctx.fillText(`x: ${player.x}, y: ${player.y}`, 10, 30);
+
         requestAnimationFrame(update);
     }
 </script>
