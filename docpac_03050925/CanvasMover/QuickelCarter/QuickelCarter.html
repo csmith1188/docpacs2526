@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Mover</title>
+</head>
+<body>
+    <h1>MOVER 5000</h1>
+    <canvas id ="canvasAv" width="800" height="600" style="border: 3px solid rgb(77, 63, 63)"></canvas>
+    <div id= "debug info" style="color: gray"></div>
+    <button id="upUPSpeed" style="border: 2px solid black">Speed +10</button>
+    <button id="upSpeed">Speed +1</button>
+    <button id="downSpeed">Speed -1</button>
+    <button id="downDOWNSpeed" style="border: 2px solid black">Speed -10</button>
+    <p>---</p>
+    <div>
+        <button id="UPbtn">UP</button>
+        <br>
+        <button id="LEFTbtn">LEFT</button>
+        <button id="DOWNbtn">DOWN</button>
+        <button id="RIGHTbtn">RIGHT</button>
+    </div>
+</body>
+<script>
+    // canvas
+    const canvas = document.getElementById("canvasAv");
+
+    // coordinates and stuff
+    document.getElementById("debug info")
+
+    // speed buttons
+    document.getElementById("upSpeed").onclick = function(){
+        avatar.speed += 1;
+    }
+    document.getElementById("downSpeed").onclick = function(){
+        if (avatar.speed > 1){
+            avatar.speed -= 1;
+        }
+    }
+    document.getElementById("upUPSpeed").onclick = function(){
+        avatar.speed += 10;
+    }
+    document.getElementById("downDOWNSpeed").onclick = function(){
+        if (avatar.speed > 10){
+            avatar.speed -= 10;
+        } else if (avatar.speed > 1){
+            avatar.speed = 1;
+        }
+    }
+
+    // avatar object
+    const avatar = {
+        x : 100,
+        y : 100,
+        xv : 0,
+        yv : 0,
+        w : 100, //width
+        h : 100, // height
+        image : "chill.jpg",
+        speed : 2
+    }
+
+    // context
+    let ctx = canvas.getContext("2d");
+
+    // image
+    const img = new Image();
+    img.src = avatar.image;
+    img.onLoad = function(){
+        ctx.drawImage(img, avatar.x, avatar.y, avatar.w, avatar.h);
+    }
+    // is button down
+    const keys = {};
+    
+    // draw image
+    function draw(){
+        avatar.xv = 0;
+        avatar.yv = 0;
+        // up
+        if (keys["w"]){
+            avatar.yv = -avatar.speed;
+            document.getElementById("UPbtn").style.backgroundColor = "lightblue";
+        } else {
+            document.getElementById("UPbtn").style.backgroundColor = "white";
+        }
+
+        // down
+        if (keys["s"]){
+            avatar.yv = avatar.speed;
+            document.getElementById("DOWNbtn").style.backgroundColor = "lightblue";
+        } else {
+            document.getElementById("DOWNbtn").style.backgroundColor = "white";
+        }
+
+        // left
+        if (keys["a"]){
+            avatar.xv = -avatar.speed;
+            document.getElementById("LEFTbtn").style.backgroundColor = "lightblue";
+        } else {
+            document.getElementById("LEFTbtn").style.backgroundColor = "white";
+        }
+
+        // right
+        if (keys["d"]){
+            avatar.xv = avatar.speed;
+            document.getElementById("RIGHTbtn").style.backgroundColor = "lightblue";
+        } else {
+            document.getElementById("RIGHTbtn").style.backgroundColor = "white";
+        }
+
+        avatar.x += avatar.xv;
+        avatar.y += avatar.yv;
+        ctx.drawImage(img, avatar.x, avatar.y, avatar.w, avatar.h);
+    }
+
+    // key pressed
+    function keydown(){
+        document.addEventListener("keydown", function(){
+            keys[event.key] = true;
+    });
+    }
+
+    // key released
+    function keyup(){
+        document.addEventListener("keyup", function(){
+            keys[event.key] = false;
+    })}
+
+    // boundaries
+    function boundaries(){
+        if (avatar.x < 0){
+            avatar.x = 0;
+        }
+        if (avatar.x + avatar.w > canvas.width){
+            avatar.x = canvas.width - avatar.w;
+        }
+        if (avatar.y < 0){
+            avatar.y = 0;
+        }
+        if (avatar.y + avatar.h > canvas.height){
+            avatar.y = canvas.height - avatar.h;
+        }
+    }
+
+    // coordinates
+    function coordinates(){
+        document.getElementById("debug info").innerHTML = "X: " + avatar.x + " Y: " + avatar.y + " --- Speed: " + avatar.speed;
+        if (avatar.y < 0 || avatar.x < 0){
+            document.getElementById("debug info").innerHTML += " --- OUT OF BOUNDS";
+        }
+    }
+    
+    // update tick
+    function update(){
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        boundaries();
+        keydown();
+        keyup();
+        draw();
+        coordinates();
+        requestAnimationFrame(update);
+    }
+
+    // start the loop
+    update();
+    
+</script>
+</html>
