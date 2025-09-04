@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MASH!</title>
+</head>
+<body>
+    <h1 style="text-align: center;">MASH! - Gamepad Edition</h1>
+    <div id="axes" style="display: flex; flex-direction: column;"></div>
+    <div id="info" style="text-align: center;">
+        <div id="timerbox" style="color: red">PLAY!</div>
+        <div id="scorebox" style="color: gray"></div>
+        <b id="mashA" style="display: none;">Mash A!</b>
+        <div id="directionbox"></div>
+        <img src="direction-pad.png" alt="direction-pad" width="200px">
+    </div>
+    <center>
+        <button id="restartBtn" style="display: none;">Start</button>
+    </center>
+</body>
+<script>
+// data variables
+let score = 0
+let timer = 20
+let direction = 0
+let gameStatus = false
+let restartBtn = document.getElementById("restartBtn")
+let mashA = document.getElementById("mashA")
+let buttonpressed = true
+
+//countdown function
+function count(){
+    if (timer >= 0 && gameStatus == true){
+        document.getElementById("timerbox").innerHTML = `Time left: ${timer}`
+        timer -= 1
+        document.getElementById("restartBtn").innerHTML = "Restart"
+    }
+}
+
+// change direction function
+function directChange(){
+    if (gameStatus == true){
+        direction = Math.floor(Math.random() * 4)
+    }
+}
+
+// display
+function display(){
+    if (gameStatus == true){
+        document.getElementById("scorebox").innerHTML = `Score: ${score}`
+        mashA.style.display = "block"
+    } else {
+        restartBtn.style.display = "block"
+    }
+}
+
+// display update
+setInterval(display, 10)
+
+// end game
+setInterval(function() {
+    if (timer == 0){
+        gameStatus = false
+        document.getElementById("timerbox").innerHTML = `GAME!`
+        document.getElementById("scorebox").innerHTML = `Final Score: ${score}`
+        mashA.style.display = "none"
+        document.getElementById("directionbox").innerHTML = `Click RESTART to Play Again!`
+    }
+}, 1000)
+
+// timer
+setInterval(count, 1000)
+
+// direction
+setInterval(directChange, 2000)
+
+// restart button
+document.getElementById("restartBtn").addEventListener("click", function(){
+    if(gameStatus == true){
+        location.reload()
+    } else {
+        score = 0
+        timer = 20
+        direction = 0
+        gameStatus = true
+    }
+    
+})
+
+checkStat()
+handleGamepadInput()
+
+// Gamepad input handling
+function handleGamepadInput() {
+    const gamepads = navigator.getGamepads();
+    if (gamepads[0]) {
+        const gamepad = gamepads[0];
+        if (gamepad.buttons[0].pressed) { // A button
+            console.log("A button pressed");
+            if (gameStatus && timer > 0 && buttonpressed) {
+                // Check if button is pressed, not held
+                switch (direction) {
+                    case 0: // up
+                        score += (gamepad.axes[1] < -0.5) ? 1 : 0;
+                        break;
+                    case 1: // right
+                        score += (gamepad.axes[0] > 0.5) ? 1 : 0;
+                        break;
+                    case 2: // down
+                        score += (gamepad.axes[1] > 0.5) ? 1 : 0;
+                        break;
+                    case 3: // left
+                        score += (gamepad.axes[0] < -0.5) ? 1 : 0;
+                        break;
+                }
+                buttonpressed = false;
+            }
+            
+        }
+    }
+    
+    requestAnimationFrame(handleGamepadInput);
+}
+
+function checkStat(){
+    const gamepads = navigator.getGamepads();
+    if (gamepads[0]) {
+        const gamepad = gamepads[0];
+        if (!gamepad.buttons[0].pressed) {
+            buttonpressed = true; // Reset when button is released
+        }
+    }
+    requestAnimationFrame(checkStat);
+};
+
+// image orientation function
+function directOri(){
+    const gamepads = navigator.getGamepads();
+    if (gameStatus == true) {
+        if (direction == 0) { // up
+            document.querySelector('img').style.transform = 'rotate(0deg)'
+            document.getElementById("directionbox").innerHTML = `Up!`
+        } else if (direction == 1) { // right
+            document.querySelector('img').style.transform = 'rotate(90deg)'
+            document.getElementById("directionbox").innerHTML = `Right!`
+        } else if (direction == 2) { // down
+            document.querySelector('img').style.transform = 'rotate(180deg)'
+            document.getElementById("directionbox").innerHTML = `Down!`
+        } else if (direction == 3) { // left
+            document.querySelector('img').style.transform = 'rotate(270deg)'
+            document.getElementById("directionbox").innerHTML = `Left!`
+        }
+    }
+}
+// image direction
+setInterval(directOri, 100)
+
+</script>
+</html>
