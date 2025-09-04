@@ -43,7 +43,7 @@
             grid-column: 3;
             grid-row: 2;
         }
-        .control-box {
+        .button {
             border: 2px solid #444;
             background: #f0ac2f;
             color: #222;
@@ -69,10 +69,10 @@
 <body>
     <canvas id="canvas" width="800" height="600" style="border:1px solid #000000;"></canvas>
     <div class="controls-cross">
-        <h1 id="upBox" class="control-box">UP</h1>
-        <h1 id="leftBox" class="control-box">LEFT</h1>
-        <h1 id="downBox" class="control-box">DOWN</h1>
-        <h1 id="rightBox" class="control-box">RIGHT</h1>
+        <button class="button" id="upBox">UP</button>
+        <button class="button" id="leftBox">LEFT</button>
+        <button class="button" id="downBox">DOWN</button>
+        <button class="button" id="rightBox">RIGHT</button>
     </div>
 </body>
 <script>
@@ -97,12 +97,6 @@
     player.img = new Image();
     player.img.src = 'venture.png';
 
-    // Control boxes to get the state of each box when being pressed
-    const upBox = document.getElementById('upBox');
-    const downBox = document.getElementById('downBox');
-    const leftBox = document.getElementById('leftBox');
-    const rightBox = document.getElementById('rightBox');
-
     // Event listeners for key presses, gives them a true value for the update cycle, also updates the active state for the direction boxes
     document.addEventListener('keydown', function(event) {
         let key = event.key.toLowerCase();
@@ -123,23 +117,52 @@
         updateControls();
     });
 
-    // Function to update the active state of the direction boxes
-    function updateControls() {
-        upBox.classList.toggle('active', up);
-        downBox.classList.toggle('active', down);
-        leftBox.classList.toggle('active', left);
-        rightBox.classList.toggle('active', right);
-    }
+    upBox.onmousedown = function() { up = 1}
+    upBox.onmouseup = function() { up = 0}
+    upBox.onmouseleave = function() { up = 0}
+
+    downBox.onmousedown = function() { down = 1}
+    downBox.onmouseup = function() { down = 0}
+    downBox.onmouseleave = function() { down = 0}
+
+    leftBox.onmousedown = function() { left = 1}
+    leftBox.onmouseup = function() { left = 0}
+    leftBox.onmouseleave = function() { left = 0}
+
+    rightBox.onmousedown = function() { right = 1}
+    rightBox.onmouseup = function() { right = 0}
+    rightBox.onmouseleave = function() { right = 0}
 
     // Main update loop
     requestAnimationFrame(update);
 
     // loop that constants checks for if the key press is true or not then does the movement bases off the speed, also checks if the player tries to go outside of the walls
     function update() {
-        if (up) player.y -= speed;
-        if (down) player.y += speed;
-        if (left) player.x -= speed;
-        if (right) player.x += speed;
+        if (up) {
+            player.y -= speed;
+            document.getElementById('upBox').classList.add('active');
+        } else {
+             document.getElementById('upBox').classList.remove('active');
+            }
+
+        if (down) {
+            player.y += speed;
+            document.getElementById('downBox').classList.add('active');
+        } else {
+             document.getElementById('downBox').classList.remove('active');
+            }
+        if (left) {
+            player.x -= speed; 
+            document.getElementById('leftBox').classList.add('active');
+        } else {
+             document.getElementById('leftBox').classList.remove('active');
+            }
+        if (right) {
+            player.x += speed;
+            document.getElementById('rightBox').classList.add('active');
+        } else {
+             document.getElementById('rightBox').classList.remove('active');
+            }
 
         // Border Patrol
         if (player.x < 0) player.x = 0;
@@ -153,7 +176,7 @@
 
         // draw player coordinates in top left
         ctx.font = "20px Arial";
-        ctx.fillStyle = "#222";
+        ctx.fillStyle = "#c00";
         ctx.fillText(`x: ${player.x}, y: ${player.y}`, 10, 30);
 
         requestAnimationFrame(update);
