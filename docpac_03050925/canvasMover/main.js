@@ -1,5 +1,9 @@
-const canvas = document.getElementById('canvas');
+    //variables
+    const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
+    canvas.width = 800;
+    canvas.height = 600;
+
     let image = new Image ()
     image.src = 'kirbo.png'
 
@@ -7,8 +11,8 @@ const canvas = document.getElementById('canvas');
     background.src = "grass.jpg"
 
     let Player = {
-        x: 0, 
-        y: 0,
+        x: canvas.width / 2 - image.width / 2, 
+        y: canvas.height / 2 - image.height / 2,
         width: 50,
         height: 50,
         sprite: image
@@ -38,6 +42,12 @@ const canvas = document.getElementById('canvas');
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
         ctx.drawImage(Player.sprite, Player.x, Player.y, Player.width, Player.height)
+
+        // Draw coordinates
+        ctx.fillStyle = 'white'
+        ctx.font = '20px Arial'
+        ctx.fillText(`X: ${Player.x} Y: ${Player.y}`, 20, 20)
+
 
         // Loop
         requestAnimationFrame(gameLoop)
