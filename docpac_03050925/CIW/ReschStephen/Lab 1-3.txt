@@ -1,0 +1,25 @@
+https://www.linkedin.com/jobs/search?keywords=web%2Bdeveloper&location=United%2BStates&geoId=103644278&trk=public_jobs_jobs-search-bar_search-submit&currentJobId=4289739766&position=1&pageNum=0
+
+
+Junior Web Developer
+
+	Requirements:
+
+
+	Bachelor's degree in computer science, Information Technology, or related field (or equivalent experience).
+
+	Proficiency in HTML, CSS, and JavaScript.
+
+	Proficiency with Laravel framework.
+
+	Proficiency with VueJs.
+
+	Basic understanding of version control systems (preferably BitBucket).
+
+	Knowledge of responsive and mobile-first web design.
+
+	Strong problem-solving skills and attention to detail.
+
+	Good communication and teamwork abilities.
+
+	Eagerness to learn and grow in a fast-paced environment.
