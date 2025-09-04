@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Song of Silk</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #canvas {
+            border: 2px solid black;
+        }
+        .controls {
+            display: grid;
+            grid-template-columns: 80px 80px 80px;
+            grid-template-rows: 80px 80px 80px;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
+            height: 240px; 
+        }
+        .controls h1 {
+            background-color: lightgray;
+            border: 2px solid black;
+            text-align: center;
+            line-height: 80px; 
+            margin: 0;
+            padding: 0;
+        }
+        .controls h1.active {
+            background-color: red; 
+        }
+        #up {
+            grid-column: 2; 
+            grid-row: 1; 
+        }
+        #left {
+            grid-column: 1; 
+            grid-row: 2; 
+        }
+        #down {
+            grid-column: 2; 
+            grid-row: 3; 
+        }
+        #right {
+            grid-column: 3; 
+            grid-row: 2; 
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="800" height="600"></canvas>
+    <div class="controls">
+        <h1 id="up">Up</h1>
+        <h1 id="left">Left</h1>
+        <h1 id="down">Down</h1>
+        <h1 id="right">Right</h1>
+    </div>
+</body>
+<script>
+    const canvas = document.getElementById('canvas')
+    const ctx = canvas.getContext('2d');
+    const player = {}
+    const up = document.getElementById('up');
+    const down = document.getElementById('down');
+    const left = document.getElementById('left');
+    const right = document.getElementById('right');
+
+    player.x = 0;
+    player.y = 0;
+    player.h = 80;
+    player.w = 80;
+    player.img = new Image();
+    player.img.src = 'img/Hornet.jpg'; 
+
+    let speed = 2;
+
+    function updateControls() {
+        up.classList.toggle('active', up);
+        down.classList.toggle('active', down);
+        left.classList.toggle('active', left);
+        right.classList.toggle('active', right);
+    }
+
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'w' || event.key === 'W') {
+            player.y -= speed;
+            up.classList.add('active');
+        } else if (event.key === 'a' || event.key === 'A') {
+            player.x -= speed;
+            left.classList.add('active');
+        } else if (event.key === 's' || event.key === "S") {
+            player.y += speed;
+            down.classList.add('active');
+        } else if (event.key === 'd' || event.key === 'D') {
+            player.x += speed;
+            right.classList.add('active');
+        }
+        if (player.x < 0) {
+            player.x = 0;
+        } else if (player.y < 0) {
+            player.y = 0;
+        } else if (player.x + player.w > canvas.width) {
+            player.x = canvas.width - player.w;
+        } else if (player.y + player.h > canvas.height) {
+            player.y = canvas.height - player.h;
+        }
+    });
+
+    document.addEventListener('keyup', function (event) {
+        if (event.key === 'w' || event.key === 'W') {
+            up.classList.remove('active');
+        } else if (event.key === 'a' || event.key === 'A') {
+            left.classList.remove('active');
+        } else if (event.key === 's' || event.key === "S") {
+            down.classList.remove('active');
+        } else if (event.key === 'd' || event.key === 'D') {
+            right.classList.remove('active');
+        }
+    });
+
+    function update() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(player.img, player.x, player.y, player.w, player.h);
+        ctx.fillStyle = 'black';
+        ctx.font = '15px Arial';
+        ctx.fillText(`(${player.x}, ${player.y})`, 0, 30);
+        ctx.fillText("wasd keys", 0, 10)
+        requestAnimationFrame(update);
+    }
+
+    requestAnimationFrame(update);
+</script>
+</html>
