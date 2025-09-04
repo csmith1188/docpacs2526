@@ -37,6 +37,15 @@
         AvatarIMG.onload = () => {
             ctx.drawImage(AvatarIMG, avatar.x, avatar.y, avatar.width, avatar.height);
         };
+        //load joystick image onto canvas
+        JoystickIMG = new Image(30, 30)
+        JoystickIMG.src = "joystick.png"
+        JoystickIMG.onload = () => {
+            ctx.drawImage(JoystickIMG, 765, 5, 30, 30);
+        };
+        //display debug
+        ctx.fillText(`X: ${avatar.x} Y: ${avatar.y}` , 8, 15);
+        ctx.fillText("Input: Gamepad", 8, 25);
         //listen for gamepad connection
         window.addEventListener('gamepadconnected', (event) => {
             console.log("Gamepad connected");
@@ -81,7 +90,9 @@
                 //redraw avatar at new position
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 ctx.drawImage(AvatarIMG, x, y, avatar.width, avatar.height);
-                ctx.fillText(`X: ${Math.round(x)} Y: ${Math.round(y)}` , 10, 20);
+                ctx.fillText(`X: ${Math.round(x)} Y: ${Math.round(y)}` , 8, 15);
+                ctx.fillText("Input: Gamepad", 8, 25);
+                ctx.drawImage(JoystickIMG, 765, 5, 30, 30);
             }
             //update avatar object position
             avatar.x = x;
