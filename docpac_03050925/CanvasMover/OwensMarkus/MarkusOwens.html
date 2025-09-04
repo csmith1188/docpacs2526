@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1 id="conType"></h1>
+    <h2 id="xValue"></h2>
+    <h3 id="yValue"></h3>
+    <canvas id="canBox" height="800" width="600" style="border:1px solid #614646;"></canvas>
+
+    </canvas>
+    <script>
+    conType.innerHTML="Control type:Keyboard"
+    var can = document.getElementById("canBox");
+    var ctx = can.getContext("2d");
+    let x=0;
+    let y=0;
+    const w=20;
+    const h=20;
+    let keyVal=0;
+    const img= document.createElement('img');
+    img.src='avatar.jpg';
+    
+    function movekey(){
+        ctx.drawImage(img,x,y,w,h)
+        
+        document.addEventListener('keydown', function(event) {
+            if(event.key=="ArrowUp"){
+                keyVal=1
+                y -= 1*2
+                if(y<0){
+                    y=0
+                }
+            }
+            else if(event.key=="ArrowDown"){
+                keyVal=2
+                y += 1*2
+                if(y + h > canBox.height){
+                    y=canBox.height - h
+                }
+                
+            }
+            else if(event.key=="ArrowLeft"){
+                keyVal=3
+                x -= 1*2
+                if(x<0){
+                    x=0
+                }
+            }
+            else if(event.key=="ArrowRight"){
+                keyVal=4
+                x += 1*2
+                if(x + w > canBox.width){
+                    x = canBox.width - w
+                }
+            }
+            else{
+                output.textContent = `${event.key} is not an arrow key!`;
+            }
+        ctx.clearRect(0, 0, can.width, can.height);
+        ctx.drawImage(img,x,y,w,h)
+        xValue.innerHTML="X value:"+x
+        yValue.innerHTML="Y value:"+y
+        });
+    };
+    requestAnimationFrame(movekey);
+    </script>
+</body>
+</html>
