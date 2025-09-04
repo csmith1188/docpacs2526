@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CanvasMover</title>
+</head>
+
+<body>
+
+    <canvas id="canvas1" width="800" height="600" style="border: 2px solid black;"></canvas>
+    <script>
+        const canvas = document.getElementById("canvas1");
+        const ctx = canvas.getContext("2d");
+
+        const guy = {}
+        guy.x = 0;
+        guy.y = 0;
+        guy.width = 180;
+        guy.height = 180;
+        guy.image = new Image();
+        guy.image.src = "OIP.webp"
+        guy.speed = 2;
+
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "ArrowUp") {
+                guy.y -= guy.speed;
+            } else if (event.key === "ArrowDown") {
+                guy.y += guy.speed;
+            } else if (event.key === "ArrowLeft") {
+                guy.x -= guy.speed;
+            } else if (event.key === "ArrowRight") {
+                guy.x += guy.speed;
+                console.log("right");
+            }
+
+            if (guy.x < 0) {
+                guy.x = 0;
+            }
+            if (guy.y < 0) {
+                guy.y = 0;
+            }
+            if (guy.x + guy.width > canvas.width) {
+                guy.x = canvas.width - guy.width;
+            }
+            if (guy.y + guy.height > canvas.height) {
+                guy.y = canvas.height - guy.height;
+            }
+
+            function update() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(guy.image, guy.x, guy.y, guy.width, guy.height);
+                ctx.fillText("keyboard", 0, 10);
+                ctx.fillText(+ guy.x + "," + guy.y, 0, 30)
+                requestAnimationFrame(update);
+            }
+            requestAnimationFrame(update);
+        });
+
+    </script>
+</body>
+
+</html>
