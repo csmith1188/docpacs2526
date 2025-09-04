@@ -5,6 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CanvasMover</title>
+    <div>
+        <button id="btnW">W</button>
+        <button id="btnA">A</button>
+        <button id="btnS">S</button>
+        <button id="btnD">D</button>
+    </div>
 </head>
 
 <body>
@@ -23,14 +29,36 @@
         guy.image.src = "OIP.webp"
         guy.speed = 2;
 
+        const buttons = {
+            "W": document.getElementById("btnW"),
+            "A": document.getElementById("btnA"),
+            "S": document.getElementById("btnS"),
+            "D": document.getElementById("btnD")
+        };
+
+        function highlightButton(key) {
+            if (buttons[key]) {
+                buttons[key].classList.add("highlight");
+            }
+        }
+
+        function unhighlightButton(key) {
+            if (buttons[key]) {
+                buttons[key].classList.remove("highlight");
+            }
+        }
+
         document.addEventListener("keydown", function (event) {
-            if (event.key === "ArrowUp") {
+            const key = event.key.toUpperCase();
+            highlightButton(key);
+
+            if (key === "ARROWUP" || key === "W") {
                 guy.y -= guy.speed;
-            } else if (event.key === "ArrowDown") {
+            } else if (key === "ARROWDOWN" || key === "S") {   
                 guy.y += guy.speed;
-            } else if (event.key === "ArrowLeft") {
+            } else if (key === "ARROWLEFT" || key === "A") {
                 guy.x -= guy.speed;
-            } else if (event.key === "ArrowRight") {
+            } else if (key === "ARROWRIGHT" || key === "D") {
                 guy.x += guy.speed;
                 console.log("right");
             }
@@ -47,16 +75,27 @@
             if (guy.y + guy.height > canvas.height) {
                 guy.y = canvas.height - guy.height;
             }
-
-            function update() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.drawImage(guy.image, guy.x, guy.y, guy.width, guy.height);
-                ctx.fillText("keyboard", 0, 10);
-                ctx.fillText(+ guy.x + "," + guy.y, 0, 30)
-                requestAnimationFrame(update);
-            }
-            requestAnimationFrame(update);
         });
+
+        document.addEventListener("keyup", function (event) {
+            const key = event.key.toUpperCase();
+            unhighlightButton(key);
+        });
+
+        function update() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(guy.image, guy.x, guy.y, guy.width, guy.height);
+            ctx.fillText("keyboard", 0, 10);
+            ctx.fillText(+ guy.x + "," + guy.y, 0, 30);
+            requestAnimationFrame(update);
+        }
+        requestAnimationFrame(update);
+    </script>
+    <style>
+        .highlight {
+            background-color: yellow;
+        }
+    </style>
 
     </script>
 </body>
