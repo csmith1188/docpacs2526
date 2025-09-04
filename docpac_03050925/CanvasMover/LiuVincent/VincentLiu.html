@@ -97,6 +97,23 @@
                 }
             });
         });
+
+        upButton.onmousedown = function() { up = 1; };
+        upButton.onmouseup = function() { up = 0; };
+        upButton.onmouseleave = function() { up = 0; };
+
+        downButton.onmousedown = function() { down = 1; };
+        downButton.onmouseup = function() { down = 0; };
+        downButton.onmouseleave = function() { down = 0; };
+
+        leftButton.onmousedown = function() { left = 1; };
+        leftButton.onmouseup = function() { left = 0; };
+        leftButton.onmouseleave = function() { left = 0; };
+
+        rightButton.onmousedown = function() { right = 1; };
+        rightButton.onmouseup = function() { right = 0; };
+        rightButton.onmouseleave = function() { right = 0; };
+
         function update() {   
             if (up) {
                 DreamJourney.y -= DreamJourney.speed * 1;
