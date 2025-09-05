@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+
+    <body>
+
+    </body>
+    <div id="debug"></div>
+    <canvas width="800" height="600" id="canvasMover" style="border:1px solid #000000"></canvas>
+    
+
+    <script>
+        var Up = 0;
+        var Down = 0;
+        var Left = 0;
+        var Right = 0;
+        const canvas = document.getElementById('canvasMover');
+        const ctx = canvas.getContext('2d');
+        const Player = {
+            x: 0,
+            y: 0,
+            w: 25,
+            h: 25,
+            speed: 2,
+            img: new Image()
+        }
+        Player.img.src = 'screenshot.png'
+        document.addEventListener('keydown', function(event) {
+            console.log(event.key)
+            if (event.key === 'ArrowUp') {
+                Up = 1;
+            } else if (event.key === 'ArrowDown') {
+                console.log('down');
+                Down = 1;
+            } else if (event.key === 'ArrowLeft') {
+                console.log('left');
+                Left = 1;
+            } else if (event.key === 'ArrowRight') {
+                console.log('right');
+                Right = 1;
+            }
+        })
+        document.addEventListener('keyup', function(event) {
+            if (event.key === 'ArrowUp') {
+                console.log('up release');
+                Up = 0;
+            } else if (event.key === 'ArrowDown') {
+                console.log('down release');
+                Down = 0;
+            } else if (event.key === 'ArrowLeft') {
+                console.log('left release');
+                Left = 0;
+            } else if (event.key === 'ArrowRight') {
+                console.log('right release');
+                Right = 0;
+            }
+        })
+        function movePlayer() {
+            Player.y -= (Up * Player.speed);
+            Player.y += (Down * Player.speed);
+            Player.x -= (Left * Player.speed);
+            Player.x += (Right * Player.speed);
+            if (Player.x < 0) {
+                Player.x = 0;
+            }
+            if (Player.y < 0) {
+                Player.y = 0;
+            }
+            if (Player.x + Player.w > canvas.width) {
+                Player.x = canvas.width - Player.w;
+            }
+            if (Player.y + Player.h > canvas.height) {
+                Player.y = canvas.height - Player.h;
+            }
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(Player.img, Player.x, Player.y, Player.w, Player.h);
+            ctx.font = "15px Arial";
+            document.getElementById("debug").innerHTML = "Control: Keyboard";
+            document.getElementById("debug").innerHTML += "    x:" + Player.x + "    y:" + Player.y;
+            requestAnimationFrame(movePlayer);
+        }
+        requestAnimationFrame(movePlayer);
+    </script>
+
+</html>
