@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CanvasMover</title>
+</head>
+
+<body>
+
+    <div id="wasd buttons">
+        <button id="w">W</button>
+        <button id="a">A</button>
+        <button id="s">S</button>
+        <button id="d">D</button>
+    </div>
+
+    <canvas id="myCanvas" width="800" height="600"></canvas>
+    <script>
+        const canvas = document.getElementById('myCanvas');
+        const ctx = canvas.getContext('2d');
+
+        const player = {};
+
+        player.x = 0;
+        player.y = 0;
+        player.w = 265
+        player.h = 181
+        player.speed = 2
+        player.img = new Image();
+        player.img.src = 'running.webp'
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'w' || event.key === 'W') {
+                player.y -= player.speed;
+                document.getElementById('w').style.backgroundColor = 'lightblue';
+            } else if (event.key === 'a' || event.key === 'A') {
+                player.x -= player.speed;
+                document.getElementById('a').style.backgroundColor = 'lightblue';
+            } else if (event.key === 's' || event.key === 'S') {
+                player.y += player.speed;
+                document.getElementById('s').style.backgroundColor = 'lightblue';
+            } else if (event.key === 'd' || event.key === 'D') {
+                player.x += player.speed;
+                document.getElementById('d').style.backgroundColor = 'lightblue';
+            }
+        
+
+            if (player.x < 0) player.x = 0;
+            if (player.y < 0) player.y = 0;
+            if (player.x + player.w > canvas.width) player.x = canvas.width - player.w;
+            if (player.y + player.h > canvas.height) player.y = canvas.height - player.h;
+
+
+            requestAnimationFrame(update);
+
+
+
+        });
+
+        document.addEventListener('keyup', function (event) {
+            if (event.key === 'w' || event.key === 'W') {
+                document.getElementById('w').style.backgroundColor = '';
+            } else if (event.key === 'a' || event.key === 'A') {
+                document.getElementById('a').style.backgroundColor = '';
+            } else if (event.key === 's' || event.key === 'S') {
+                document.getElementById('s').style.backgroundColor = '';
+            } else if (event.key === 'd' || event.key === 'D') {
+                document.getElementById('d').style.backgroundColor = '';
+            }
+        });
+
+
+        function update() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(player.img, player.x, player.y, player.w, player.h);
+            ctx.font = "15px Arial";
+            ctx.fillText(`(${player.x}, ${player.y})`, 0, 30);
+            ctx.fillText("keyboard", 0, 10)
+            requestAnimationFrame(update);
+        }
+
+        requestAnimationFrame(update);
+
+
+
+    </script>
+
+</body>
+
+</html>
