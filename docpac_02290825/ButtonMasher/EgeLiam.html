@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="score">Score box</div>
+    <div id="timers">Timer box</div>
+    <div id="direction">Direction box</div>
+    <script>
+        let score = 0;
+        let timer = 20;
+        let direction = 0;
+        buttonPressed = false;
+        setInterval(timerDecrease, 1000);
+        setInterval(newDirection, 2000);
+
+        window.addEventListener('gamepadconnected', (event) => {
+            console.log('Gamepad connected:');
+            const update = () => {
+                for (const gamepad of navigator.getGamepads()) {
+                    if (!gamepad) continue;
+                    console.log("check1");
+                    if (gamepad.buttons[9].pressed != buttonPressed) {
+                        buttonPressed = gamepad.buttons[9].pressed;
+                        if (buttonPressed) {
+                            location.reload();
+                            buttonPressed = false;
+                        }
+                    }
+                    if (gamepad.buttons[0].pressed != buttonPressed) {
+                        buttonPressed = gamepad.buttons[0].pressed;
+                        if (buttonPressed) {
+                            console.log("Button 0 pressed");
+                            if (gamepad.axes[1] == -1.0 && direction == 0 && timer > 0) {
+                                score++;
+                                document.getElementById("score").innerHTML = "Score: " + score;
+                                console.log("up");
+                            } else if (gamepad.axes[1] == 1.0 && direction == 1 && timer > 0) {
+                                score++;
+                                document.getElementById("score").innerHTML = "Score: " + score;
+                                console.log("down");
+                            } else if (gamepad.axes[0] == -1.0 && direction == 3 && timer > 0) {
+                                score++;
+                                document.getElementById("score").innerHTML = "Score: " + score;
+                                console.log("right");
+                            } else if (gamepad.axes[0] == 1.0 && direction == 2 && timer > 0) {
+                                score++;
+                                document.getElementById("score").innerHTML = "Score: " + score;
+                                console.log("left");
+                            }
+                        }
+
+                    }
+                }
+                requestAnimationFrame(update);
+                
+            }
+            update();
+
+        });
+        function timerDecrease() {
+            if (timer > 0) {
+                timer--;
+                document.getElementById("timers").innerHTML = "Time Left: " + timer + "seconds";
+            } else {
+                document.getElementById("score").innerHTML = "Your score was " + score;
+                document.getElementById("direction").style.display = "none";
+                document.getElementById("timers").style.display = "none";
+            }
+        }
+        function newDirection() {
+            direction = Math.floor(Math.random() * 4);
+            if (direction == 0) {
+                document.getElementById("direction").innerHTML = "UP";
+            } else if (direction == 1) {
+                document.getElementById("direction").innerHTML = "DOWN";
+            } else if (direction == 2) {
+                document.getElementById("direction").innerHTML = "LEFT";
+            } else if (direction == 3) {
+                document.getElementById("direction").innerHTML = "RIGHT";
+            }
+        }
+
+    </script>
+</body>
+
+</html>
