@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Mover</title>
+    <style>
+        #canvas {
+            border: 1px solid black;
+            background-color: lightgrey;
+        }
+
+        .rectangle {
+            width: 100px;
+            height: 100px;
+            background-color: gray;
+            border: 1px solid black;
+        }
+
+        .invis {
+            width: 102px;
+            height: 100px;
+            background-color: rgba(0, 0, 0, 0);
+        }
+    </style>
+</head>
+
+<body>
+    <p>Control Scheme: Keyboard</p>
+    <div id="xy"></div>
+    <br><br>
+    <canvas id="canvas" width="800" height="600"></canvas>
+    <br><br>
+    <div class="invis" style="display: inline-block;"></div>
+    <div id="up" class="rectangle" style="display: inline-block;"></div>
+    <br>
+    <div id="left" class="rectangle" style="display: inline-block;"></div>
+    <div id="down" class="rectangle" style="display: inline-block;"></div>
+    <div id="right" class="rectangle" style="display: inline-block;"></div>
+</body>
+<script>
+    let speed = 0.05;
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const avatar = { x: 0, y: 0, w: 22, h: 23.5, img: document.createElement('img')};
+    avatar.img.src = 'yippee.gif'
+
+    function playerPosition() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        console.log(avatar.x, avatar.y);
+        document.addEventListener('keydown', function (event) {
+            if (event.keyCode == 38) {
+                document.getElementById('up').style.backgroundColor = "red";
+                avatar.y -= 1 * speed
+            }
+            else if (event.keyCode == 40) {
+                document.getElementById('down').style.backgroundColor = "red";
+                avatar.y -= -1 * speed
+            }
+            if (event.keyCode == 37) {
+                document.getElementById('left').style.backgroundColor = "red";
+                avatar.x += -1 * speed
+            }
+            else if (event.keyCode == 39) {
+                document.getElementById('right').style.backgroundColor = "red";
+                avatar.x += 1 * speed
+            }
+        });
+
+        document.addEventListener('keyup', function (event) {
+            if (event.keyCode == 38) {
+                document.getElementById('up').style.backgroundColor = "gray";
+            }
+            else if (event.keyCode == 40) {
+                document.getElementById('down').style.backgroundColor = "gray";
+            }
+            if (event.keyCode == 37) {
+                document.getElementById('left').style.backgroundColor = "gray";
+            }
+            else if (event.keyCode == 39) {
+                document.getElementById('right').style.backgroundColor = "gray";
+            }
+        });
+
+        if (avatar.x < 0) {
+            avatar.x = 0;
+        }
+        if (avatar.y < 0) {
+            avatar.y = 0;
+        }
+        if (avatar.x + avatar.w > canvas.width) {
+            avatar.x = canvas.width - avatar.w;
+        }
+        if (avatar.y + avatar.h > canvas.height) {
+            avatar.y = canvas.height - avatar.h;
+        }
+        document.getElementById('xy').innerHTML = "X: " + avatar.x.toFixed(2) + " Y: " + avatar.y.toFixed(2);
+
+        ctx.drawImage(avatar.img, avatar.x, avatar.y, avatar.w, avatar.h);
+        requestAnimationFrame(playerPosition);
+    }
+    requestAnimationFrame(playerPosition);
+</script>
+
+</html>
