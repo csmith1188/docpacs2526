@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Optional Lab 3-2</title>
+  <style>
+    form p {
+      margin: 0.5em 0;
+    }
+  </style>
+</head>
+
+<body>
+  <h3>CIW JavaScript Specialist</h3>
+  <hr>
+  <h4>Event Handler Examples</h4>
+  <p>Vote for your favorite sport:</p>
+  <form name="myform" id="myform">
+    <label><input type="radio" name="sports" value="Football"> Football</label><br>
+    <label><input type="radio" name="sports" value="Hockey"> Hockey</label><br>
+    <label><input type="radio" name="sports" value="Auto Racing"> Auto Racing</label><br>
+    <label><input type="radio" name="sports" value="MMA"> MMA</label><br>
+    <label><input type="radio" name="sports" value="Basketball"> Basketball</label><br>
+    <label><input type="radio" name="sports" value="Tennis"> Tennis</label><br>
+    <label><input type="radio" name="sports" value="Golf"> Golf</label><br>
+
+    <p>
+      <button type="button" id="voteBtn">VOTE</button>
+      <button type="reset">RESET</button>
+    </p>
+
+    <p>
+      <input type="text" id="textInput" size="40" placeholder="Click in then out!">
+    </p>
+
+    <p>
+      <input type="text" id="hoverInput" size="40" placeholder="Hover over this field!">
+    </p>
+
+    <p>
+      <input type="text" id="hoverOutInput" size="40" placeholder="Hover this field then away!">
+    </p>
+
+    <p>
+      <input type="text" id="txt" size="40" readonly placeholder="Result 1">
+    </p>
+  </form>
+
+  <script>
+    const form = document.forms.myform;
+    const voteBtn = document.getElementById('voteBtn');
+    const textInput = document.getElementById('textInput');
+    const hoverInput = document.getElementById('hoverInput');
+    const hoverOutInput = document.getElementById('hoverOutInput');
+
+    const resultFields = [
+      document.getElementById('txt'),
+      document.getElementById('txt1'),
+      document.getElementById('txt2'),
+    ];
+
+    function vote() {
+      const sports = form.elements.sports;
+      let selectedSport = "";
+
+    // sports could be a NodeList or a single element
+      if (!sports) {
+        selectedSport = "";
+      } else if (sports.length === undefined) {
+        // only one radio button
+        if (sports.checked) selectedSport = sports.value;
+      } else {
+        for (const sport of sports) {
+          if (sport.checked) {
+            selectedSport = sport.value;
+            break;
+          }
+        }
+      }
+
+      if (selectedSport === "") {
+        resultFields.forEach(field => (field.value = "Choose a sport"));
+      } else {
+        const message = `Your favorite sport is: ${selectedSport}`;
+        resultFields.forEach(field => (field.value = message));
+      }
+    }
+
+    function upperCaseInput() {
+      textInput.value = textInput.value.toUpperCase();
+    }
+
+    function sayHello() {
+      alert("Your mouse is over the text!");
+    }
+
+    function sayGoodbye() {
+      alert("Your mouse has left the text!");
+    }
+
+    voteBtn.addEventListener('click', vote);
+    textInput.addEventListener('blur', upperCaseInput);
+    hoverInput.addEventListener('mouseover', sayHello);
+    hoverOutInput.addEventListener('mouseout', sayGoodbye);
+  </script>
+
+</body>
+</html>

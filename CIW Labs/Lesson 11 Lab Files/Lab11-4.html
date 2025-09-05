@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Lab 11-4</title>
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+
+		<script>
+		(() => {
+		  // Prompt user inputs
+		  const myColorInput = prompt("Please enter a hexadecimal color code (6 characters, 0-9 and A-F):", "FFFFFF");
+		  const myNameInput = prompt("Please enter your name:", "Cookie Monster");
+
+		  // Validate and format color
+		  let myColor = "#ffffff";
+		  if (myColorInput && /^[0-9A-Fa-f]{6}$/.test(myColorInput)) {
+			myColor = "#" + myColorInput.toUpperCase();
+		  }
+
+		  // Ask if cookie should be deleted or kept
+		  const keepCookie = confirm("A cookie will be set. Delete cookie?") ? "delete" : "keep";
+
+		  // Expiration date for cookie: June 8, 2038 23:59:59 GMT
+
+
+
+		  if (keepCookie === "delete") {
+			// Delete the cookies by setting past expiration dates
+			document.cookie = "YColor=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+			document.cookie = "userName=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+			alert("Cookie has been deleted.");
+		  } else {
+			// Set cookies with user input values for persistence
+			document.cookie = `YColor=${encodeURIComponent(myColor)}; expires=${expiresDate}; path=/`;
+			document.cookie = `userName=${encodeURIComponent(myNameInput)}; expires=${expiresDate}; path=/`;
+			alert("Cookie has been set on your system.");
+		  }
+
+		  // Show alerts
+		  alert(`Your background color will be: ${myColor}`);
+		  alert(`Your name is: ${myNameInput}`);
+
+		  // Change background color immediately
+		  document.body.style.backgroundColor = myColor;
+
+		  // Display color and name on the page
+		  const infoDiv = document.createElement("div");
+		  infoDiv.innerHTML =
+			"Your background color is: " + myColor + "<br>" +
+			"Your name is: " + myNameInput + "<br>";
+		  document.body.appendChild(infoDiv);
+		})();
+		</script>
+
+	</body>
+</html>

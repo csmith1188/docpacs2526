@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Lesson 10 Application Project</title>
+	  <script>
+		// Add event listener after DOM is loaded
+		window.addEventListener('DOMContentLoaded', function() {
+		  const form = document.getElementById('ccForm');
+		  const button = document.getElementById('checkButton');
+		  button.addEventListener('click', function() {
+			validate(form);
+		  });
+		});
+
+		// Validate form function
+		function validate(form) {
+		  // Get card type radio buttons
+		  const cardTypes = form.ccard;
+		  let selectedCard = null;
+		  for (let i = 0; i < cardTypes.length; i++) {
+			if (cardTypes[i].checked) {
+			  selectedCard = cardTypes[i].value;
+			  break;
+			}
+		  }
+
+		  // If no card type selected, alert user and stop
+		  if (!selectedCard) {
+			alert('Please select a credit card type.');
+			return;
+		  }
+
+		  // Get card number and clean spaces
+		  const cardNumber = form.number.value.replace(/\s+/g, '');
+		  // Check if card number contains only digits
+		  if (!/^\d+$/.test(cardNumber)) {
+			alert('Card number must contain only digits.');
+			form.number.focus();
+			return;
+		  }
+
+		  // Validate card number length and starting digit by card type
+		
+
+		  
+		  const expMonth = parseInt(form.expMo.value, 10);
+		  const expYear = parseInt(form.expYr.value, 10);
+
+		  const today = new Date();
+		  const expiration = new Date(expYear, expMonth);
+
+		  // Validate expiration date
+	  
+
+		  // If all checks pass, acknowledge success
+		  
+		}
+	  </script>
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+
+		<form name="ccForm" id="ccForm" method="post">
+		  <p>
+			<input type="radio" name="ccard" value="visa"> Visa
+		  </p>
+		  <p>
+			<input type="radio" name="ccard" value="mc"> MasterCard
+		  </p>
+		  <p>
+			<input type="radio" name="ccard" value="amex"> American Express
+		  </p>
+		  <p>
+			Card # <input type="text" name="number">
+		  </p>
+		  <p>
+			Exp Date:
+			<select name="expMo">
+			  <option value="0">Jan</option>
+			  <option value="1">Feb</option>
+			  <option value="2">Mar</option>
+			  <option value="3">Apr</option>
+			  <option value="4">May</option>
+			  <option value="5">Jun</option>
+			  <option value="6">Jul</option>
+			  <option value="7">Aug</option>
+			  <option value="8">Sep</option>
+			  <option value="9">Oct</option>
+			  <option value="10">Nov</option>
+			  <option value="11">Dec</option>
+			</select>
+			<select name="expYr">
+			  <option value="2026">2026</option>
+			  <option value="2027">2027</option>
+			  <option value="2028">2028</option>
+			  <option value="2029">2029</option>
+			  <option value="2030">2030</option>
+			  <option value="2031">2031</option>
+			  <option value="2032">2032</option>
+			  <option value="2033">2033</option>
+			</select>
+		  </p>
+
+		  <input type="button" value="Check Form" id="checkButton">
+		  <input type="reset" value="Reset Form">
+		</form>
+
+	</body>
+</html>

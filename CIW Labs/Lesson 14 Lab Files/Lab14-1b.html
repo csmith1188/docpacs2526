@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Lab 14-1b</title>
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+	  <form>
+		<label>Last Name: <input type="text" id="lastName"></label>
+		<button type="button" class="save">Save Name</button>
+		<button type="button" class="access">Get Name</button>
+	  </form>
+
+	  <script>
+		if (typeof localStorage !== "undefined" && typeof sessionStorage !== "undefined") {
+		  const saveButton = document.querySelector(".save");
+		  const accessButton = document.querySelector(".access");
+		  const lastNameInput = document.getElementById("lastName");
+
+		  saveButton.addEventListener("click", () => {
+			const lastName = lastNameInput.value.trim();
+			if (lastName) {
+			  sessionStorage.setItem("last_name", lastName);
+			  alert("Your last name has been saved.");
+			} else {
+			  alert("Please enter your last name before saving.");
+			}
+		  });
+
+		  accessButton.addEventListener("click", () => {
+			const firstName = localStorage.getItem("first_name") || "";
+			const lastName = sessionStorage.getItem("last_name") || "";
+			if (firstName || lastName) {
+			  alert("Hi, " + firstName + " " + lastName);
+			} else {
+			  alert("No name is saved yet.");
+			}
+		  });
+		} else {
+		  alert("Sorry, your browser does not support local or session storage.");
+		}
+	  </script>
+	</body>
+</html>        

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	  <meta charset="UTF-8">
+	  <title>Modern JavaScript Quiz</title>
+	</head>
+
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+	  Take an online quiz.
+	  <br>
+	  <button id="quizBtn">Take Quiz</button>
+
+	  <script>
+		let numCorrect = 0;
+		function takeTest() {
+		  numCorrect = 0;
+		  const questions = [
+			{
+			  question: "What company developed JavaScript?",
+			  answer: "NETSCAPE",
+			  check: (response, correct) => response.toUpperCase() === correct
+			},
+			{
+			  question: "Using JavaScript operator precedence,\nwhat is the result of the following expression? 2 + 4 * 6",
+			  answer: 26,
+			  check: (response, correct) => Number(response) === correct
+			},
+			{
+			  question: "With what object-oriented programming language\nis JavaScript often compared and confused?",
+			  answer: "JAVA",
+			  check: (response, correct) => response.toUpperCase() === correct
+			}
+		  ];
+		  for (const q of questions) {
+			const response = prompt(q.question, "");
+			if (response !== null) {
+			  const isCorrect = q.check(response, q.answer);
+		   
+			**** insert line of code here ****
+			}
+		  }
+		  alert(`You answered a total of ${numCorrect} correctly.`);
+		}
+
+		function runningTotal(points) {
+		  numCorrect += points;
+		  return numCorrect;
+		}
+
+		// Attach event listener to button
+		document.getElementById("quizBtn").addEventListener("click", takeTest);
+	  </script>
+
+	</body>
+</html>

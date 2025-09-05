@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Lab 5-3</title>
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+
+	  <form id="gradeForm">
+		<label for="gradeInput">Enter numerical grade value:</label>
+		<input type="number" id="gradeInput" size="10" />
+		<p><button type="submit">Check Grade</button></p>
+	  </form>
+
+	  <p id="result" style="font-weight: bold;"></p>
+
+	  <script>
+		document.getElementById("gradeForm").addEventListener("submit", function(event) {
+		  event.preventDefault();
+
+		  let inputValue = document.getElementById("gradeInput").value.trim();
+		  let grade = parseInt(inputValue, 10);
+		  let attempts = 0;
+
+		  while (Number.isNaN(grade)) {
+			const userInput = prompt("Please enter a numerical grade value:");
+
+
+
+
+
+
+
+			}
+			grade = parseInt(userInput.trim(), 10);
+		  }
+
+		  let message;
+		  if (grade >= 90) {
+			message = "Your grade is an A.";
+		  } else if (grade >= 80) {
+			message = "Your grade is a B.";
+		  } else {
+			message = "Your grade is a C or lower.";
+		  }
+
+		  document.getElementById("result").textContent = message;
+		});
+	  </script>
+
+	</body>
+</html>

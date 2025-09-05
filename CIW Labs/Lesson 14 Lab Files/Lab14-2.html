@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Lab 14-2</title>
+		<style>
+		  body { font-family: Arial, sans-serif; padding: 20px; }
+		  table { border-collapse: collapse; margin-top: 20px; width: 100%; max-width: 600px; }
+		  td, th { border: 1px solid #ccc; padding: 8px 12px; text-align: left; }
+		</style>
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+	  <h3>Geolocation Properties</h3>
+	  <button id="getLocationBtn">Get Location</button>
+
+	  <table id="locationTable" style="display:none;">
+		<thead>
+		  <tr><th>Property</th><th>Value</th></tr>
+		</thead>
+		<tbody id="locationData"></tbody>
+	  </table>
+
+	  <script>
+		const btn = document.getElementById('getLocationBtn');
+		const table = document.getElementById('locationTable');
+		const tbody = document.getElementById('locationData');
+
+		btn.addEventListener('click', () => {
+		  if (!('geolocation' in navigator)) {
+			alert('Geolocation is not supported by your browser.');
+			return;
+		  }
+
+		  navigator.geolocation.getCurrentPosition(
+			position => {
+			  const coords = position.coords;
+
+			  function formatValue(value) {
+				return value === null || value === undefined ? 'Not available' : value;
+			  }
+
+			  const data = [
+				['Latitude', formatValue(coords.latitude)],
+				['Longitude', formatValue(coords.longitude)],
+				['Accuracy (meters)', formatValue(coords.accuracy)]
+			  ];
+
+			  tbody.innerHTML = '';
+			  data.forEach(([key, value]) => {
+				const row = document.createElement('tr');
+				row.innerHTML = `<td>${key}</td><td>${value}</td>`;
+				tbody.appendChild(row);
+			  });
+
+			  table.style.display = 'table';
+			},
+			error => {
+			  alert(`Error getting location: ${error.message}`);
+			}
+		  );
+		});
+	  </script>
+	  
+	</body>
+</html>

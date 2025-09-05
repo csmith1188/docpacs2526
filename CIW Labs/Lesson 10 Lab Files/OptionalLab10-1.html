@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Optional Lab 10-1</title>
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+		<h4>When the form is filled out correctly, press "Submit"</h4>
+		<hr>
+
+		<form name="myForm" id="myForm">
+		  <label for="name">Name:</label><br>
+		  <input type="text" size="30" name="name" id="name"> 
+		  <input type="checkbox" name="upperCheckbox" id="upperCheckbox">
+		  <label for="upperCheckbox">Convert string to uppercase or lowercase. Please submit in uppercase</label><br>
+
+		  <label for="email_address">E-Mail Address:</label><br>
+		  <input type="text" size="30" name="email_address" id="email_address">
+		  <button type="button" id="checkEmail">Check Email</button><br>
+
+		  <label for="phone_number">Phone Number:</label><br>
+		  <input type="text" size="30" name="phone_number" id="phone_number">
+		  <button type="button" id="checkPhone">Check Phone</button><br>
+
+		  <label for="fax_number">Fax Number:</label><br>
+		  <input type="text" size="30" name="fax_number" id="fax_number">
+		  <button type="button" id="checkFax">Check Fax</button><br>
+
+		  <button type="button" id="submitBtn">Submit</button>
+		  <button type="reset">Reset</button>
+		</form>
+
+		<script>
+		  // Toggle uppercase/lowercase on name field
+		  document.getElementById('upperCheckbox').addEventListener('change', function() {
+			const nameField = document.getElementById('name');
+			if (this.checked) {
+			  nameField.value = nameField.value.toUpperCase();
+			} else {
+			  nameField.value = nameField.value.toLowerCase();
+			}
+		  });
+
+		  // Check email validity on button click
+		  document.getElementById('checkEmail').addEventListener('click', function() {
+			const email = document.getElementById('email_address').value.trim();
+			const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+			if (emailRegex.test(email)) {
+			  alert('This could be a valid e-mail address');
+			} else {
+			  alert('This is not a valid e-mail address!');
+			}
+		  });
+
+		  // Check phone validity on button click
+		  document.getElementById('checkPhone').addEventListener('click', function() {
+			const phone = document.getElementById('phone_number').value.trim();
+			if (/^\d{2}/.test(phone)) {
+			  alert('Phone number looks valid (first two digits are numbers)');
+			} else {
+			  alert('The first two digits of your Phone Number must be numbers.');
+			}
+		  });
+
+		  // Check fax validity on button click
+		  document.getElementById('checkFax').addEventListener('click', function() {
+			const fax = document.getElementById('fax_number').value.trim();
+			if (/^\d{2}/.test(fax)) {
+			  alert('Fax number looks valid (first two digits are numbers)');
+			} else {
+			  alert('The first two digits of your Fax Number must be numbers.');
+			}
+		  });
+
+		  // Validate form on submit button click
+		  document.getElementById('submitBtn').addEventListener('click', function() {
+			validateForm();
+		  });
+
+		  function validateForm() {
+			const form = document.getElementById('myForm');
+			let name = form.name.value.trim();
+			const email = form.email_address.value.trim();
+			const phone = form.phone_number.value.trim();
+			const fax = form.fax_number.value.trim();
+
+			// Convert name to uppercase if not already
+			if (name !== name.toUpperCase()) {
+			  name = name.toUpperCase();
+			  form.name.value = name;
+			  alert('Name was converted to uppercase.');
+			}
+
+			// Check for blank fields
+			if (!name || !email || !phone || !fax) {
+			  alert('One of your fields is blank');
+			  return;
+			}
+
+			// Check name length between 2 and 15 characters
+			if (name.length < 2 || name.length > 15) {
+			  alert('Your Name is incorrect. Please ensure it is between 2 and 15 characters.');
+			  return;
+			}
+
+			// Check email format
+			const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+			if (!emailRegex.test(email)) {
+			  alert('This is not a valid e-mail address!');
+			  return;
+			}
+
+			// Check first two digits of phone and fax are numbers
+			if (!/^\d{2}/.test(phone)) {
+			  alert('The first two digits of your Phone Number must be numbers.');
+			  return;
+
+			//Enter a validation test for the fax number below
+			}
+		 
+			//Add alert Form looks good!
+		   
+		  }
+		</script>
+
+	</body>
+</html>

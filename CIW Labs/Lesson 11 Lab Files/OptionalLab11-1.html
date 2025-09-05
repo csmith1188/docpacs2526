@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Optional Lab 11-1</title>
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+		  <h4>Cookie Lab: Save Your Name and Favorite Color</h4>
+		  <hr>
+		  <div id="welcome"></div>
+		  <script>
+			// Set a cookie
+			function setCookie(name, value, days) {
+			  const expires = new Date(Date.now() + days * 24 * 60 * 60 * 1000).toUTCString();
+			  document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
+			}
+
+			// Get a cookie by name
+			function getCookie(name) {
+			  const cookies = document.cookie.split("; ");
+			  for (const cookie of cookies) {
+				const [key, val] = cookie.split("=");
+				if (key === name) return decodeURIComponent(val);
+			  }
+			  return null;
+			}
+
+			// Main logic
+			document.addEventListener("DOMContentLoaded", () => {
+			  let name = getCookie("userName");
+			  let color = getCookie("favColor");
+
+			  if (!name || !color) {
+				name = prompt("Enter your name:");
+				color = prompt("Enter your favorite color's hex code beginning with # (hex code, e.g., #00FF00):");
+
+				if (name && color) {
+				  setCookie("userName", name, 10);
+				  setCookie("favColor", color, 10);
+				}
+			  }
+
+			  if (name && color) {
+				document.body.style.backgroundColor = color;
+				document.getElementById("welcome").textContent = "Welcome back, " + name + "!";
+			  } else {
+				document.getElementById("welcome").textContent = "Hello, visitor!";
+			  }
+			});
+		  </script>
+		  
+	</body>
+</html>

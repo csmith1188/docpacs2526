@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Example: Getting Attributes</title>
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+		<div id="SetDiv" special_attribute="CIW rules!" title="CIW tasks">
+			<p>What are the attributes of this div tag?</p>
+		</div>
+		<input type="button" value="Click Me!" id="btnClick">
+		<p>Please click the button now.</p>
+
+		<script type="text/javascript">
+			const div = document.getElementById("SetDiv");
+			const button = document.getElementById("btnClick");
+
+			button.addEventListener("click", () => {
+				alert("div.id: " + div.id);
+				alert("div.special_attribute (property): " + div.special_attribute);
+				alert("div.getAttribute('special_attribute'): " + div.getAttribute("special_attribute"));
+				alert("div.title (property): " + div.title);
+				alert("div.getAttribute('title'): " + div.getAttribute("title"));
+
+				div.setAttribute("title", "Changed Title");
+				alert("Title after first change: " + div.getAttribute("title"));
+
+				div.setAttribute("title", "Title changed again");
+				alert("Title after second change: " + div.getAttribute("title"));
+			});
+		</script>
+	</body>
+	
+</html>

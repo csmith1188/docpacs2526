@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Lab 11-5</title>
+		<style>
+		  button { margin: 5px; padding: 10px; }
+		  #output { margin-top: 20px; border-top: 1px solid #ccc; padding-top: 10px; }
+		</style>
+
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+		<h3>Web Developer Ethics & Privacy Lab</h3>
+
+		<p>Click a topic below to learn more and reflect:</p>
+
+		<button id="ethicsBtn">Ethical Behavior for Web Professionals</button>
+
+
+
+		<div id="output"></div>
+
+		<script>
+		  const output = document.getElementById('output');
+
+		  const topics = {
+			ethics: "Insert your definition here.",
+			privacy: "Insert your definition here.",
+			fairUse: "Insert your definition here.",
+			laws: "Insert your definition here.",
+			intellectual: "Insert your definition here."
+		  };
+
+		  document.getElementById('ethicsBtn').addEventListener('click', () => {
+			output.innerHTML = `<h3>Ethical Behavior</h3><p>${topics.ethics}</p>`;
+		  });
+
+
+		</script>
+
+	</body>
+</html>

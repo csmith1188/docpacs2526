@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Lab 6-5</title>
+	<style>
+	  /* Optional: cursor pointer for links */
+	  a img {
+		cursor: pointer;
+	  }
+	</style>
+
+	<script>
+	  // Preload images using constants
+	  const ciwOn = new Image();
+	  ciwOn.src = "ciw_on.gif";
+
+
+	  // Function to swap image src to "on" version
+	  function switchImageOn(imageElement) {
+		switch (imageElement.name) {
+		  case "ciw":
+			imageElement.src = ciwOn.src;
+			break;
+		  case "ciw1":
+			imageElement.src = ciw1On.src;
+			break;
+		}
+	  }
+
+	  // Function to swap image src to "off" version
+	  function switchImageOff(imageElement) {
+	  
+
+	  }
+
+	  // Setup event listeners after DOM loads
+	  window.addEventListener('DOMContentLoaded', () => {
+		const ciwLink = document.querySelector('a[href="http://www.ciwcertified.com"]');
+		const ciwImg = ciwLink.querySelector('img');
+
+		ciwLink.addEventListener('mouseover', () => {
+		  switchImageOn(ciwImg);
+		  window.status = 'Visit CIW Certified';  // Note: window.status is deprecated in most browsers
+		});
+
+
+		const ciw1Link = document.querySelector('a[href="https://www.ciwcertified.com/about-ciw/training-locator"]');
+		const ciw1Img = ciw1Link.querySelector('img');
+	 
+
+		ciw1Link.addEventListener('mouseout', () => {
+		  switchImageOff(ciw1Img);
+		  window.status = '';
+		});
+	  });
+	</script>
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+
+		<a href="http://www.ciwcertified.com">
+		  <img src="ciw_off.gif" name="ciw" alt="CIW Certified" width="100" height="52" />
+		</a>
+
+		<p>
+
+		<a href="https://www.ciwcertified.com/about-ciw/training-locator">
+		  <img src="ciw1_off.gif" name="ciw1" alt="CIW Training Locator" width="100" height="52" />
+		</a>
+
+		</p>
+
+	</body>
+</html>

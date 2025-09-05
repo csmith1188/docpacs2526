@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+		<title>Lesson 6 Application Project</title>
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+	  <label for="imageSelector">Choose an image:</label>
+	  <select id="imageSelector">
+		<option value="">--Select an image--</option>
+		<option value="image_1.jpg">Image 1</option>
+		<option value="image_2.jpg">Image 2</option>
+	  </select>
+
+	  <script>
+		'use strict';
+
+		let popupWindow = null;
+
+		function clearPopupDocument(doc) {
+		  // Remove all children from <html> element
+		  while (doc.documentElement.firstChild) {
+			doc.documentElement.removeChild(doc.documentElement.firstChild);
+		  }
+		}
+
+		function createAndAppend(tag, parent, options = {}) {
+		  const el = parent.ownerDocument.createElement(tag);
+		  if (options.text) el.textContent = options.text;
+		  if (options.html) el.innerHTML = options.html;
+		  if (options.attrs) {
+			for (const [key, val] of Object.entries(options.attrs)) {
+			  el.setAttribute(key, val);
+			}
+		  }
+		  if (options.style) {
+			for (const [prop, val] of Object.entries(options.style)) {
+			  el.style[prop] = val;
+			}
+		  }
+		  if (options.events) {
+			for (const [evt, handler] of Object.entries(options.events)) {
+			  el.addEventListener(evt, handler);
+			}
+		  }
+		  parent.appendChild(el);
+		  return el;
+		}
+
+		function buildPopupContent(doc, title, imageUrl) {
+		  clearPopupDocument(doc);
+
+		  // Create <html> structure: <head> + <body>
+		  const html = doc.documentElement;
+
+		  // HEAD
+		  const head = doc.createElement('head');
+		  html.appendChild(head);
+
+		  const meta = doc.createElement('meta');
+		  meta.setAttribute('charset', 'UTF-8');
+		  head.appendChild(meta);
+
+		  const titleEl = doc.createElement('title');
+		  titleEl.textContent = 'Lesson 6 Application Project';
+		  head.appendChild(titleEl);
+
+		  const style = doc.createElement('style');
+		  style.textContent = `
+			body {
+			  margin: 0;
+			  font-family: Arial, sans-serif;
+			  height: 100vh;
+			  display: flex;
+			  flex-direction: column;
+			  align-items: center;
+			  justify-content: center;
+			  text-align: center;
+			}
+			img {
+			  width: 150px;
+			  height: 150px;
+			  object-fit: contain;
+			  border: 1px solid #ccc;
+			}
+			button {
+			  margin-top: 20px;
+			  padding: 10px 20px;
+			  font-size: 1rem;
+			  cursor: pointer;
+			}
+		  `;
+		  head.appendChild(style);
+
+		  // BODY
+		  const body = doc.createElement('body');
+		  html.appendChild(body);
+
+		  createAndAppend('h3', body, { text: title });
+
+		  createAndAppend('img', body, { attrs: { src: imageUrl, alt: title } });
+
+		  createAndAppend('button', body, {
+			text: 'Close Preview',
+			events: {
+			  click: () => {
+				popupWindow.close();
+			  }
+			}
+		  });
+		}
+
+		function display_image() {
+		  const selector = document.getElementById('imageSelector');
+		  const selectedValue = selector.value;
+		  const selectedText = selector.options[selector.selectedIndex].text;
+
+		  if (!selectedValue) return;
+
+		  if (!popupWindow || popupWindow.closed) {
+		 
+		  } else {
+			popupWindow.focus();
+		  }
+
+		  // We wait for the popup to load fully
+		  popupWindow.onload = () => {
+			const doc = popupWindow.document;
+			// Construct absolute URL for image
+			const imageUrl = new URL(selectedValue,
+			buildPopupContent(doc, selectedText, imageUrl);
+		  };
+
+		  // Sometimes onload doesn't fire if page is about:blank already loaded,
+		  // so trigger immediately if readyState is complete
+		  if (popupWindow.document.readyState === 'complete') {
+			const doc = popupWindow.document;
+			const imageUrl = new URL(selectedValue, window.location.href).href;
+			buildPopupContent(doc, selectedText, imageUrl);
+		  }
+
+		  selector.selectedIndex = 0; // reset dropdown
+		}
+
+		
+	  </script>
+	  
+	</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Lab 11-3</title>
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+		<div className="container">
+			<div className="col-sm-3"></div>
+			<div id="root" className="row col-sm-6 col-offset-sm-3 text-center"></div>
+		</div>
+
+		<!-- React and ReactDOM -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.development.js" defer></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.development.js" defer></script>
+		<!-- Babel for JSX transformation -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.21.5/babel.min.js" defer></script>
+
+		<script type="text/babel" defer>
+			class PasswordStrength extends React.Component {
+				constructor(props) {
+					super(props);
+					this.state = {
+						type: "password",
+						textValue: "Easy",
+						displayMeter: "none",
+						meterColor: "",
+						meterStrength: '0%'
+					};
+				}
+
+				onPasswordChange = (e) => {
+					let count = 0;
+					const vlen = e.target.value.length;
+					if (e.target.value.match(/(?=.*[a-z])/)) {
+						count++;
+					}
+					if (e.target.value.match(/(?=.*[A-Z])/)) {
+						count++;
+					}
+					if (e.target.value.match(/(?=.*\d)/)) {
+						count++;
+					}
+					if (e.target.value.match(/(?=.*[!#$%&?*@ "])/)) {
+						count++;
+					}
+					this.updatePasswordStrength(count, vlen);
+				}
+
+				updatePasswordStrength(count, vlen) {
+					if (vlen >= 6) {
+						switch (count) {
+							case 4:
+								this.textMeter("Strong", "block", '#00A344', '100%');
+								break;
+							case 3:
+								this.textMeter("Medium", "block", '#0000FF', '70%');
+								break;
+							case 1:
+							case 2:
+								this.textMeter("Easy", "block", '#FF0000', '30%');
+								break;
+							default:
+								this.textMeter("Easy", "block", '#FF0000', '30%');
+						}
+					} else {
+						this.textMeter("Invalid Password Minimum length is 6 Characters", "block", "", '0%');
+					}
+				}
+
+				textMeter(tValue, dMeter, mColor, mWidth) {
+					this.setState({
+						textValue: tValue,
+						displayMeter: dMeter,
+						meterColor: mColor,
+						meterStrength: mWidth
+					});
+				}
+
+				render() {
+					return (
+						<div>
+							<div>&nbsp;</div>
+							<label htmlFor="myPassword" style={{ fontSize: '18px' }}>Create Password: </label><br>
+							<input
+								type="password"
+								name="myPassword"
+								placeholder="Enter Password"
+								className="form-fields"
+								id="myPassword"
+								onKeyUp={this.onPasswordChange}
+								style={{ height: '35px', width: '550px', borderRadius: 3, paddingLeft: '5px' }}>
+							<div style={{ width: '550px', height: '18px', border: '1px solid', borderRadius: 3, margin: '10px auto' }}>
+								<div style={{ backgroundColor: this.state.meterColor, width: this.state.meterStrength, height: '100%', transition: 'width 0.5s ease-in-out' }}></div>
+							</div>
+							<span style={{ display: this.state.displayMeter }}>{this.state.textValue}</span>
+							<div>
+								<div>&nbsp;</div>
+								<div className="text-primary text-left">1) Minimum length is 6 character.</div>
+								<div className="text-primary text-left">2) Password should be the combination of number & characters.</div>
+								<div className="text-primary text-left">3) Password should contain at least one symbol.</div>
+							</div>
+						</div>
+					);
+				}
+			}
+
+			function PasswordMeter() {
+				return (
+					<div>
+						<PasswordStrength>
+					</div>
+				);
+			}
+
+			const rootElement = document.getElementById('root');
+			const root = ReactDOM.createRoot(rootElement);
+			root.render(<PasswordMeter>);
+		</script>
+		
+	</body>
+</html>
