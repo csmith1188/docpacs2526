@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Lab 13-3</title>
+    <style>
+        #livesearch {
+            width: 241px;
+            border: 0;
+            margin-top: 5px;
+        }
+    </style>
+
+    </head>
+	
+	<body>
+		<h2>CIW JavaScript Specialist</h2>
+		<hr>
+		<h3>Live Search</h3>
+		<p>
+		Start typing in the box below to search. Results will appear as you type, matching any part of the word. For example, typing "j" shows "Javascript"; typing "a" shows "Angular" and "Javascript".</p>
+
+		<form id="searchForm">
+			<h3>Search</h3>
+			<input type="text" id="searchInput" size="30" autocomplete="off">
+			<div id="livesearch"></div>
+		</form>
+
+		<script>
+			document.addEventListener("DOMContentLoaded", () => {
+				const input = document.getElementById("searchInput");
+				const resultBox = document.getElementById("livesearch");
+
+				input.addEventListener("keyup", () => {
+					const query = input.value.trim();
+
+					if (query.length === 0) {
+						resultBox.innerHTML = "";
+						resultBox.style.border = "0";
+						return;
+					}
+
+					console.log("Fetching for query:", query);
+
+					fetch("https://www.ucertify.com/utils/livesearch.php?q=" + encodeURIComponent(query))
+						.then(response => {
+							console.log("Fetch status:", response.status);
+							if (!response.ok) {
+								throw new Error("Network response was not ok");
+							}
+							return response.text();
+						})
+						.then(data => {
+							console.log("Response data:", data);
+							resultBox.innerHTML = data;
+							resultBox.style.border = "1px solid #A5ACB2";
+						})
+						.catch(error => {
+							console.error("Fetch error:", error);
+							resultBox.innerHTML = "Error occurred.";
+							resultBox.style.border = "1px solid red";
+						});
+				});
+			});
+		</script>
+
+	</body>
+</html>

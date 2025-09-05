@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Lab 7-2a</title>
+			
+	 <script>
+	        document.addEventListener("DOMContentLoaded", () => {
+	            const form = document.getElementById("myForm");
+	            const nameInput = form.elements["name"];
+	            const emailInput = form.elements["email_address"];
+	            const phoneInput = form.elements["phone_number"];
+	            const faxInput = form.elements["fax_number"];
+
+	            form.elements["upperCheckbox"].addEventListener("change", (e) => {
+	                const value = nameInput.value;
+	                nameInput.value = e.target.checked ? value.toUpperCase() : value.toLowerCase();
+	            });
+				// Modified emailTest() to ensure that the email address is at least six characters in length.
+	            form.elements["emailCheck"].addEventListener("change", (e) => {
+	                if (e.target.checked) {
+	                    const email = emailInput.value;
+	                    if (!email.includes("@")) {
+	                      alert("This is not a valid email address!");
+	                    } else if (email.length < 6) {
+	                      alert("This email address is too short");
+	                    } else {
+	                      alert("This email address is valid and at least six characters long");
+	                    }
+	                }
+	            });
+
+	            form.elements["phoneBtn"].addEventListener("click", () => {
+	                alert(phoneInput.value.substring(0, 2));
+	            });
+
+	            form.elements["faxBtn"].addEventListener("click", () => {
+	                alert("That string is " + faxInput.value.length + " characters long");
+	            });
+	        });
+	  </script>
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+
+	    <form id="myForm">
+	        Name:<br>
+	        <input type="text" size="30" name="name"><br>
+	        <input type="checkbox" name="upperCheckbox"> Convert string to uppercase or lowercase<br>
+
+	        Email address:<br>
+	        <input type="text" size="30" name="email_address"><br>
+	        <input type="checkbox" name="emailCheck"> Test for email address<br>
+
+	        Phone number:<br>
+	        <input type="text" size="30" name="phone_number"><br>
+
+	        Fax number:<br>
+	        <input type="text" size="30" name="fax_number"><br><br>
+
+	        <input type="button" name="phoneBtn" value="First Two Characters of Phone Number"><br><br>
+	        <input type="button" name="faxBtn" value="Fax Number Length">
+	    </form>
+	  
+	</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Masher</title>
+</head>
+
+<body>
+    <div id="scoreBox">Score: 0</div>
+    <div id="timerBox">Time: 20</div>
+    <div id="directionBox">Direction: Up </div>
+
+</body>
+
+<script>
+    var score = 0
+    var direction = 0
+    var timer = 20
+    wasPressed = true
+
+    //Set for every second
+    setInterval(
+        () => {
+            if (timer > 0) {
+                timer--;
+                timerBox.innerText = "Time: " + timer;
+            }
+        },
+        1000)
+
+    
+    //Set for every 2 seconds to swap direction
+    setInterval( () => {
+        if (timer > 0) {
+            direction = Math.floor(Math.random() * 4);
+            /*The range for math was math.random() * (max-min) + min
+            Math.floor drops the decimal value and random makes it a value between 0- .99...*/
+            if (direction == 0) {
+                direction = "Right"
+            } else if (direction == 1) {
+                direction = "Left"
+            } else if (direction == 2) {
+                direction = "Down"
+            } else if (direction == 3) {
+                direction = "Up"
+            }
+            //Reminder that directions are currently strings
+            directionBox.innerText = "Direction: " + direction;
+        }
+    }, 2000)
+    
+    window.addEventListener("gamepadconnected", (e) => {
+        console.log('Gamepad connected')
+        const update = () => {
+
+            for (const gamepad of navigator.getGamepads()) {
+                if (!gamepad) continue;
+
+                if (gamepad.buttons[9].pressed) {
+                    //9 is the start button 
+                    window.location.reload()
+                }
+
+                if (gamepad.buttons[0].pressed && timer > 0 && wasPressed) {
+                    //0 is the A button
+
+                    //axes 0 is the left joystick
+                    if (direction === "Left" && gamepad.axes[0] === -1) {
+                        //absolutely equal meaning joystick fully in that direction
+                        score++;
+                        scoreBox.innerText = "Score: " + score;
+                        wasPressed = false
+                    }
+
+                    if (direction === "Right" && gamepad.axes[0] === 1) {
+                        score++;
+                        scoreBox.innerText = "Score:" + score;
+                        wasPressed = false
+                    }
+
+                    if (direction === "Down" && gamepad.axes[1] === 1) {
+                        score++;
+                        scoreBox.innerText = "Score: " + score;
+                        wasPressed = false
+                    }
+
+                    if (direction === "Up" && gamepad.axes[1] === -1) {
+                        score++;
+                        scoreBox.innerText = "Score " + score;
+                        wasPressed = false
+                    }
+                } else if (!gamepad.buttons[0].pressed && !wasPressed) {
+                    wasPressed = true
+                }
+            }
+            requestAnimationFrame(update) 
+        }
+        update()
+    }
+    )
+
+</script>
+
+</html>

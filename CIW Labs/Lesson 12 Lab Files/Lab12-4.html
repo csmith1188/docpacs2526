@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>React Library Search</title>
+ 
+
+
+	  <style>
+		body {
+		  font-family: Arial, sans-serif;
+		  max-width: 600px;
+		  margin: 2rem auto;
+		  padding: 0 1rem;
+		  background-color: #f9f9f9;
+		  color: #333;
+		}
+		h3 {
+		  margin-bottom: 0.3rem;
+		}
+		input[type="text"] {
+		  width: 100%;
+		  padding: 0.6rem 0.8rem;
+		  font-size: 1.1rem;
+		  margin-bottom: 1rem;
+		  border: 1px solid #ccc;
+		  border-radius: 4px;
+		  box-sizing: border-box;
+		}
+		ul {
+		  list-style-type: none;
+		  padding-left: 0;
+		}
+		li {
+		  margin-bottom: 1rem;
+		  background-color: #fff;
+		  padding: 0.75rem 1rem;
+		  border-radius: 6px;
+		  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+		}
+		a {
+		  color: #1a73e8;
+		  text-decoration: none;
+		  word-break: break-word;
+		}
+		a:hover,
+		a:focus {
+		  text-decoration: underline;
+		}
+		.explanation {
+		  margin-bottom: 1rem;
+		  font-size: 1rem;
+		  line-height: 1.4;
+		}
+	  </style>
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+	  <div id="root"></div>
+
+	  <script type="text/babel">
+		const libraries = [
+		  { name: 'React', url: 'https://reactjs.org/' },
+		  { name: 'Vue.js', url: 'https://vuejs.org/' },
+		  { name: 'Angular', url: 'https://angular.io/' },
+		  { name: 'Svelte', url: 'https://svelte.dev/' },
+		  { name: 'Next.js', url: 'https://nextjs.org/' },
+		  { name: 'Gatsby', url: 'https://www.gatsbyjs.com/' },
+		  { name: 'Ember.js', url: 'https://emberjs.com/' },
+		  { name: 'Preact', url: 'https://preactjs.com/' }
+		];
+
+		function LibrarySearch() {
+		  const [filter, setFilter] = React.useState('');
+
+		  const filteredLibraries = libraries.filter(lib =>
+			lib.name.toLowerCase().includes(filter.toLowerCase())
+		  );
+
+		  return (
+			<div>
+			  <p className="explanation">
+				JavaScript libraries are pre-written code that help developers build web applications faster. They provide useful tools and functions so you do not have to write everything from scratch. Use the search box below to find popular modern JavaScript libraries.
+			  </p>
+		//Create search
+			
+
+
+
+
+			  <ul>
+				{filteredLibraries.map(lib => (
+				  <li key={lib.name}>
+					{lib.name} <br>
+					<a href={lib.url} target="_blank" rel="noopener noreferrer">{lib.url}</a>
+				  </li>
+				))}
+			  </ul>
+			</div>
+		  );
+		}
+		//Insert ReactDOM.render here
+	 
+	  </script>
+	</body>
+</html>

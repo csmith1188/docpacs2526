@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Masher</title>
+</head>
+<body>
+    <div id="ScoreBox">Score: 0</div>
+    <div id="TimerBox">Time left: 20</div>
+    <div id="DirectionBox">Direction: Up</div>
+    <script>
+        let timer = 20;
+        let score = 0;
+        let direction = 0;
+        let isPlayerHolding = false; // Ensures the player cannot hold A to spam points
+        let directionX = 0;
+        let directionY = 0;
+
+        const scoreBox = document.getElementById('ScoreBox');
+        const timerBox = document.getElementById('TimerBox');
+        const directionBox = document.getElementById('DirectionBox');
+        const directionMap = ['Up', 'Right', 'Down', 'Left'];
+        const directionChecks = {
+            0: () => { return directionY >= -0.6 }, // Up
+            1: () => { return directionX >= 0.6 }, // Right
+            2: () => { return directionY >= 0.6 }, // Down
+            3: () => { return directionX >= -0.6 } // Left
+        };         
+
+        function generateRandomNumber(min, max) {
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
+
+        function addScore() {
+            score++;
+            scoreBox.innerHTML = `Score: ${score}`;
+        }
+
+        // Decrement the score every second if it's greater than zero
+        setInterval(() => {
+            if (timer > 0) {
+                timer--;
+            }
+        }, 1000);
+
+        // Choose a new random direction every 2 seconds
+        setInterval(() => {
+            direction = generateRandomNumber(0, 3);
+            directionBox.innerHTML = `Direction: ${directionMap[direction]}`;
+        }, 2000);
+
+        window.addEventListener('gamepadconnected', (event) => {
+            function update() {
+                const gamepad = navigator.getGamepads()[0];
+                const startButton = gamepad.buttons[9];
+                const aButton = gamepad.buttons[0];
+
+                if (startButton.pressed) {
+                    location.reload();
+                }
+
+                if (timer == 0) {
+                    return;
+                }
+
+                // Update the current directions
+                directionX = gamepad.axes[0];
+                directionY = gamepad.axes[1];
+
+                // If the A button is pressed and the direction is correct, add score
+                if (aButton.pressed) {
+                    if (!isPlayerHolding && directionChecks[direction]) {
+                        addScore();
+                    }
+                    isPlayerHolding = true;
+                } else {
+                    // Reset this so the player can press again to get points
+                    isPlayerHolding = false;
+                }
+
+                requestAnimationFrame(update);
+            }
+
+            update();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Lab 7-7</title>
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+	  <h4>Today is the <span id="dateDisplay"></span></h4>
+
+	  <script>
+	//Create Date object named today
+		
+
+		const monthName = [
+		  "January", "February", "March", "April", "May", "June",
+		  "July", "August", "September", "October", "November", "December"
+		];
+
+	//get full year for myYear
+		 
+
+	//get date for myDate
+		
+
+		let dayExt = "th";
+		if ([1, 21, 31].includes(myDate)) dayExt = "st";
+		else if ([2, 22].includes(myDate)) dayExt = "nd";
+		else if ([3, 23].includes(myDate)) dayExt = "rd";
+
+		const extDate = `${myDate}${dayExt}`;
+
+		// Alerts showing the date parts
+		alert(`The month number is: ${today.getMonth() + 1}`);
+		alert(`The date number is: ${myDate}`);
+		alert(`The year number is: ${myYear}`);
+
+		// Update the page content without document.write
+		const dateDisplay = document.getElementById('dateDisplay');
+		dateDisplay.textContent = `${extDate} day of ${monthName[today.getMonth()]} in the year ${myYear}.`;
+	  </script>
+
+	</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Lab 14-3</title>
+		<style>
+		  body {
+			font-family: Arial, sans-serif;
+			text-align: center;
+			padding: 20px;
+			background: #f9f9f9;
+		  }
+		  canvas {
+			border: 1px solid #ccc;
+			display: none;
+			margin: 20px auto;
+			background: #fff;
+		  }
+		  button {
+			font-size: 16px;
+			padding: 8px 16px;
+			cursor: pointer;
+		  }
+		</style>
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+
+
+
+
+		<br>
+		<button id="animated_rainbow">Animated Rainbow</button>
+
+		<script>
+		  const canvas = document.getElementById('myCanvas2');
+		  const ctx = canvas.getContext('2d');
+
+		  const centerX = canvas.width / 2;
+		  const centerY = canvas.height * 0.7; // Lower center so the rainbow fits fully
+		  const lineWidth = 12;
+
+		  let animationFrameId = null;
+		  let progress = 0;
+		  const maxProgress = 1;
+
+		  // Rainbow colors and radii from outer to inner arcs
+		  const arcs = [
+			{ radius: 202, color: 'red' },
+			{ radius: 190, color: 'orange' },
+			{ radius: 178, color: 'yellow' },
+			{ radius: 166, color: 'green' },
+			{ radius: 154, color: 'blue' },
+			{ radius: 142, color: 'indigo' },
+			{ radius: 130, color: 'violet' }
+		  ];
+
+		  function startRainbow() {
+			canvas.style.display = 'block';
+			cancelAnimationFrame(animationFrameId);
+			progress = 0;
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+			animate();
+		  }
+
+		  function animate() {
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+			// Draw arcs from left (π radians) to right (π - progress * π)
+			arcs.forEach(({ radius, color }) => {
+			  drawArc(radius, color, progress * Math.PI);
+			});
+
+			progress += 0.02;
+
+			if (progress <= maxProgress) {
+			  animationFrameId = requestAnimationFrame(animate);
+			}
+		  }
+
+		  function drawArc(radius, color, progressRadians) {
+			ctx.beginPath();
+			// Draw clockwise from π to (π - progressRadians)
+			ctx.arc(centerX, centerY, radius, Math.PI, Math.PI - progressRadians, false);
+			ctx.lineWidth = lineWidth;
+			ctx.strokeStyle = color;
+			ctx.stroke();
+		  }
+
+		  document.getElementById('animated_rainbow').addEventListener('click', startRainbow);
+		</script>
+
+	</body>
+</html>

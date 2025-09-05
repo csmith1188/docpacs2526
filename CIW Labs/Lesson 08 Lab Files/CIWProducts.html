@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+		<title>CIW Products</title>
+		  <style>
+			body {
+			  font-family: Arial, sans-serif;
+			}
+			main {
+			  max-width: 600px;
+			  margin: 0 auto;
+			  text-align: center;
+			}
+			h2 {
+			  margin-bottom: 0.5em;
+			}
+			form {
+			  display: flex;
+			  flex-direction: column;
+			  gap: 1em;
+			  align-items: center;
+			}
+			.row {
+			  display: flex;
+			  justify-content: center;
+			  gap: 1em;
+			  width: 100%;
+			}
+			select, input[type="text"] {
+			  padding: 0.4em 0.6em;
+			  font-size: 1em;
+			}
+			input[type="button"] {
+			  padding: 0.5em 1em;
+			  font-size: 1em;
+			  cursor: pointer;
+			}
+			.search-group {
+			  display: flex;
+			  align-items: center;
+			  justify-content: center;
+			  gap: 0.5em;
+			}
+			strong {
+			  white-space: nowrap;
+			}
+			table {
+			  margin: 0 auto;
+			  border-collapse: collapse;
+			  width: 90%;
+			}
+			th, td {
+			  border: 1px solid #ddd;
+			  padding: 8px;
+			  text-align: left;
+			}
+			th {
+			  background-color: #f2f2f2;
+			}
+			a {
+			  color: blue;
+			  cursor: pointer;
+			  text-decoration: underline;
+			}
+		  </style>
+	</head>
+
+	<body>
+	  <main>
+	  <h2>CIW Products</h2>
+	  <hr>
+		<form name="prodForm" id="prodForm" autocomplete="off">
+		  <div class="row">
+			<select name="itemName" aria-label="Select Product"></select>
+			<input type="button" value="Get Info" id="getInfoBtn">
+		  </div>
+		  <div class="row search-group">
+			<strong>Search by product ID:</strong>
+			<input type="text" size="5" name="idText" aria-label="Product ID">
+			<input type="button" value="Search" id="searchBtn">
+		  </div>
+		  <div>
+			<input type="button" value="Show All Products" id="showAllBtn">
+		  </div>
+		</form>
+	  </main>
+
+	  <script>
+		// Product class with method to create popup content DOM
+		class Product {
+		  constructor(id, item, description, price, image) {
+			this.id = id;
+			this.item = item;
+			this.description = description;
+			this.price = price;
+			this.image = image;
+		  }
+
+		  displayOne() {
+			const oneWindow = window.open("", "OneWindow", "width=450,height=290");
+			if (!oneWindow) {
+			  alert("Popup blocked! Please allow popups for this site.");
+			  return;
+			}
+			// Clear existing content
+			oneWindow.document.title = this.item;
+			oneWindow.document.body.innerHTML = "";
+
+			// Create main container
+			const main = oneWindow.document.createElement("main");
+			main.style.textAlign = "center";
+
+			// Create table
+			const table = oneWindow.document.createElement("table");
+			table.style.width = "90%";
+			table.style.margin = "0 auto";
+			table.style.borderCollapse = "collapse";
+
+			// Helper to create rows
+			function addRow(label, value, isHeader = false, colspan = 1) {
+			  const tr = oneWindow.document.createElement("tr");
+			  const td = oneWindow.document.createElement("td");
+			  if (isHeader) {
+				td.colSpan = colspan;
+				td.style.textAlign = "center";
+				const h3 = oneWindow.document.createElement("h3");
+				h3.innerHTML = `Item:<b> ${value}</b>`;
+				td.appendChild(h3);
+				tr.appendChild(td);
+			  } else {
+				td.innerHTML = `<strong>${label}</strong> ${value}`;
+				tr.appendChild(td);
+			  }
+			  table.appendChild(tr);
+			}
+
+			addRow("", this.item, true, 2);
+			addRow("ID:", this.id);
+			addRow("Description:", this.description);
+			addRow("Price:", `<strong style="color:#0000ff">${this.price}</strong>`);
+
+			// Image row
+			const trImg = oneWindow.document.createElement("tr");
+			const tdImg = oneWindow.document.createElement("td");
+			tdImg.colSpan = 2;
+			tdImg.style.textAlign = "center";
+			const img = oneWindow.document.createElement("img");
+			img.src = this.image;
+			img.height = 75;
+			img.width = 75;
+			img.alt = this.item;
+			tdImg.appendChild(img);
+			trImg.appendChild(tdImg);
+			table.appendChild(trImg);
+
+			main.appendChild(table);
+
+			// Form with OK button to close window
+			const form = oneWindow.document.createElement("form");
+			form.style.marginTop = "1em";
+			form.style.textAlign = "center";
+
+			const closeBtn = oneWindow.document.createElement("input");
+			closeBtn.type = "button";
+			closeBtn.value = "OK";
+			closeBtn.addEventListener("click", () => oneWindow.close());
+
+			form.appendChild(closeBtn);
+			main.appendChild(form);
+
+			oneWindow.document.body.appendChild(main);
+			oneWindow.focus();
+			oneWindow.moveTo(10, 10);
+		  }
+		}
+
+		const products = [
+		  new Product("cp-01", "CIW Backpack", "Black woven backpack, blue-green lettering", "$25.00", "images/backpack.jpg"),
+		  new Product("cp-02", "CIW Hat", "Brown canvas hat, blue-green lettering", "$20.00", "images/hat.jpg"),
+		  new Product("cp-03", "CIW Suede Jacket", "Green suede, blue lettering", "$110.00", "images/suede.jpg"),
+		  new Product("cp-04", "CIW Rain Jacket", "Green rainproof, blue lettering", "$100.00", "images/rain.jpg"),
+		  new Product("cp-05", "CIW Polo Shirt", "White mesh polo, green lettering", "$30.00", "images/polo.jpg"),
+		  new Product("cp-06", "CIW Denim Shirt", "Dark blue denim, blue lettering", "$50.00", "images/denim.jpg"),
+		  new Product("cp-07", "CIW Sweatshirt", "Gray fleece pullover, green lettering", "$70.00", "images/sweat.jpg"),
+		  new Product("cp-08", "CIW Sport Shirt", "Blue, blue-green lettering", "$30.00", "images/sport.jpg"),
+		  new Product("cp-09", "CIW Sweater", "Blue scoop neck, short sleeve, green lettering", "$60.00", "images/sweater.jpg"),
+		  new Product("cp-10", "CIW Notebook", "Black leather, blue lettering", "$75.00", "images/notebook.jpg")
+		];
+
+		// Populate select dropdown on page load
+		window.addEventListener("DOMContentLoaded", () => {
+		  const select = document.prodForm.itemName;
+		  products.forEach(product => {
+			const option = document.createElement("option");
+			option.textContent = product.item;
+			select.appendChild(option);
+		  });
+
+		  document.getElementById("getInfoBtn").addEventListener("click", () => {
+			const index = select.selectedIndex;
+			if (index >= 0) {
+			  products[index].displayOne();
+			}
+		  });
+
+		  document.getElementById("searchBtn").addEventListener("click", findItem);
+		  document.getElementById("showAllBtn").addEventListener("click", showAll);
+		});
+
+		function findItem() {
+		  const input = document.prodForm.idText.value.trim().toLowerCase();
+		  const found = products.find(p => p.id.toLowerCase() === input);
+		  if (found) {
+			alert(`ID:\t${found.id}\nItem:\t${found.item}\n`);
+		  } else {
+			alert("It appears you have entered a discontinued id.\nPlease try again.");
+		  }
+		}
+
+		function showAll() {
+		  const fullWindow = window.open("", "AllWindow", "width=460,height=410,resizable=1");
+		  if (!fullWindow) {
+			alert("Popup blocked! Please allow popups for this site.");
+			return;
+		  }
+		  fullWindow.document.title = "All CIW Products";
+		  fullWindow.document.body.innerHTML = "";
+
+		  const main = fullWindow.document.createElement("main");
+		  main.style.textAlign = "center";
+
+		  // Create table
+		  const table = fullWindow.document.createElement("table");
+		  table.style.width = "85%";
+		  table.style.margin = "0 auto";
+		  table.border = 1;
+		  table.cellPadding = 2;
+		  table.style.borderCollapse = "collapse";
+
+		  // Header row
+		  const headerRow = fullWindow.document.createElement("tr");
+		  const headerCell = fullWindow.document.createElement("th");
+		  headerCell.colSpan = 2;
+		  headerCell.style.textAlign = "center";
+		  headerCell.textContent = "CIW Product Information";
+		  headerRow.appendChild(headerCell);
+		  table.appendChild(headerRow);
+
+		  // Column headers
+		  const colHeaderRow = fullWindow.document.createElement("tr");
+		  const thItem = fullWindow.document.createElement("th");
+		  thItem.textContent = "Item";
+		  const thPrice = fullWindow.document.createElement("th");
+		  thPrice.textContent = "Price";
+		  colHeaderRow.appendChild(thItem);
+		  colHeaderRow.appendChild(thPrice);
+		  table.appendChild(colHeaderRow);
+
+		  // Rows for each product
+		  products.forEach((product, index) => {
+			const tr = fullWindow.document.createElement("tr");
+			// Item with clickable link
+			const tdItem = fullWindow.document.createElement("td");
+			const link = fullWindow.document.createElement("a");
+			link.href = "#";
+			link.textContent = product.item;
+			link.style.cursor = "pointer";
+			link.addEventListener("click", (event) => {
+			  event.preventDefault();
+			  fullWindow.close();
+			  product.displayOne();
+			});
+			tdItem.appendChild(link);
+			tr.appendChild(tdItem);
+
+			// Price
+			const tdPrice = fullWindow.document.createElement("td");
+			tdPrice.textContent = product.price;
+			tr.appendChild(tdPrice);
+
+			table.appendChild(tr);
+		  });
+
+		  main.appendChild(table);
+
+		  // OK button to close window
+		  const form = fullWindow.document.createElement("form");
+		  form.style.marginTop = "1em";
+		  form.style.textAlign = "center";
+
+		  const closeBtn = fullWindow.document.createElement("input");
+		  closeBtn.type = "button";
+		  closeBtn.value = "OK";
+		  closeBtn.addEventListener("click", () => fullWindow.close());
+
+		  form.appendChild(closeBtn);
+		  main.appendChild(form);
+
+		  fullWindow.document.body.appendChild(main);
+		  fullWindow.focus();
+		  fullWindow.moveTo(10, 10);
+		}
+	  </script>
+	</body>
+</html>

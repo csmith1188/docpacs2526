@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Optional Lab 7-1</title>
+		<style>
+		  body {
+			font-family: Arial, sans-serif;
+			max-width: 500px;
+			margin: 2rem auto;
+		  }
+		  label {
+			display: block;
+			margin-top: 1rem;
+		  }
+		  input[type="text"] {
+			width: 60px;
+			padding: 0.25rem;
+			margin-left: 0.5rem;
+		  }
+		  #messages {
+			color: red;
+			margin-top: 1rem;
+		  }
+		</style>
+    </head>
+	
+	<body>
+		<h2>CIW JavaScript Specialist</h2>
+		<hr>
+		<h3><em>On what day of the week were you born?</em></h3>
+		<p><strong>Enter your birthday</strong> then click the Update button:</p>
+
+		<form id="birthdayForm" novalidate>
+		  <label>
+			Numeric Month (1-12):
+			<input type="text" name="month" id="month" required pattern="\d{1,2}" />
+		  </label>
+		  <label>
+			Numeric Day of Month (1-31):
+			<input type="text" name="day" id="day" required pattern="\d{1,2}" />
+		  </label>
+		  <label>
+			Four-Digit Year (e.g., 1960):
+			<input type="text" name="year" id="year" required pattern="\d{4}" />
+		  </label>
+
+		  <button type="submit">Update</button>
+		  <button type="reset">Clear</button>
+
+		  <p>
+			Date of Birth: <input type="text" name="result1" id="result1" size="18" readonly />
+		  </p>
+		  <p>
+			Day of Week: <input type="text" name="result2" id="result2" size="18" readonly />
+		  </p>
+		  <div id="messages" role="alert" aria-live="assertive"></div>
+		</form>
+
+		<script>
+		  // Arrays for days and months (0-based index)
+		  const days = [
+			"Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"
+		  ];
+
+		  const months = [
+			"", // placeholder for 1-based month indexing
+			"January", "February", "March", "April", "May", "June",
+			"July", "August", "September", "October", "November", "December"
+		  ];
+
+		  const form = document.getElementById('birthdayForm');
+		  const messages = document.getElementById('messages');
+		  const result1 = document.getElementById('result1');
+		  const result2 = document.getElementById('result2');
+
+		  form.addEventListener('submit', (event) => {
+			event.preventDefault();
+			messages.textContent = ''; // Clear previous messages
+			result1.value = '';
+			result2.value = '';
+
+			const month = Number(form.month.value.trim());
+			const day = Number(form.day.value.trim());
+			let year = Number(form.year.value.trim());
+
+			// Validation
+			if (!(month >= 1 && month <= 12)) {
+			  messages.textContent = "Month is out of range (1-12).";
+			  return;
+			}
+
+			if (!(day >= 1 && day <= 31)) {
+			  messages.textContent = "Day is out of range (1-31).";
+			  return;
+			}
+
+			if (year < 1900) {
+			  messages.textContent = "You're over 110 years old!";
+			  return;
+			}
+
+			// Zeller's Congruence adjustment for Jan and Feb
+			let adjustedMonth = month;
+			if (month === 1 || month === 2) {
+			  adjustedMonth = month + 12;
+			  year -= 1;
+			}
+
+			// Zeller's Congruence formula
+			const q = day;
+			const m = adjustedMonth;
+			const k = year % 100;
+			const j = Math.floor(year / 100);
+
+			const h = (q + Math.floor((13 * (m + 1)) / 5) + k + Math.floor(k / 4) + Math.floor(j / 4) + (5 * j)) % 7;
+
+			// h: 0=Saturday, 1=Sunday, ..., 6=Friday
+			const dayName = days[h];
+
+			result1.value = `${months[month]} ${day}, ${year + (month <= 2 ? 1 : 0)}`; // Adjust year back if changed
+			result2.value = dayName;
+		  });
+		</script>
+
+	</body>
+</html>
+

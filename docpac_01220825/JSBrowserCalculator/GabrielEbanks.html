@@ -67,13 +67,14 @@
                     result.innerHTML = answer
                     break;
                 case "%":
-                    if (parseInt(number2.value) = 0) {
+                    if (parseInt(number2.value) == 0) {
                         answer = "Error"
                         result.innerHTML = answer
-                        break
+                        break;
                     }
                     answer = parseInt(number1.value) % parseInt(number2.value)
-                    break
+                    result.innerHTML = answer
+                    break;
 
             }
 

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Lab 10-4</title>
+    </head>
+	
+	<body>
+	  <h2>CIW JavaScript Specialist</h2>
+	  <hr>
+		<form name="myForm" id="myForm">
+		  Select items<br>
+		  <select name="mySelect" id="mySelect" multiple>
+			<option value="1">First option</option>
+			<option value="2">Second option</option>
+			<option value="3">Third option</option>
+			<option value="4">Fourth option</option>
+			<option value="5">Fifth option</option>
+			<option value="6">Sixth option</option>
+		  </select>
+
+		  <p>
+			<input type="button" value="Check Selection" id="checkBtn">
+			<input type="reset">
+		  </p>
+		</form>
+
+		<script>
+		  function isSelected(form) {
+			const len = form.mySelect.length;
+			let userChoices = "";
+			// Create for loop 
+		 
+
+
+
+
+		   // Create the alert
+
+		  }
+
+		  document.getElementById('checkBtn').addEventListener('click', () => {
+			const form = document.forms['myForm'];
+			isSelected(form);
+		  });
+		</script>
+	</body>
+</html>
