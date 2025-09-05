@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Mover</title>
+</head>
+<body>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: lightgrey;
+        }
+        canvas {
+            border: black, solid, 5px;
+            background-color: white;
+        }
+    </style>
+    <canvas width="800px" height="600px" id="canvas"></canvas>
+    <script> 
+        var avatar = {
+            x: 380,
+            y : 280,
+            width: 40,
+            height: 40,
+            img: "avatar.png"
+        }
+        //load avatar image onto canvas
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+        AvatarIMG = new Image(avatar.width, avatar.height)
+        AvatarIMG.src = avatar.img;
+        AvatarIMG.onload = () => {
+            ctx.drawImage(AvatarIMG, avatar.x, avatar.y, avatar.width, avatar.height);
+        };
+        //listen for gamepad connection
+        window.addEventListener('gamepadconnected', (event) => {
+            console.log("Gamepad connected");
+            //run gamepad listener to detect button presses
+            gamepadListener();
+        });
+        function gamepadListener() {
+            //shortcut to access p1 Gamepad
+            const gamepad = navigator.getGamepads()[0];
+            //shrortcut to access joystick axes
+            const xAxis = gamepad.axes[0];
+            const yAxis = gamepad.axes[1];
+            const w = avatar.width;
+            const h = avatar.height;
+            var x = avatar.x;
+            var y = avatar.y;
+            deadZone = 0.01;
+            //update image if joystick is moved
+            if (yAxis < -deadZone || yAxis > deadZone || xAxis < -deadZone || xAxis > deadZone) {
+                const maxSpeed = 2;
+                //calculate velocity based on joystick position
+                var Velocityx = xAxis * maxSpeed;
+                var VelocityY = yAxis * maxSpeed;
+                //calculate avatar position
+                x += Velocityx;
+                y += VelocityY;
+                console.log("VelocityX: " + Velocityx + " VelocityY: " + VelocityY);
+                console.log("x: " + x + " y: " + y);
+                //stop avatar from escaping canvas
+                if (x < 0) {
+                    x = 0;
+                }
+                if (y < 0) {
+                    y = 0;
+                }
+                if (x + w > canvas.width) {
+                    x = canvas.width - w;
+                }
+                if (y + h > canvas.height) {
+                    y = canvas.height - h;
+                }
+                //redraw avatar at new position
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(AvatarIMG, x, y, avatar.width, avatar.height);
+                ctx.fillText(`X: ${Math.round(x)} Y: ${Math.round(y)}` , 10, 20);
+            }
+            //update avatar object position
+            avatar.x = x;
+            avatar.y = y;
+            requestAnimationFrame(gamepadListener);
+        }
+    </script>
+</body>
+</html>
