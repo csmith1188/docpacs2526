@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Mover</title>
+</head>
+
+<body>
+    <canvas id="canvas" width="800" height="600" style="border:1px solid #000000;" magrin="auto" display="block"></canvas>
+
+    <script>
+        var avatar = {
+            x: 0,  
+            y: 0,  
+            w: 50, 
+            h: 50, 
+            img: new Image()
+        };
+
+        avatar.img.src = "spider.png";
+
+        var canvas = document.getElementById('canvas');
+        var ctx  = canvas.getContext('2d');
+
+        var speed = 2;
+
+        function move(event) {
+            if (event.key == "ArrowUp") {
+                avatar.y -= speed; 
+            }
+            else if (event.key == "ArrowDown") {
+                avatar.y += speed; 
+            }
+            else if (event.key == "ArrowRight") {
+                avatar.x += speed; 
+            }
+            else if (event.key == "ArrowLeft") {
+                avatar.x -= speed; 
+            }
+        }
+
+        document.addEventListener("keydown", move);
+
+        function keepAvatarInBounds() {
+            if (avatar.x < 0) avatar.x = 0;
+            if (avatar.y < 0) avatar.y = 0; 
+            if (avatar.x + avatar.w > canvas.width) avatar.x = canvas.width - avatar.w; 
+            if (avatar.y + avatar.h > canvas.height) avatar.y = canvas.height - avatar.h;  
+        }
+
+        function update() {
+            keepAvatarInBounds();
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(avatar.img, avatar.x, avatar.y, avatar.w, avatar.h);
+            ctx.fillText("Control Method: Keyboard", 10, 20);
+            ctx.fillText("x: " + avatar.x + " y: " + avatar.y, 10, 40);
+            requestAnimationFrame(update);
+        }
+
+        update();
+    </script>
+</body>
+</html>
+
+</body>
+
+</html>
